@@ -15,7 +15,7 @@ import sqlite3
 import uuid
 import csv
 
-database_file_location = '/Users/seankooyman/Desktop/stjeromefactcheck/data.sqlite'
+database_file_location = 'data.sqlite'
 
 try:
     sqliteConnection = sqlite3.connect(database_file_location)
