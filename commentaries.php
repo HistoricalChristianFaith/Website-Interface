@@ -144,7 +144,7 @@ while ($r = $q->fetchArray(SQLITE3_ASSOC)) {
         <ion-item>
             <ion-label class="ion-text-wrap">
             <strong class='father_title'>
-                <?=$time_string?> <?
+                <?=$time_string?> <?php
                 if($r['wiki_url']) {
                     print "<a href='".$r['wiki_url']."' target='_blank'>".htmlentities($r['father_name'])."</a>";
                 }
