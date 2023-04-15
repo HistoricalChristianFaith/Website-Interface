@@ -73,10 +73,14 @@ To be sure, the books of the future would be just as good a corrective as the bo
 <br><br>
 
 <hr style='border-top: 1px solid #00c3c3;'><br>
-<i>"Can any who spend several years in those seats of learning, be excused, if they do not add to that of the languages and sciences, the knowledge of the Fathers - the most authentic commentators on Scripture, as being both nearest the fountain, and eminently endued with that Spirit by whom all Scripture was given. It will be easily perceived, I speak chiefly of those who wrote before the Council of Nice. But who would not likewise desire to have some acquaintance with those that followed them with St. Chrysostom, Basil, Jerome, Austin; and, above all, the man of a broken heart, Ephraim Syrus"</i><br><br>
+<i>"Can any who spend several years in those seats of learning, be excused, if they do not add to that of the languages and sciences, the knowledge of the Fathers - the most authentic commentators on Scripture, as being both nearest the fountain, and eminently endued with that Spirit by whom all Scripture was given. It will be easily perceived, I speak chiefly of those who wrote before the Council of Nice. But who would not likewise desire to have some acquaintance with those that followed them with St. Chrysostom, Basil, Jerome, Austin; and, above all, the man of a broken heart, Ephraim Syrus..."</i><br><br>
 - <b><a href='http://wesley.nnu.edu/john-wesley/an-address-to-the-clergy/' target='_blank'>John Wesley</a></b>
 <br><br>
 
+<hr style='border-top: 1px solid #00c3c3;'><br>
+<i>"What did the Fathers do except seek and present the clear and open testimonies of Scripture?"</i><br><br>
+- <b><a href='https://www.academia.edu/49575464/Excerpts_and_Comments_on_Luthers_Against_Latomus_Academia_' target='_blank'>Martin Luther</a></b>
+<br><br>
 
 <hr style='border-top: 1px solid #00c3c3;'><br>
 <i>"I have gone into this matter at some length not only for the purpose of exposing Porphyry's misrepresentation (for either he was ignorant of all these matters or else he pretended not to know them) but also to show the difficulty in Holy Scripture. And yet men who altogether lack experience lay special claim to understanding it apart from the grace of God and the scholarship of preceding generations."</i><br><br>
