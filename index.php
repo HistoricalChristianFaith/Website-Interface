@@ -107,6 +107,11 @@ To be sure, the books of the future would be just as good a corrective as the bo
 - <b><a href='https://www.thespiritlife.net/about/81-warfare/warfare-publications/1877-chapter-2-the-screwtape-letters-cs-lewis' target='_blank'>Screwtape</a></b>
 <br><br>
 
+<hr style='border-top: 1px solid #00c3c3;'><br>
+<i>"You sent me the volume anonymous and authorless... When I read it, I realized that the most famous question about High Priest Melchizedek had been discussed there with many arguments, in an attempt to teach that he who blessed the great Patriarch was of a more divine nature and should not be considered among men... When I read the letter and found myself adjured with remarkable entreaties in the last little page not to spurn the petitioner, I searched through the books of the Ancients to see what each one said, and I answered you, as it were, with the counsel of many. And immediately on the first page of Genesis I found an exegesis by Origen concerning Melchizedek, in which he discusses the matter in many words and comes to the conclusion that he was an angel. With almost the same arguments your author has employed on the Holy Spirit, he speaks on the heavenly powers. I went on to his follower Didymus, and came to a like result. I turned to Hippolytus, Irenaeus, Eusebius of Caesarea, and Emisenus, Apollinaris also, and our Eustathius, who first sang the war trumpet against Arius as the Bishop of Antioch's Church: and I found that all of their opinions, with different arguments and byways, had arrived at one intersection, to say that Melchizedek was a Canaanite man, the king of the city of Jerusalem, which was first called Salem, then Jebus, and finally Jerusalem."</i><br><br>
+- <b><a href='https://github.com/HistoricalChristianFaith/Writings-Database/blob/master/Jerome/Letters/letter_073.md' target='_blank'>Jerome</a></b>
+<br><br>
+
     </ion-card-content>
 </ion-card>
 
