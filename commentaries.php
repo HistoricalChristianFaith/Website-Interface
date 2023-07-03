@@ -1,5 +1,6 @@
 <?php
-$db = new SQLite3('data/data.sqlite', SQLITE3_OPEN_READONLY);
+$db = new SQLite3('data.sqlite', SQLITE3_OPEN_READONLY);
+$kjvdb = new SQLite3('kjv.sqlite', SQLITE3_OPEN_READONLY);
 include("func.php");
 
 if(!isset($_GET['search_query'])) {
@@ -83,7 +84,7 @@ $location_end = ($parsed_input['end']['chapter']*1000000) + $parsed_input['end']
         $scripture_found = 0;
         $the_scriptures = 'No scripture found from that query.';
 
-        $statement = $db->prepare("SELECT * FROM bible_kjv WHERE book=(:book) and txt_location >= (:location_start) and txt_location <= (:location_end) ORDER BY txt_location ASC");
+        $statement = $kjvdb->prepare("SELECT * FROM bible_kjv WHERE book=(:book) and txt_location >= (:location_start) and txt_location <= (:location_end) ORDER BY txt_location ASC");
         $statement->bindValue(':book', $parsed_input['book']);
         $statement->bindValue(':location_start', $location_start);
         $statement->bindValue(':location_end', $location_end);
