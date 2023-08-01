@@ -20,8 +20,13 @@ curl_exec($ch);
 curl_close($ch);
 fclose($fp);
 
+$fs = filesize("data2.sqlite");
 
-// After it's been fully downloaded, replace the existing database file.
-rename("data2.sqlite", "data.sqlite");
+//Ensure db is > 50 mb
+if($fs > 50000000) {
+    // After it's been fully downloaded, replace the existing database file.
+    rename("data2.sqlite", "data.sqlite");
+}
+
 
 ?>
