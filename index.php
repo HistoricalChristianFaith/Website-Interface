@@ -112,6 +112,15 @@ To be sure, the books of the future would be just as good a corrective as the bo
 - <b><a href='https://github.com/HistoricalChristianFaith/Writings-Database/blob/master/Jerome/Letters/letter_073.md' target='_blank'>Jerome</a></b>
 <br><br>
 
+
+<hr style='border-top: 1px solid #00c3c3;'><br>
+<i>"I have thought it my duty to quote all these passages from the writings of both Latin and Greek authors who, being in the Catholic Church before our time, have written commentaries on the divine oracles, in order that our brother, if he hold any different opinion from theirs, may know that it becomes him, laying aside all bitterness of controversy, and preserving or reviving fully the gentleness of brotherly love, to investigate with diligent and calm consideration either what he must learn from others, or what others must learn from him. For the reasonings of any men whatsoever, even though they be Catholics, and of high reputation, are not to be treated by us in the same way as the canonical Scriptures are treated. We are at liberty, without doing any violence to the respect which these men deserve, to condemn and reject anything in their writings, if perchance we shall find that they have entertained opinions differing from that which others or we ourselves have, by the divine help, discovered to be the truth. I deal thus with the writings of others, and I wish my intelligent readers to deal thus with mine."</i><br><br>
+- <b><a href='https://www.newadvent.org/fathers/1102148.htm' target='_blank'>Augustine</a></b>
+<br><br>
+
+
+
+
     </ion-card-content>
 </ion-card>
 
