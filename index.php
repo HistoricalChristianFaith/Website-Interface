@@ -83,40 +83,50 @@ To be sure, the books of the future would be just as good a corrective as the bo
 <br><br>
 
 <hr style='border-top: 1px solid #00c3c3;'><br>
-<i>"I have gone into this matter at some length not only for the purpose of exposing Porphyry's misrepresentation (for either he was ignorant of all these matters or else he pretended not to know them) but also to show the difficulty in Holy Scripture. And yet men who altogether lack experience lay special claim to understanding it apart from the grace of God and the scholarship of preceding generations."</i><br><br>
+<i>"I have gone into this matter at some length... to show the difficulty in Holy Scripture. Men who altogether lack experience lay special claim to understanding it apart from the grace of God and the scholarship of preceding generations."</i><br><br>
 - <b><a href='https://www.ccel.org/ccel/pearse/morefathers/files/jerome_daniel_02_text.htm' target='_blank'>Jerome</a></b>
 <br><br>
-
-<hr style='border-top: 1px solid #00c3c3;'><br>
-<i>"The ignorance of persons who do not know the sacred scriptures well and have not consulted histories, always turns them to one thing after another, and distracts anyone who wants to track down something about the truth out of his own head."</i><br><br>
-- <b><a href='https://books.google.com/books?id=tKtzRNP0Z70C&pg=PA620&lpg=PA620#v=onepage&q&f=false' target='_blank'>Epiphanius of Salamis</a></b>
-<br><br>
-
-<hr style='border-top: 1px solid #00c3c3;'><br>
-<i>"I therefore beseech you, who think that you are called upon to heal my slight wound, which is no more, so to speak, than a prick or scratch from a needle, to devote your skill in the healing art to this grievous wound, which has been opened by a spear driven home with the impetus of a javelin. For there is surely no proportion between the culpability of him who exhibits the various opinions held by the fathers in a commentary on Scripture, and the guilt of him who reintroduces within the Church a most pestilential heresy."</i><br><br>
-- <b><a href='https://www.newadvent.org/fathers/1102075.htm' target='_blank'>Jerome</a></b>
-<br><br>
-
-<hr style='border-top: 1px solid #00c3c3;'><br>
-<i>"Pray tell me, who, before you appeared, was acquainted with this blasphemy? Who thought the theory worth two-pence?"</i><br><br>
-- <b><a href='https://www.newadvent.org/fathers/3007.htm' target='_blank'>Jerome</a></b>
-<br><br>
-
-<hr style='border-top: 1px solid #00c3c3;'><br>
-<i>"I note with grave displeasure that your patient has become a Christian... There is no need to despair; hundreds of these adult converts have been reclaimed after a I brief sojourn in the Enemy's camp and are now with us... One of our great allies at present is the Church itself. Do not misunderstand me. I do not mean the Church as we see her spread but through all time and space and rooted in eternity, terrible as an army with banners. That, I confess, is a spectacle which makes I our boldest tempters uneasy. But fortunately it is quite invisible to these humans. All your patient sees is the half-finished, sham Gothic erection on the new building estate."</i><br><br>
-- <b><a href='https://www.thespiritlife.net/about/81-warfare/warfare-publications/1877-chapter-2-the-screwtape-letters-cs-lewis' target='_blank'>Screwtape</a></b>
-<br><br>
-
-<hr style='border-top: 1px solid #00c3c3;'><br>
-<i>"You sent me the volume anonymous and authorless... When I read it, I realized that the most famous question about High Priest Melchizedek had been discussed there with many arguments, in an attempt to teach that he who blessed the great Patriarch was of a more divine nature and should not be considered among men... When I read the letter and found myself adjured with remarkable entreaties in the last little page not to spurn the petitioner, I searched through the books of the Ancients to see what each one said, and I answered you, as it were, with the counsel of many. And immediately on the first page of Genesis I found an exegesis by Origen concerning Melchizedek, in which he discusses the matter in many words and comes to the conclusion that he was an angel. With almost the same arguments your author has employed on the Holy Spirit, he speaks on the heavenly powers. I went on to his follower Didymus, and came to a like result. I turned to Hippolytus, Irenaeus, Eusebius of Caesarea, and Emisenus, Apollinaris also, and our Eustathius, who first sang the war trumpet against Arius as the Bishop of Antioch's Church: and I found that all of their opinions, with different arguments and byways, had arrived at one intersection, to say that Melchizedek was a Canaanite man, the king of the city of Jerusalem, which was first called Salem, then Jebus, and finally Jerusalem."</i><br><br>
-- <b><a href='https://github.com/HistoricalChristianFaith/Writings-Database/blob/master/Jerome/Letters/letter_073.md' target='_blank'>Jerome</a></b>
-<br><br>
-
 
 <hr style='border-top: 1px solid #00c3c3;'><br>
 <i>"I have thought it my duty to quote all these passages from the writings of both Latin and Greek authors who, being in the Catholic Church before our time, have written commentaries on the divine oracles, in order that our brother, if he hold any different opinion from theirs, may know that it becomes him, laying aside all bitterness of controversy, and preserving or reviving fully the gentleness of brotherly love, to investigate with diligent and calm consideration either what he must learn from others, or what others must learn from him. For the reasonings of any men whatsoever, even though they be Catholics, and of high reputation, are not to be treated by us in the same way as the canonical Scriptures are treated. We are at liberty, without doing any violence to the respect which these men deserve, to condemn and reject anything in their writings, if perchance we shall find that they have entertained opinions differing from that which others or we ourselves have, by the divine help, discovered to be the truth. I deal thus with the writings of others, and I wish my intelligent readers to deal thus with mine."</i><br><br>
 - <b><a href='https://www.newadvent.org/fathers/1102148.htm' target='_blank'>Augustine</a></b>
 <br><br>
+
+
+<!--
+<hr style='border-top: 1px solid #00c3c3;'><br>
+<i>"The ignorance of persons who do not know the sacred scriptures well and have not consulted histories, always turns them to one thing after another, and distracts anyone who wants to track down something about the truth out of his own head."</i><br><br>
+- <b><a href='https://books.google.com/books?id=tKtzRNP0Z70C&pg=PA620&lpg=PA620#v=onepage&q&f=false' target='_blank'>Epiphanius of Salamis</a></b>
+<br><br>
+-->
+
+<!--
+<hr style='border-top: 1px solid #00c3c3;'><br>
+<i>"I therefore beseech you, who think that you are called upon to heal my slight wound, which is no more, so to speak, than a prick or scratch from a needle, to devote your skill in the healing art to this grievous wound, which has been opened by a spear driven home with the impetus of a javelin. For there is surely no proportion between the culpability of him who exhibits the various opinions held by the fathers in a commentary on Scripture, and the guilt of him who reintroduces within the Church a most pestilential heresy."</i><br><br>
+- <b><a href='https://www.newadvent.org/fathers/1102075.htm' target='_blank'>Jerome</a></b>
+<br><br>
+-->
+
+<!--
+<hr style='border-top: 1px solid #00c3c3;'><br>
+<i>"I note with grave displeasure that your patient has become a Christian... There is no need to despair; hundreds of these adult converts have been reclaimed after a I brief sojourn in the Enemy's camp and are now with us... One of our great allies at present is the Church itself. Do not misunderstand me. I do not mean the Church as we see her spread but through all time and space and rooted in eternity, terrible as an army with banners. That, I confess, is a spectacle which makes I our boldest tempters uneasy. But fortunately it is quite invisible to these humans. All your patient sees is the half-finished, sham Gothic erection on the new building estate."</i><br><br>
+- <b><a href='https://www.thespiritlife.net/about/81-warfare/warfare-publications/1877-chapter-2-the-screwtape-letters-cs-lewis' target='_blank'>Screwtape</a></b>
+<br><br>
+-->
+
+<!--
+<hr style='border-top: 1px solid #00c3c3;'><br>
+<i>"You sent me the volume anonymous and authorless... When I read it, I realized that the most famous question about High Priest Melchizedek had been discussed there with many arguments, in an attempt to teach that he who blessed the great Patriarch was of a more divine nature and should not be considered among men... When I read the letter and found myself adjured with remarkable entreaties in the last little page not to spurn the petitioner, I searched through the books of the Ancients to see what each one said, and I answered you, as it were, with the counsel of many. And immediately on the first page of Genesis I found an exegesis by Origen concerning Melchizedek, in which he discusses the matter in many words and comes to the conclusion that he was an angel. With almost the same arguments your author has employed on the Holy Spirit, he speaks on the heavenly powers. I went on to his follower Didymus, and came to a like result. I turned to Hippolytus, Irenaeus, Eusebius of Caesarea, and Emisenus, Apollinaris also, and our Eustathius, who first sang the war trumpet against Arius as the Bishop of Antioch's Church: and I found that all of their opinions, with different arguments and byways, had arrived at one intersection, to say that Melchizedek was a Canaanite man, the king of the city of Jerusalem, which was first called Salem, then Jebus, and finally Jerusalem."</i><br><br>
+- <b><a href='https://github.com/HistoricalChristianFaith/Writings-Database/blob/master/Jerome/Letters/letter_073.md' target='_blank'>Jerome</a></b>
+<br><br>
+-->
+
+<!--
+<hr style='border-top: 1px solid #00c3c3;'><br>
+<i>"Pray tell me, who, before you appeared, was acquainted with this blasphemy? Who thought the theory worth two-pence?"</i><br><br>
+- <b><a href='https://www.newadvent.org/fathers/3007.htm' target='_blank'>Jerome</a></b>
+<br><br>
+-->
 
 
 
