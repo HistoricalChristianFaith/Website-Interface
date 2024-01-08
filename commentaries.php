@@ -128,7 +128,13 @@ while ($r = $q->fetchArray(SQLITE3_ASSOC)) {
 
     if($r['ts'] && $r['ts'] < 1000000) {
         if($r['ts'] > 0) {
-            $time_string = "[AD ".$r['ts']."]";
+            if($r['ts'] == 9999) {
+                $time_string = "[Unknown Date]";
+            }
+            else {
+                $time_string = "[AD ".$r['ts']."]";
+            }
+
         }
         else {
             $time_string = "[".($r['ts']*-1)." BC]";
