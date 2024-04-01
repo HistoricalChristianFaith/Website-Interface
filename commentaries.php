@@ -3,9 +3,9 @@ $db = new SQLite3('data.sqlite', SQLITE3_OPEN_READONLY);
 $kjvdb = new SQLite3('kjv.sqlite', SQLITE3_OPEN_READONLY);
 include("func.php");
 
-if(!isset($_GET['search_query'])) {
+if(!isset($_GET['search_query']) || !$_GET['search_query']) {
     //Default query
-    $_GET['search_query'] = "Matthew 23:35";
+    $_GET['search_query'] = "Matthew 1:1";
 }
 
 $parsed_input = parse_user_input($_GET['search_query']);
@@ -19,8 +19,8 @@ $location_end = ($parsed_input['end']['chapter']*1000000) + $parsed_input['end']
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,initial-scale=1,maximum-scale=1,user-scalable=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
-    <title>Historical Christian Commentary</title>
-    <meta name="description" content="Historical Christian Commentary for the Bible">
+    <title>HistoricalChristian.Faith</title>
+    <meta name="description" content="Historical Christian Commentary for the Bible / Writings in the Public Domain">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -54,7 +54,7 @@ $location_end = ($parsed_input['end']['chapter']*1000000) + $parsed_input['end']
 <ion-app>
   <ion-header>
     <ion-toolbar>
-      <ion-title>Historical Christian Commentaries</ion-title>
+      <ion-title onclick="window.location.href='/'">HistoricalChristian.Faith</ion-title>
     </ion-toolbar>
     <ion-toolbar>
         <form method='GET' action='?' onsubmit="window.location.href='commentaries.php?search_query='+$('#search_query').val();return false;">

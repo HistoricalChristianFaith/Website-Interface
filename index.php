@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,initial-scale=1,maximum-scale=1,user-scalable=no">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css"/>
-    <title>Historical Christian Commentary</title>
-    <meta name="description" content="Historical Christian Commentary for the Bible">
+    <title>HistoricalChristian.Faith</title>
+    <meta name="description" content="Historical Christian Commentary for the Bible / Writings in the Public Domain">
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
@@ -15,7 +15,17 @@
 <ion-app>
   <ion-header>
     <ion-toolbar>
-      <ion-title>Historical Christian Commentaries</ion-title>
+      <ion-title onclick="window.location.href='/'">HistoricalChristian.Faith</ion-title>
+    </ion-toolbar>
+    <ion-toolbar>
+        <ion-segment value="byVerse">
+        <ion-segment-button value="byVerse">
+            <ion-label>By Verse</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="byFather" onclick="window.location.href='/by_father.php';">
+            <ion-label>By Father</ion-label>
+        </ion-segment-button>
+        </ion-segment>
     </ion-toolbar>
     <ion-toolbar>
         <form method='GET' action='?' onsubmit="window.location.href='commentaries.php?search_query='+$('#search_query').val();return false;">
@@ -42,7 +52,7 @@
         </ion-label>
     </ion-item>
     <ion-card-content>
-Type in any verse(s) at the top and it will pull up all historical Christian commentary on that verse. <br><br>What were the ancients thinking, reading through the same Bible as us? What were those separated from the time of Christ by a mere 100 years, or mere generation, thinking about certain passages of scripture? Plug in the verse and find out.
+Type in any verse(s) at the top and it will pull up all historical Christian commentary on that verse. Alternatively, select "By Father" to browse all the ancient writings in the public domain in full.<br><br>What were the ancients thinking, reading through the same Bible as us? What were those separated from the time of Christ by a mere 100 years, or mere generation, thinking about certain passages of scripture? Plug in the verse and find out.
     </ion-card-content>
 </ion-card>
 
@@ -138,7 +148,7 @@ To be sure, the books of the future would be just as good a corrective as the bo
 
 <br><br>
 <div id='poweredby' class="ion-text-center ion-margin-end" style="font-size:10px">
-Powered by the open source, crowd-sourced <a href="https://github.com/HistoricalChristianFaith/Commentaries-Database" target='_blank'>Historical Christian Commentaries Database</a>
+Powered by the open source, crowd-sourced <a href="https://github.com/HistoricalChristianFaith/Commentaries-Database" target='_blank'>HistoricalChristianFaith/Commentaries-Database</a> & <a href="https://github.com/HistoricalChristianFaith/Writings-Database" target='_blank'>HistoricalChristianFaith/Writings-Database</a>
 </div>
 
 </ion-content>

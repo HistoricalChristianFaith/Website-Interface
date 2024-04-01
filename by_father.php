@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Historical Christian Faith - Writings Database</title>
+    <title>HistoricalChristian.Faith</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <!-- Bootstrap CSS -->
@@ -59,7 +59,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
     <div class="container-fluid"> 
         <div class="navbar-header">
-            <a class="navbar-brand" href="https://historicalchristian.faith/by_father.php" target="_blank">
+            <a class="navbar-brand" href="/by_father.php" target="_blank">
                 <span class="d-lg-none">HCF - By Father</span> <!-- Visible on xs to md screens -->
                 <span class="d-none d-lg-inline">HistoricalChristian.Faith - By Father</span> <!-- Visible on lg and larger screens -->
             </a>
@@ -70,7 +70,7 @@
             <button class="navbar-toggler" type="button" aria-label="Toggle navigation" onclick="$('#sidebarMenu').toggleClass('show');">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a href="https://historicalchristian.faith/" class="navbar-text d-none d-lg-inline-block">View By Verse</a>
+            <a href="/" class="navbar-text d-none d-lg-inline-block">View By Verse</a>
         </div>
     </div>
 </nav>
@@ -83,8 +83,8 @@
             <div class="sidebar-sticky">
                 <!-- Visible only on xs, sm, and md screens -->
                 <h4 class="d-block d-lg-none">
-                    <a target='_blank' href='https://historicalchristian.faith/'>By Verse</a> | 
-                    <a target='_blank' href='https://historicalchristian.faith/by_father.php' style="font-weight:bold;">By Father</a>
+                    <a href='/'>By Verse</a> | 
+                    <a href='/by_father.php' style="font-weight:bold;">By Father</a>
                 </h4>
 
 <?php
