@@ -40,6 +40,7 @@
             const url = new URL(window.location);
             url.searchParams.set('file', filePath);
             window.history.pushState({}, '', url);
+            $('#sidebarMenu').removeClass('show');
         }
 
         window.onload = function() {
@@ -69,7 +70,7 @@
             <button class="navbar-toggler" type="button" aria-label="Toggle navigation" onclick="$('#sidebarMenu').toggleClass('show');">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a href="#viewByVerse" class="navbar-text d-none d-lg-inline-block">View By Verse</a>
+            <a href="https://historicalchristian.faith/" class="navbar-text d-none d-lg-inline-block">View By Verse</a>
         </div>
     </div>
 </nav>
@@ -97,7 +98,7 @@ if ($htmlContent !== false) {
 
             </div>
         </nav>
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" style="height: 100vh;padding: 0px !important;">
             <iframe id="content" name="contentFrame" style="width: 100%; height: 100%;" srcdoc="<p>Click on a writing from the left menu to open it here!</p><p>Note: This database is open source, and everything is in the public domain! <a target='_blank' href='https://github.com/HistoricalChristianFaith/Writings-Database/'>Contribute/fix typos here!</a></p>"></iframe>
         </main>
     </div>
