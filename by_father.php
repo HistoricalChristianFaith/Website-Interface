@@ -119,8 +119,7 @@
                 </h4>
                 <div id="cfmenu">
 <?php
-$htmlContent = file_get_contents("/Users/seankooyman/Desktop/Writings-Database/menu.html");
-//$htmlContent = file_get_contents("https://historicalchristianfaith.github.io/Writings-Database/menu.html");
+$htmlContent = file_get_contents("https://historicalchristianfaith.github.io/Writings-Database/menu.html");
 if ($htmlContent !== false) {
     echo $htmlContent;
 } else {
