@@ -10,6 +10,8 @@
     <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.esm.js"></script>
     <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core/dist/ionic/ionic.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
   </head>
     <body>
 <ion-app>
