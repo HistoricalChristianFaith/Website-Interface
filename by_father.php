@@ -60,15 +60,24 @@
         }
 
         $(document).ready(function(){
+            $('#cfmenu').jstree();
             const urlParams = new URLSearchParams(window.location.search);
             const file = urlParams.get('file');
             if (file) {
                 console.log("Onload: file...", file)
                 document.getElementById('content').removeAttribute('srcdoc');
                 document.getElementById('content').src = "https://historicalchristianfaith.github.io/Writings-Database/" + file;
-                //$.jstree.reference('#jstree').select_node('child_node_1');
+
+                var tree = $.jstree.reference('#cfmenu');
+
+                var allNodes = tree.get_json('#', { 'flat': true });
+                var nodeToSelect = allNodes.find(node => node.li_attr && node.li_attr['data-fname'] === file);
+                if(nodeToSelect) {
+                    tree.select_node(nodeToSelect.id);
+                } else {
+                    console.log('No node found with data-fname:', fnameParam);
+                }
             }
-            $('#cfmenu').jstree();
             $('#cfmenu').on("changed.jstree", function (e, data) {
                 console.log("***ii1", data.selected);
             });
