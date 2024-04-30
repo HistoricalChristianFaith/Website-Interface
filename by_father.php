@@ -59,8 +59,32 @@
             $('#sidebarMenu').removeClass('show');
         }
 
+        const CACHE_NAME = 'v1';
         $(document).ready(function(){
-            $('#cfmenu').jstree();
+            $('#cfmenu').jstree({
+                "plugins" : ["contextmenu"],
+                "contextmenu": {
+                    "items": function($node) {
+                        return {
+                            "saveOffline": {
+                                "label": "Save for offline reading",
+                                "action": function (obj) {
+                                    const fname = $node.data.fname;
+                                    const urlToCache = "https://historicalchristianfaith.github.io/Writings-Database/" + fname;
+                                    caches.open(CACHE_NAME).then(cache => {
+                                        cache.add(urlToCache).then(() => {
+                                            console.log('File cached for offline use:', urlToCache);
+                                            // Optionally, change the node icon to indicate it's saved for offline
+                                            $node.icon = "fas fa-file-download";
+                                            $('#cfmenu').jstree(true).redraw(true);
+                                        });
+                                    });
+                                }
+                            }
+                        };
+                    }
+                }
+            });
             const urlParams = new URLSearchParams(window.location.search);
             const file = urlParams.get('file');
             if (file) {
@@ -75,7 +99,7 @@
                 if(nodeToSelect) {
                     tree.select_node(nodeToSelect.id);
                 } else {
-                    console.log('No node found with data-fname:', fnameParam);
+                    console.log('No node found with data-fname:', file);
                 }
             }
             $('#cfmenu').on("changed.jstree", function (e, data) {
@@ -94,6 +118,25 @@
                 }
             });
 
+
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/bf-service-worker.js')
+                .then(function(registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(function(err) {
+                    console.log('Service Worker registration failed:', err);
+                });
+            }
+            
+            caches.open(CACHE_NAME).then(cache => {
+                cache.add(urlToCache).then(() => {
+                    console.log('File cached for offline use:', urlToCache);
+                    // Optionally, change the node icon to indicate it's saved for offline
+                    $node.icon = "fas fa-file-download";
+                    $('#cfmenu').jstree(true).redraw(true);
+                });
+            });
         });
 
     </script>
