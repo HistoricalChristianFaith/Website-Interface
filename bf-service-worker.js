@@ -1,5 +1,5 @@
-const CACHE_NAME = 'v1';
-const urlsToCache = [
+const CACHE_NAME = 'v3';
+const urlsToCacheOnPageLoad = [
     '/by_father.php'
 ];
 
@@ -8,14 +8,42 @@ self.addEventListener('install', event => {
         caches.open(CACHE_NAME)
         .then(cache => {
             console.log('Opened cache');
-            return cache.addAll(urlsToCache);
+            return cache.addAll(urlsToCacheOnPageLoad);
+        })
+    );
+});
+
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        caches.keys().then(cacheNames => {
+            return Promise.all(
+                cacheNames.map(cacheName => {
+                    if (cacheName != CACHE_NAME) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
         })
     );
 });
 
 self.addEventListener('fetch', event => {
+    // Check if the request is for /by_father.php and strip query parameters if so
+    let cacheRequest = event.request;
+    if (event.request.url.includes('/by_father.php')) {
+        let url = new URL(event.request.url);
+        // Create a new request without the search parameters
+        cacheRequest = new Request(url.origin + url.pathname, {
+            method: event.request.method,
+            headers: event.request.headers,
+            mode: 'same-origin', // ensure requests are made to the same origin
+            credentials: event.request.credentials,
+            redirect: 'manual'   // ensure fetches are only for navigation within the same origin
+        });
+    }
+
     event.respondWith(
-        caches.match(event.request)
+        caches.match(cacheRequest)
         .then(response => {
             if (response) {
                 return response; // return the cached response if available
@@ -29,7 +57,8 @@ self.addEventListener('fetch', event => {
 
                 caches.open(CACHE_NAME)
                 .then(cache => {
-                    cache.put(event.request, responseToCache);
+                    console.log("*****cached another...", cacheRequest.url)
+                    cache.put(cacheRequest, responseToCache); // store the response in cache
                 });
 
                 return response;
