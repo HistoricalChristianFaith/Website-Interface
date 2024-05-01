@@ -57,7 +57,7 @@ self.addEventListener('fetch', event => {
 
                 caches.open(CACHE_NAME)
                 .then(cache => {
-                    console.log("*****cached another...", cacheRequest.url)
+                    //console.log("*****cached another...", cacheRequest.url)
                     cache.put(cacheRequest, responseToCache); // store the response in cache
                 });
 
