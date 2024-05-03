@@ -49,6 +49,7 @@
         }
     </style>
     <script>
+        const CACHE_NAME = 'v3';
         function loadFile(filePath) {
             document.getElementById('content').removeAttribute('srcdoc');
             console.log("Loading file...", filePath)
@@ -59,8 +60,53 @@
             $('#sidebarMenu').removeClass('show');
         }
 
+        window.cached_file_lookup = {};
+
+        // Function to list all caches and their entries
+        async function getAllCachedStatus() {
+            const cache = await caches.open(CACHE_NAME);
+            const requests = await cache.keys(); // Get all requests in the cache
+            const entries = await Promise.all(requests.map(async (request) => {
+                const response = await cache.match(request);
+                return { url: request.url, status: response.status };
+            }));
+
+            for(var i=0; i<entries.length; i++) {
+                console.log("***setting ", entries[i].url)
+                window.cached_file_lookup[entries[i].url] = 1;
+            }
+            update_jstree_icons_based_on_cache_status();
+
+        }
+
+        function update_jstree_icons_based_on_cache_status() {
+
+            // Check each node's cache status and update the icon accordingly
+            $('#cfmenu').find('li').each(async function () {
+                const fname = $(this).data('fname');
+                const urlToCheck = "https://historicalchristianfaith.github.io/Writings-Database/" + fname;
+                if (urlToCheck in window.cached_file_lookup) {
+                    $('#cfmenu').jstree(true).set_icon(this, "fas fa-file-download");
+                }
+            });
+        }
+
         $(document).ready(function(){
-            $('#cfmenu').jstree();
+            $('#cfmenu').jstree({});
+
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/bf-service-worker.js')
+                .then(function(registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                })
+                .catch(function(err) {
+                    console.log('Service Worker registration failed:', err);
+                });
+            }
+            
+            // Using the function to log all cached entries
+            getAllCachedStatus();
+
             const urlParams = new URLSearchParams(window.location.search);
             const file = urlParams.get('file');
             if (file) {
@@ -75,7 +121,7 @@
                 if(nodeToSelect) {
                     tree.select_node(nodeToSelect.id);
                 } else {
-                    console.log('No node found with data-fname:', fnameParam);
+                    console.log('No node found with data-fname:', file);
                 }
             }
             $('#cfmenu').on("changed.jstree", function (e, data) {
@@ -88,12 +134,22 @@
                     $("#cfmenu").jstree(true).toggle_node(data.node);
                     return;
                 }
-
                 if (data.node && data.node['li_attr'] && data.node['li_attr']['data-fname']) {
                     loadFile(data.node['li_attr']['data-fname']); 
+                    const urlToCache = "https://historicalchristianfaith.github.io/Writings-Database/" + data.node['li_attr']['data-fname'];
+                    console.log('File cached for offline use:', urlToCache);
+
+                    caches.open(CACHE_NAME).then(cache => {
+                        cache.add(urlToCache).then(() => {
+                            console.log('File cached for offline use:', urlToCache);
+                            // Optionally, change the node icon to indicate it's saved for offline
+                            data.node.icon = "fas fa-file-download";
+                            $('#cfmenu').jstree(true).redraw(true);
+                        });
+                    });
                 }
             });
-
+            
         });
 
     </script>
