@@ -1,5 +1,7 @@
 This is the reference implementation/demo of the sqlite file [compiled](https://github.com/HistoricalChristianFaith/Commentaries-Database/blob/master/compile_data.py) from our [Commentaries-Database](https://github.com/HistoricalChristianFaith/Commentaries-Database), served up with a user-interface at https://historicalchristian.faith/
 
+It also contains a frontend interface to our [Writings-Database](https://github.com/HistoricalChristianFaith/Writings-Database).
+
 Any changes made in master branch on this repo will reflect <a href='https://historicalchristian.faith/' target='_blank'>on the website</a> within a couple minutes.
 
 # Build/Deploy Process
