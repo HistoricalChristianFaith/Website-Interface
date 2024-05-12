@@ -59,6 +59,12 @@
             $('#sidebarMenu').removeClass('show');
         }
 
+        function loadMetaFile(filePath) {
+            document.getElementById('content').removeAttribute('srcdoc');
+            console.log("Loading metafile...", filePath)
+            document.getElementById('content').src = filePath;
+        }
+
         $(document).ready(function(){
             $('#cfmenu').jstree();
             const urlParams = new URLSearchParams(window.location.search);
@@ -86,12 +92,18 @@
                 if(data.node.children.length > 0) {
                     // Toggle (open/close) the node
                     $("#cfmenu").jstree(true).toggle_node(data.node);
+
+                    if (data.node && data.node['li_attr'] && data.node['li_attr']['data-metadataurl']) {
+                        loadMetaFile(data.node['li_attr']['data-metadataurl']); 
+                    }
+
                     return;
                 }
 
                 if (data.node && data.node['li_attr'] && data.node['li_attr']['data-fname']) {
                     loadFile(data.node['li_attr']['data-fname']); 
                 }
+                
             });
 
         });
@@ -131,7 +143,7 @@
                 </h4>
                 <div id="cfmenu">
 <?php
-$htmlContent = file_get_contents("https://historicalchristianfaith.github.io/Writings-Database/menu.html");
+$htmlContent = file_get_contents("https://historicalchristianfaith.github.io/Writings-Database/menu.html?v=1");
 if ($htmlContent !== false) {
     echo $htmlContent;
 } else {
