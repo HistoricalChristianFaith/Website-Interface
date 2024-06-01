@@ -116,12 +116,11 @@ $location_end = ($parsed_input['end']['chapter']*1000000) + $parsed_input['end']
     
 
 <?php
-$statement = $db->prepare("SELECT c.*,fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name=fm.name WHERE c.book=(:book) and c.location_end >= (:location_start) and c.location_start <= (:location_end) ORDER BY c.ts ASC, c.location_start ASC");
+$statement = $db->prepare("SELECT c.*,fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name=fm.name WHERE c.book=(:book) and c.location_end >= (:location_start) and c.location_start <= (:location_end) ORDER BY c.location_start ASC, c.ts ASC");
 $statement->bindValue(':book', $parsed_input['book']);
 $statement->bindValue(':location_start', $location_start);
 $statement->bindValue(':location_end', $location_end);
 $q = $statement->execute();
-error_log("SELECT c.*,fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name=fm.name WHERE c.book=(:book) and c.location_end >= (:location_start) and c.location_start <= (:location_end) ORDER BY c.ts ASC, c.location_start ASC");
 error_log("book=".$parsed_input['book']);
 error_log("location_start=".$location_start);
 error_log("location_end=".$location_end);
