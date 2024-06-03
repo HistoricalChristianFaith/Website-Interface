@@ -176,7 +176,10 @@ while ($r = $q->fetchArray(SQLITE3_ASSOC)) {
     if($r['source_title']) {
         print "<br>";
         if($r['source_url']) {
-            print "- <strong class='father_source'><a href='".$r['source_url']."' target='_blank' title='".htmlentities($r['source_title'], ENT_QUOTES)."'>".htmlentities($r['source_title'])."</a></strong>";
+            $source_url = $r['source_url'];
+            $source_url .= "#";
+            $source_url .= urlencode(substr($r['txt'], 0, 500));
+            print "- <strong class='father_source'><a href='".$source_url."' target='_blank' title='".htmlentities($r['source_title'], ENT_QUOTES)."'>".htmlentities($r['source_title'])."</a></strong>";
 
         }
         else {

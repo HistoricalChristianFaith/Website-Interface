@@ -49,6 +49,18 @@
         }
     </style>
     <script>
+        function get_url_hash_fragment(url) {
+            // When jumping to source from the commentaries site, we have a commentary fragment appended to the url after the hashtag.
+            // Let's pass this commentary fragment to the iframe, so the source website can scroll to / highlight that commentary fragment.
+            var hashtag_fragment = "#";
+            var parts = window.location.href.split('#');
+            // Check if there is a hashtag with text after it
+            if (parts.length > 1 && parts[1].length > 0) {
+                hashtag_fragment += parts[1];
+            }
+            return hashtag_fragment;
+        }
+
         function loadFile(filePath) {
             document.getElementById('content').removeAttribute('srcdoc');
             console.log("Loading file...", filePath)
@@ -72,7 +84,7 @@
             if (file) {
                 console.log("Onload: file...", file)
                 document.getElementById('content').removeAttribute('srcdoc');
-                document.getElementById('content').src = "https://historicalchristianfaith.github.io/Writings-Database/" + file;
+                document.getElementById('content').src = "https://historicalchristianfaith.github.io/Writings-Database/" + file + get_url_hash_fragment();
 
                 var tree = $.jstree.reference('#cfmenu');
 
