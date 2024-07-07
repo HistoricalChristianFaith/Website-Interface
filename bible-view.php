@@ -13,7 +13,6 @@ function formatBookName($book) {
 $currentBook = isset($_GET['book']) ? $_GET['book'] : 'Genesis';
 $currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
 
-
 $both_testaments = array_merge($old_testament, $new_testament);
 
 // Get max chapters for each book
@@ -48,7 +47,7 @@ function getChapterText($book, $chapter) {
 
 // Function to get commentaries
 function getCommentaries($book, $chapter) {
-    global $commentarydb;
+    global $commentarydb, $currentBook;
     $statement = $commentarydb->prepare("SELECT c.*, fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name = fm.name WHERE c.book = :book AND c.location_start >= :start AND c.location_start < :end ORDER BY c.location_start ASC, c.ts ASC");
     $statement->bindValue(':book', $book);
     $statement->bindValue(':start', $chapter * 1000000);
@@ -61,7 +60,7 @@ function getCommentaries($book, $chapter) {
         $year = $row['ts'];
         $output .= "<div class='card mb-3 commentary-card' data-verse='$verse'>";
         $output .= "<div class='card-header'>";
-        $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . htmlspecialchars($book) . " " . htmlspecialchars($chapter) . ":" . htmlspecialchars($verse) . "</h5>";
+        $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . ucwords(htmlspecialchars($currentBook)) . " " . htmlspecialchars($chapter) . ":" . htmlspecialchars($verse) . "</h5>";
         $output .= "</div>";
         $output .= "<div class='card-body'><div class='show-read-more'>" . nl2br(htmlspecialchars($row['txt'])) . "</div></div>";
         if (!empty($row['source_title'])) {
