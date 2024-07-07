@@ -3,6 +3,7 @@
 $kjvdb = new SQLite3('kjv.sqlite', SQLITE3_OPEN_READONLY);
 $commentarydb = new SQLite3('data.sqlite', SQLITE3_OPEN_READONLY);
 require("bible-view-helpers.php");
+$both_testaments = array_merge($old_testament, $new_testament);
 
 // Function to format book name for maxChapters array
 function formatBookName($book) {
@@ -13,17 +14,23 @@ function formatBookName($book) {
 $currentBook = isset($_GET['book']) ? $_GET['book'] : 'Genesis';
 $currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
 
-$both_testaments = array_merge($old_testament, $new_testament);
-
 // Get max chapters for each book
 $maxChapters = array();
 $bookDisplayNames = array();
+$validBooks = array();
 foreach ($both_testaments as $book => $chapters) {
     $formattedName = formatBookName($book);
     $maxChapters[$formattedName] = $chapters;
     $bookDisplayNames[$formattedName] = $book;
-    $books[] = $formattedName;
+    $validBooks[] = $formattedName;
 }
+
+//whitelist book names
+if (!in_array(formatBookName($currentBook), $validBooks)) {
+    $formattedCurrentBook = 'genesis';
+    $currentBook = 'Genesis';
+}
+
 
 // Function to get chapter text
 function getChapterText($book, $chapter) {
