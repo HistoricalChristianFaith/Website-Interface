@@ -98,11 +98,11 @@ $both_testaments = array_merge($old_testament, $new_testament);
 
 // Get max chapters for each book
 $maxChapters = array();
-$bookDisplayNames = array(); // New array to store display names
+$bookDisplayNames = array();
 foreach ($both_testaments as $book => $chapters) {
     $formattedName = formatBookName($book);
     $maxChapters[$formattedName] = $chapters;
-    $bookDisplayNames[$formattedName] = $book; // Store display name
+    $bookDisplayNames[$formattedName] = $book;
     $books[] = $formattedName;
 }
 
@@ -153,32 +153,16 @@ function getCommentaries($book, $chapter) {
     return $output;
 }
 
-// Get current book and chapter
-$currentBook = isset($_GET['book']) ? $_GET['book'] : 'Genesis';
-$currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
-
 // Handle navigation
-if (isset($_POST['action'])) {
-    switch ($_POST['action']) {
-        case 'change_book':
-            $currentBook = $bookDisplayNames[$_POST['book']];
-            $currentChapter = 1;
-            break;
-        case 'change_chapter':
-            $currentChapter = intval($_POST['chapter']);
-            break;
-        case 'prev_chapter':
-            if ($currentChapter > 1) {
-                $currentChapter--;
-            }
-            break;
-        case 'next_chapter':
-            if ($currentChapter < $maxChapters[formatBookName($currentBook)]) {
-                $currentChapter++;
-            }
-            break;
-    }
+$formattedCurrentBook = formatBookName($currentBook);
+if ($currentChapter < 1) {
+    $currentChapter = 1;
+} elseif ($currentChapter > $maxChapters[$formattedCurrentBook]) {
+    $currentChapter = $maxChapters[$formattedCurrentBook];
 }
+
+$prevChapter = $currentChapter > 1 ? $currentChapter - 1 : null;
+$nextChapter = $currentChapter < $maxChapters[$formattedCurrentBook] ? $currentChapter + 1 : null;
 
 ?>
 <!DOCTYPE html>
@@ -214,51 +198,50 @@ if (isset($_POST['action'])) {
         <header class="bg-light py-3">
             <div class="row align-items-center">
                 <div class="col">
-                    <form method="post" action="">
-                        <input type="hidden" name="action" value="change_book">
-                        <select name="book" class="form-select" onchange="this.form.submit()">
-                            <?php foreach ($bookDisplayNames as $formattedName => $displayName): ?>
-                                <option value="<?= $formattedName ?>" <?= $displayName === $currentBook ? 'selected' : '' ?>><?= $displayName ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </form>
+                    <select id="book-select" class="form-select" onchange="changeBook(this.value)">
+                        <?php foreach ($bookDisplayNames as $formattedName => $displayName): ?>
+                            <option value="<?= $formattedName ?>" <?= $displayName === $currentBook ? 'selected' : '' ?>><?= $displayName ?></option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
                 <div class="col text-end">
-                    <form method="post" action="">
-                        <input type="hidden" name="action" value="change_chapter">
-                        <select name="chapter" class="form-select" onchange="this.form.submit()">
-                            <?php for ($i = 1; $i <= $maxChapters[formatBookName($currentBook)]; $i++): ?>
-                                <option value="<?= $i ?>" <?= $i === $currentChapter ? 'selected' : '' ?>>Chapter <?= $i ?></option>
-                            <?php endfor; ?>
-                        </select>
-                    </form>
+                    <select id="chapter-select" class="form-select" onchange="changeChapter(this.value)">
+                        <?php for ($i = 1; $i <= $maxChapters[$formattedCurrentBook]; $i++): ?>
+                            <option value="<?= $i ?>" <?= $i === $currentChapter ? 'selected' : '' ?>>Chapter <?= $i ?></option>
+                        <?php endfor; ?>
+                    </select>
                 </div>
             </div>
         </header>
 
         <main class="my-4">
             <div id="chapter-content" class="mb-4">
-                <?= getChapterText(formatBookName($currentBook), $currentChapter) ?>
+                <?= getChapterText($formattedCurrentBook, $currentChapter) ?>
             </div>
             <div class="row">
                 <div class="col">
-                    <form method="post" action="">
-                        <input type="hidden" name="action" value="prev_chapter">
-                        <button type="submit" class="btn nav-button w-100" <?= ($currentChapter <= 1) ? 'disabled' : '' ?>>Previous Chapter</button>
-                    </form>
+                    <a href="?book=<?= urlencode($currentBook) ?>&chapter=<?= $prevChapter ?>" class="btn nav-button w-100 <?= is_null($prevChapter) ? 'disabled' : '' ?>">Previous Chapter</a>
                 </div>
                 <div class="col">
-                    <form method="post" action="">
-                        <input type="hidden" name="action" value="next_chapter">
-                        <button type="submit" class="btn nav-button w-100" <?= ($currentChapter >= $maxChapters[formatBookName($currentBook)]) ? 'disabled' : '' ?>>Next Chapter</button>
-                    </form>
+                    <a href="?book=<?= urlencode($currentBook) ?>&chapter=<?= $nextChapter ?>" class="btn nav-button w-100 <?= is_null($nextChapter) ? 'disabled' : '' ?>">Next Chapter</a>
                 </div>
             </div>
         </main>
 
         <section id="commentaries" class="mt-4">
-            <?= getCommentaries(formatBookName($currentBook), $currentChapter) ?>
+            <?= getCommentaries($formattedCurrentBook, $currentChapter) ?>
         </section>
     </div>
+
+    <script>
+    function changeBook(book) {
+        window.location.href = `?book=${encodeURIComponent(book)}&chapter=1`;
+    }
+
+    function changeChapter(chapter) {
+        const currentBook = document.getElementById('book-select').value;
+        window.location.href = `?book=${encodeURIComponent(currentBook)}&chapter=${chapter}`;
+    }
+    </script>
 </body>
 </html>
