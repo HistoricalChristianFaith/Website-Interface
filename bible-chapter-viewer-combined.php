@@ -153,11 +153,15 @@ function getCommentaries($book, $chapter) {
     return $output;
 }
 
+// Get current book and chapter
+$currentBook = isset($_GET['book']) ? $_GET['book'] : 'Genesis';
+$currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
+
 // Handle navigation
 if (isset($_POST['action'])) {
     switch ($_POST['action']) {
         case 'change_book':
-            $currentBook = $bookDisplayNames[$_POST['book']]; // Use display name
+            $currentBook = $bookDisplayNames[$_POST['book']];
             $currentChapter = 1;
             break;
         case 'change_chapter':
@@ -175,6 +179,7 @@ if (isset($_POST['action'])) {
             break;
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -239,13 +244,13 @@ if (isset($_POST['action'])) {
                 <div class="col">
                     <form method="post" action="">
                         <input type="hidden" name="action" value="prev_chapter">
-                        <button type="submit" class="btn nav-button w-100" <?= $currentChapter <= 1 ? 'disabled' : '' ?>>Previous Chapter</button>
+                        <button type="submit" class="btn nav-button w-100" <?= ($currentChapter <= 1) ? 'disabled' : '' ?>>Previous Chapter</button>
                     </form>
                 </div>
                 <div class="col">
                     <form method="post" action="">
                         <input type="hidden" name="action" value="next_chapter">
-                        <button type="submit" class="btn nav-button w-100" <?= $currentChapter >= $maxChapters[formatBookName($currentBook)] ? 'disabled' : '' ?>>Next Chapter</button>
+                        <button type="submit" class="btn nav-button w-100" <?= ($currentChapter >= $maxChapters[formatBookName($currentBook)]) ? 'disabled' : '' ?>>Next Chapter</button>
                     </form>
                 </div>
             </div>
