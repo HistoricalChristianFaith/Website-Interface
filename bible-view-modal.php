@@ -23,9 +23,11 @@ function getSingleVerse($book, $chapter, $verse) {
 // Function to get commentaries for a single verse
 function getVerseCommentaries($book, $chapter, $verse) {
     global $commentarydb, $lookup_formatted_to_full_booknames;
-    $statement = $commentarydb->prepare("SELECT c.*, fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name = fm.name WHERE c.book = :book AND c.location_start = :location ORDER BY c.ts ASC");
+    $statement = $commentarydb->prepare("SELECT c.*, fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name = fm.name WHERE c.book = :book AND c.location_end >= (:location) and c.location_start <= (:location) ORDER BY c.ts ASC");
+
     $statement->bindValue(':book', $book);
     $statement->bindValue(':location', $chapter * 1000000 + $verse);
+
     $result = $statement->execute();
 
     $output = "";

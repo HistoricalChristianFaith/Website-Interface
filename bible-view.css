@@ -18,7 +18,34 @@
     display: none;
 }
 .modal-dialog {
-    max-width: 80%;
-    width: 80%;
+    max-width: 90%;
+    width: 90%;
     margin: 30px auto;
+}
+
+.modal-dialog.modal-fullscreen-sm-down {
+    height: 90%;
+}
+.modal-dialog.modal-fullscreen-sm-down .modal-content {
+    height: 90%;
+}
+.modal-dialog.modal-fullscreen-sm-down .modal-body {
+    overflow-y: auto;
+}
+
+@media (max-width: 767px) {
+    .modal-dialog.modal-fullscreen-sm-down {
+        max-width: 100%;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+    }
+    .modal-dialog.modal-fullscreen-sm-down .modal-content {
+        height: 100%;
+        border: 0;
+        border-radius: 0;
+    }
+    .modal-dialog.modal-fullscreen-sm-down .modal-body {
+        overflow-y: auto;
+    }
 }
