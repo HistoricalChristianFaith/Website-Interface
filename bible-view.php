@@ -104,7 +104,7 @@ $nextChapter = $currentChapter < $maxChapters[$formattedCurrentBook] ? $currentC
                 <div class="col">
                     <select id="book-select" class="form-select" onchange="changeBook(this.value)">
                         <?php foreach ($bookDisplayNames as $formattedName => $displayName): ?>
-                            <option value="<?= $formattedName ?>" <?= $displayName === $currentBook ? 'selected' : '' ?>><?= $displayName ?></option>
+                            <option value="<?= $formattedName ?>" <?= $formattedName === $formattedCurrentBook ? 'selected' : '' ?>><?= $displayName ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
