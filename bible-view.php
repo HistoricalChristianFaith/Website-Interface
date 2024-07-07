@@ -5,11 +5,11 @@ $commentarydb = new SQLite3('data.sqlite', SQLITE3_OPEN_READONLY);
 require("bible-view-helpers.php");
 
 // Get current book and chapter
-$formattedCurrentBook = isset($_GET['book']) ? $_GET['book'] : 'genesis';
+$formattedCurrentBook = isset($_GET['book']) ? $_GET['book'] : 'matthew';
 $currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
 
 if (!array_key_exists($formattedCurrentBook, $lookup_formatted_to_full_booknames)) {
-    $formattedCurrentBook = 'genesis';
+    $formattedCurrentBook = 'matthew';
 }
 $currentBook = $lookup_formatted_to_full_booknames[$formattedCurrentBook];
 
