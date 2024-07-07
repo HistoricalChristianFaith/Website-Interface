@@ -63,7 +63,7 @@ function getCommentaries($book, $chapter) {
         $output .= "<div class='card-header'>";
         $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . htmlspecialchars($book) . " " . htmlspecialchars($chapter) . ":" . htmlspecialchars($verse) . "</h5>";
         $output .= "</div>";
-        $output .= "<div class='card-body'>" . nl2br(htmlspecialchars($row['txt'])) . "</div>";
+        $output .= "<div class='card-body'><div class='show-read-more'>" . nl2br(htmlspecialchars($row['txt'])) . "</div></div>";
         if (!empty($row['source_title'])) {
             $output .= "<br>";
             if (!empty($row['source_url'])) {
@@ -101,7 +101,33 @@ $nextChapter = $currentChapter < $maxChapters[$formattedCurrentBook] ? $currentC
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <link href="bible-view.css" rel="stylesheet">
+    <script>
+    $(document).ready(function(){
+        var maxLength = 300;
+        $(".show-read-more").each(function(){
+            var myStr = $.trim($(this).html());
+            var split_by_words = myStr.split(' ');
+            if(split_by_words.length > 150){
+                var newStr = split_by_words.slice(0, 80).join(' ');
+                var removedStr = split_by_words.slice(80).join(' ');
+                $(this).empty().html(newStr);
+                $(this).append(' <a href="javascript:void(0);" class="read-more">[Read More]</a>');
+                $(this).append('<span class="more-text">' + removedStr + '</span>');
+            }
+        });
+        $(".read-more").click(function(){
+            $(this).siblings(".more-text").contents().unwrap();
+            $(this).remove();
+        });
+    });
+    </script>
+    <style>
+        .show-read-more .more-text{
+            display: none;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
