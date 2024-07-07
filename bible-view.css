@@ -1,0 +1,16 @@
+
+.verse {
+    cursor: pointer;
+}
+.verse:hover {
+    background-color: #f0f0f0;
+}
+.nav-button {
+    background-color: transparent;
+    border: 1px solid #007bff;
+    color: #007bff;
+}
+.nav-button:hover {
+    background-color: #007bff;
+    color: white;
+}
