@@ -64,8 +64,14 @@ function getCommentaries($book, $chapter) {
         $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . htmlspecialchars($book) . " " . htmlspecialchars($chapter) . ":" . htmlspecialchars($verse) . "</h5>";
         $output .= "</div>";
         $output .= "<div class='card-body'>" . nl2br(htmlspecialchars($row['txt'])) . "</div>";
-        if (!empty($row['source'])) {
-            $output .= "<div class='card-footer'><small class='text-muted'>Source: <a href='" . htmlspecialchars($row['source']) . "' target='_blank'>" . htmlspecialchars($row['source']) . "</a></small></div>";
+        if (!empty($row['source_title'])) {
+            $output .= "<br>";
+            if (!empty($row['source_url'])) {
+                $source_url = $row['source_url'] . "#" . urlencode(substr($row['txt'], 0, 500));
+                $output .= "<div class='card-footer'><small class='text-muted'>Source: <a href='" . htmlspecialchars($source_url) . "' target='_blank' title='" . htmlentities($row['source_title'], ENT_QUOTES) . "'>" . htmlentities($row['source_title']) . "</a></small></div>";
+            } else {
+                $output .= "<div class='card-footer'><small class='text-muted'>Source: <strong class='father_source'>" . htmlentities($row['source_title']) . "</strong></small></div>";
+            }
         }
         $output .= "</div>";
     }
