@@ -48,7 +48,14 @@ function getCommentaries($book, $chapter) {
         $year = $row['ts'];
         $output .= "<div class='card mb-3 commentary-card' data-verse='$verse'>";
         $output .= "<div class='card-header'>";
-        $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . $currentBook . " " . htmlspecialchars($chapter) . ":" . htmlspecialchars($verse) . "</h5>";
+
+        $chapter_start = intval($row['location_start']/1000000);
+        $verse_start = $row['location_start']-($chapter_start*1000000);
+        $chapter_end = intval($row['location_end']/1000000);
+        $verse_end = $row['location_end']-($chapter_end*1000000);
+        $verse_string = normalize_verse($chapter_start, $verse_start, $chapter_end, $verse_end);
+
+        $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . $currentBook . " " . $verse_string . "</h5>";
         $output .= "</div>";
         $output .= "<div class='card-body'><div class='show-read-more'>" . nl2br(htmlspecialchars($row['txt'])) . "</div></div>";
         if (!empty($row['source_title'])) {
@@ -147,6 +154,23 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
         <section id="commentaries" class="mt-4">
             <?= getCommentaries($formattedCurrentBook, $currentChapter) ?>
         </section>
+
+
+        <!-- Add this modal structure at the end of the body -->
+        <div class="modal fade" id="verseModal" tabindex="-1" aria-labelledby="verseModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="verseModalLabel">Verse Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <iframe id="verseIframe" src="" width="100%" height="500px" frameborder="0"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
@@ -158,6 +182,24 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
         const currentBook = document.getElementById('book-select').value;
         window.location.href = `?book=${encodeURIComponent(currentBook)}&chapter=${chapter}`;
     }
+
+    // Add this new function to handle verse clicks
+    function showVerseModal(book, chapter, verse) {
+        const modal = new bootstrap.Modal(document.getElementById('verseModal'));
+        const iframe = document.getElementById('verseIframe');
+        iframe.src = `bible-view-modal.php?book=${encodeURIComponent(book)}&chapter=${chapter}&verse=${verse}`;
+        modal.show();
+    }
+
+    // Add click event listeners to verses
+    document.querySelectorAll('.verse').forEach(verseElement => {
+        verseElement.addEventListener('click', function() {
+            const book = this.dataset.book;
+            const chapter = this.dataset.chapter;
+            const verse = this.dataset.verse;
+            showVerseModal(book, chapter, verse);
+        });
+    });
     </script>
 </body>
 </html>

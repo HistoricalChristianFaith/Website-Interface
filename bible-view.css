@@ -17,3 +17,8 @@
 .show-read-more .more-text{
     display: none;
 }
+.modal-dialog {
+    max-width: 80%;
+    width: 80%;
+    margin: 30px auto;
+}

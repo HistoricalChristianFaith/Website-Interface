@@ -96,4 +96,21 @@ foreach ($lookup_chaptertotals as $book => $chapters) {
     $lookup_formatted_to_full_booknames[formatBookName($book)] = $book;
 }
 
+
+function normalize_verse($start_verse_CHAPTER, $start_verse_VERSE, $end_verse_CHAPTER, $end_verse_VERSE) {
+    if($start_verse_CHAPTER != $end_verse_CHAPTER) {
+        $query_verse_string = $start_verse_CHAPTER.":".$start_verse_VERSE."-".$end_verse_CHAPTER.":".$end_verse_VERSE;
+    }
+    else {
+        if($start_verse_VERSE == $end_verse_VERSE) {
+            $query_verse_string = $start_verse_CHAPTER.":".$start_verse_VERSE;
+        }
+        else {
+            $query_verse_string = $start_verse_CHAPTER.":".$start_verse_VERSE."-".$end_verse_VERSE;
+        }
+    }
+    $query_verse_string = str_replace(":1-99999","",$query_verse_string);
+    return $query_verse_string;
+}
+
 ?>
