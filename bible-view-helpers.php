@@ -81,4 +81,19 @@ $new_testament = [
     "Jude" => 1,
     "Revelation" => 22
 ];
+
+$lookup_chaptertotals = array_merge($old_testament, $new_testament);
+
+// Function to format book name for maxChapters array
+function formatBookName($book) {
+    return strtolower(str_replace(' ', '', $book));
+}
+
+
+$lookup_formatted_to_full_booknames = [];
+
+foreach ($lookup_chaptertotals as $book => $chapters) {
+    $lookup_formatted_to_full_booknames[formatBookName($book)] = $book;
+}
+
 ?>

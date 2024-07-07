@@ -4,27 +4,14 @@ $kjvdb = new SQLite3('kjv.sqlite', SQLITE3_OPEN_READONLY);
 $commentarydb = new SQLite3('data.sqlite', SQLITE3_OPEN_READONLY);
 require("bible-view-helpers.php");
 
-// Function to format book name for maxChapters array
-function formatBookName($book) {
-    return strtolower(str_replace(' ', '', $book));
-}
-
 // Get current book and chapter
-$currentBook = isset($_GET['book']) ? $_GET['book'] : 'Genesis';
+$formattedCurrentBook = isset($_GET['book']) ? $_GET['book'] : 'genesis';
 $currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
 
-
-$both_testaments = array_merge($old_testament, $new_testament);
-
-// Get max chapters for each book
-$maxChapters = array();
-$bookDisplayNames = array();
-foreach ($both_testaments as $book => $chapters) {
-    $formattedName = formatBookName($book);
-    $maxChapters[$formattedName] = $chapters;
-    $bookDisplayNames[$formattedName] = $book;
-    $books[] = $formattedName;
+if (!array_key_exists($formattedCurrentBook, $lookup_formatted_to_full_booknames)) {
+    $formattedCurrentBook = 'genesis';
 }
+$currentBook = $lookup_formatted_to_full_booknames[$formattedCurrentBook];
 
 // Function to get chapter text
 function getChapterText($book, $chapter) {
@@ -48,7 +35,7 @@ function getChapterText($book, $chapter) {
 
 // Function to get commentaries
 function getCommentaries($book, $chapter) {
-    global $commentarydb;
+    global $commentarydb, $currentBook;
     $statement = $commentarydb->prepare("SELECT c.*, fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name = fm.name WHERE c.book = :book AND c.location_start >= :start AND c.location_start < :end ORDER BY c.location_start ASC, c.ts ASC");
     $statement->bindValue(':book', $book);
     $statement->bindValue(':start', $chapter * 1000000);
@@ -61,7 +48,7 @@ function getCommentaries($book, $chapter) {
         $year = $row['ts'];
         $output .= "<div class='card mb-3 commentary-card' data-verse='$verse'>";
         $output .= "<div class='card-header'>";
-        $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . htmlspecialchars($book) . " " . htmlspecialchars($chapter) . ":" . htmlspecialchars($verse) . "</h5>";
+        $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . $currentBook . " " . htmlspecialchars($chapter) . ":" . htmlspecialchars($verse) . "</h5>";
         $output .= "</div>";
         $output .= "<div class='card-body'>" . nl2br(htmlspecialchars($row['txt'])) . "</div>";
         if (!empty($row['source'])) {
@@ -73,16 +60,14 @@ function getCommentaries($book, $chapter) {
     return $output;
 }
 
-// Handle navigation
-$formattedCurrentBook = formatBookName($currentBook);
 if ($currentChapter < 1) {
     $currentChapter = 1;
-} elseif ($currentChapter > $maxChapters[$formattedCurrentBook]) {
-    $currentChapter = $maxChapters[$formattedCurrentBook];
+} elseif ($currentChapter > $lookup_chaptertotals[$currentBook]) {
+    $currentChapter = $lookup_chaptertotals[$currentBook];
 }
 
 $prevChapter = $currentChapter > 1 ? $currentChapter - 1 : null;
-$nextChapter = $currentChapter < $maxChapters[$formattedCurrentBook] ? $currentChapter + 1 : null;
+$nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentChapter + 1 : null;
 
 ?>
 <!DOCTYPE html>
@@ -103,14 +88,14 @@ $nextChapter = $currentChapter < $maxChapters[$formattedCurrentBook] ? $currentC
             <div class="row align-items-center">
                 <div class="col">
                     <select id="book-select" class="form-select" onchange="changeBook(this.value)">
-                        <?php foreach ($bookDisplayNames as $formattedName => $displayName): ?>
+                        <?php foreach ($lookup_formatted_to_full_booknames as $formattedName => $displayName): ?>
                             <option value="<?= $formattedName ?>" <?= $formattedName === $formattedCurrentBook ? 'selected' : '' ?>><?= $displayName ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
                 <div class="col text-end">
                     <select id="chapter-select" class="form-select" onchange="changeChapter(this.value)">
-                        <?php for ($i = 1; $i <= $maxChapters[$formattedCurrentBook]; $i++): ?>
+                        <?php for ($i = 1; $i <= $lookup_chaptertotals[$currentBook]; $i++): ?>
                             <option value="<?= $i ?>" <?= $i === $currentChapter ? 'selected' : '' ?>>Chapter <?= $i ?></option>
                         <?php endfor; ?>
                     </select>
