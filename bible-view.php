@@ -109,10 +109,10 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
             </div>
             <div class="row">
                 <div class="col">
-                    <a href="?book=<?= urlencode($currentBook) ?>&chapter=<?= $prevChapter ?>" class="btn nav-button w-100 <?= is_null($prevChapter) ? 'disabled' : '' ?>">Previous Chapter</a>
+                    <a href="?book=<?= urlencode($formattedCurrentBook) ?>&chapter=<?= $prevChapter ?>" class="btn nav-button w-100 <?= is_null($prevChapter) ? 'disabled' : '' ?>">Previous Chapter</a>
                 </div>
                 <div class="col">
-                    <a href="?book=<?= urlencode($currentBook) ?>&chapter=<?= $nextChapter ?>" class="btn nav-button w-100 <?= is_null($nextChapter) ? 'disabled' : '' ?>">Next Chapter</a>
+                    <a href="?book=<?= urlencode($formattedCurrentBook) ?>&chapter=<?= $nextChapter ?>" class="btn nav-button w-100 <?= is_null($nextChapter) ? 'disabled' : '' ?>">Next Chapter</a>
                 </div>
             </div>
         </main>
