@@ -138,12 +138,15 @@ function getCommentaries($book, $chapter) {
     $output = "";
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
         $verse = $row['location_start'] % 1000000;
+        $year = $row['ts'];
         $output .= "<div class='card mb-3 commentary-card' data-verse='$verse'>";
         $output .= "<div class='card-header'>";
-        $output .= "<h5 class='card-title'>Verse $verse</h5>";
-        $output .= "<h6 class='card-subtitle mb-2 text-muted'>" . htmlspecialchars($row['father_name']) . "</h6>";
+        $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . htmlspecialchars($book) . " " . htmlspecialchars($chapter) . ":" . htmlspecialchars($verse) . "</h5>";
         $output .= "</div>";
         $output .= "<div class='card-body'>" . nl2br(htmlspecialchars($row['txt'])) . "</div>";
+        if (!empty($row['source'])) {
+            $output .= "<div class='card-footer'><small class='text-muted'>Source: <a href='" . htmlspecialchars($row['source']) . "' target='_blank'>" . htmlspecialchars($row['source']) . "</a></small></div>";
+        }
         $output .= "</div>";
     }
 
@@ -190,6 +193,15 @@ if (isset($_POST['action'])) {
         .verse:hover {
             background-color: #f0f0f0;
         }
+        .nav-button {
+            background-color: transparent;
+            border: 1px solid #007bff;
+            color: #007bff;
+        }
+        .nav-button:hover {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -227,13 +239,13 @@ if (isset($_POST['action'])) {
                 <div class="col">
                     <form method="post" action="">
                         <input type="hidden" name="action" value="prev_chapter">
-                        <button type="submit" class="btn btn-primary w-100" <?= $currentChapter <= 1 ? 'disabled' : '' ?>>Previous Chapter</button>
+                        <button type="submit" class="btn nav-button w-100" <?= $currentChapter <= 1 ? 'disabled' : '' ?>>Previous Chapter</button>
                     </form>
                 </div>
                 <div class="col">
                     <form method="post" action="">
                         <input type="hidden" name="action" value="next_chapter">
-                        <button type="submit" class="btn btn-primary w-100" <?= $currentChapter >= $maxChapters[formatBookName($currentBook)] ? 'disabled' : '' ?>>Next Chapter</button>
+                        <button type="submit" class="btn nav-button w-100" <?= $currentChapter >= $maxChapters[formatBookName($currentBook)] ? 'disabled' : '' ?>>Next Chapter</button>
                     </form>
                 </div>
             </div>
@@ -243,6 +255,5 @@ if (isset($_POST['action'])) {
             <?= getCommentaries(formatBookName($currentBook), $currentChapter) ?>
         </section>
     </div>
-
 </body>
 </html>
