@@ -14,3 +14,6 @@
     background-color: #007bff;
     color: white;
 }
+.show-read-more .more-text{
+    display: none;
+}
