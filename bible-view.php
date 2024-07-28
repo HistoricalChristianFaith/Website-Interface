@@ -88,7 +88,7 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bible Chapter Viewer</title>
+    <title>HCF: Bible + Commentaries</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap JS Bundle with Popper -->
