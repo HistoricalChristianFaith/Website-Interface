@@ -5,7 +5,8 @@ $commentarydb = new SQLite3('data.sqlite', SQLITE3_OPEN_READONLY);
 require("bible-view-helpers.php");
 
 // Get current book and chapter
-$formattedCurrentBook = isset($_GET['book']) ? $_GET['book'] : 'matthew';
+$user_input_book = isset($_GET['book']) ? $_GET['book'] : 'matthew';
+$formattedCurrentBook = formatBookName(book_normalize_userinput($user_input_book));
 $currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
 
 if (!array_key_exists($formattedCurrentBook, $lookup_formatted_to_full_booknames)) {
@@ -94,7 +95,7 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <link href="bible-view.css" rel="stylesheet">
+    <link href="/bible-view.css" rel="stylesheet">
     <script>
     $(document).ready(function(){
         var maxLength = 300;
@@ -143,10 +144,10 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
             </div>
             <div class="row">
                 <div class="col">
-                    <a href="?book=<?= urlencode($formattedCurrentBook) ?>&chapter=<?= $prevChapter ?>" class="btn nav-button w-100 <?= is_null($prevChapter) ? 'disabled' : '' ?>">Previous Chapter</a>
+                    <a href="/<?= urlencode($formattedCurrentBook) ?>/<?= $prevChapter ?>" class="btn nav-button w-100 <?= is_null($prevChapter) ? 'disabled' : '' ?>">Previous Chapter</a>
                 </div>
                 <div class="col">
-                    <a href="?book=<?= urlencode($formattedCurrentBook) ?>&chapter=<?= $nextChapter ?>" class="btn nav-button w-100 <?= is_null($nextChapter) ? 'disabled' : '' ?>">Next Chapter</a>
+                    <a href="/<?= urlencode($formattedCurrentBook) ?>/<?= $nextChapter ?>" class="btn nav-button w-100 <?= is_null($nextChapter) ? 'disabled' : '' ?>">Next Chapter</a>
                 </div>
             </div>
         </main>
@@ -175,19 +176,19 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
 
     <script>
     function changeBook(book) {
-        window.location.href = `?book=${encodeURIComponent(book)}&chapter=1`;
+        window.location.href = `/${encodeURIComponent(book)}/1`;
     }
 
     function changeChapter(chapter) {
         const currentBook = document.getElementById('book-select').value;
-        window.location.href = `?book=${encodeURIComponent(currentBook)}&chapter=${chapter}`;
+        window.location.href = `/${encodeURIComponent(currentBook)}/${chapter}`;
     }
 
     // Add this new function to handle verse clicks
     function showVerseModal(book, chapter, verse) {
         const modal = new bootstrap.Modal(document.getElementById('verseModal'));
         const iframe = document.getElementById('verseIframe');
-        iframe.src = `bible-view-modal.php?book=${encodeURIComponent(book)}&chapter=${chapter}&verse=${verse}`;
+        iframe.src = `/bible-view-modal.php?book=${encodeURIComponent(book)}&chapter=${chapter}&verse=${verse}`;
         modal.show();
     }
 

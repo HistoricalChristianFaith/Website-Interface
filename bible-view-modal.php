@@ -5,7 +5,10 @@ $commentarydb = new SQLite3('data.sqlite', SQLITE3_OPEN_READONLY);
 require("bible-view-helpers.php");
 
 // Get parameters
-$book = isset($_GET['book']) ? $_GET['book'] : 'genesis';
+$user_input_book = isset($_GET['book']) ? $_GET['book'] : 'matthew';
+$book = formatBookName(book_normalize_userinput($user_input_book));
+error_log("modal book=");
+error_log($book);
 $chapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
 $verse = isset($_GET['verse']) ? intval($_GET['verse']) : 1;
 
@@ -56,6 +59,10 @@ function getVerseCommentaries($book, $chapter, $verse) {
             $output .= "</small></div>";
         }
         $output .= "</div>";
+    }
+
+    if(!$output) {
+        $output = "None";
     }
 
     return $output;
