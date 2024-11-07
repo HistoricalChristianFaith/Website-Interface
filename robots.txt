@@ -1,0 +1,7 @@
+# robots.txt
+
+User-agent: *
+Disallow: 
+
+# Sitemap location
+Sitemap: https://historicalchristian.faith/sitemap.xml
