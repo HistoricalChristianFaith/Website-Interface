@@ -150,24 +150,24 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
         <header class="bg-light py-3">
             <div class="row align-items-center">
                 <div class="col">
-                    <select id="book-select" class="form-select" onchange="changeBook(this.value)">
+                    <select id="book-select" class="form-select" style="display: inline-block;width: auto;" onchange="changeBook(this.value)">
                         <?php foreach ($lookup_formatted_to_full_booknames as $formattedName => $displayName): ?>
                             <option value="<?= $formattedName ?>" <?= $formattedName === $formattedCurrentBook ? 'selected' : '' ?>><?= $displayName ?></option>
                         <?php endforeach; ?>
                     </select>
                 </div>
-                <div class="col text-end">
-                    <select id="chapter-select" class="form-select" style="text-align: right;" onchange="changeChapter(this.value)">
+                <div class="col-auto text-end">
+                    <select id="chapter-select" class="form-select" style="text-align: right;display: inline-block;width: auto;" onchange="changeChapter(this.value)">
                         <?php for ($i = 1; $i <= $lookup_chaptertotals[$currentBook]; $i++): ?>
                             <option value="<?= $i ?>" <?= $i === $currentChapter ? 'selected' : '' ?>><?= $i ?></option>
                         <?php endfor; ?>
                     </select>
                 </div>
-                <div class="col-auto text-center">
+                <div class="col-auto px-1 text-center">
                     <span>:</span>
                 </div>
-                <div class="col text-end">
-                    <select id="verse-select" class="form-select" onchange="changeVerse(this.value)">
+                <div class="col-auto text-start">
+                    <select id="verse-select" class="form-select" style="display: inline-block;width: auto;" onchange="changeVerse(this.value)">
                         <?php for ($i = 1; $i <= $lookup_versestotals[$currentBook."|".$currentChapter]; $i++): ?>
                             <option value="<?= $i ?>" <?= $i === $currentVerse ? 'selected' : '' ?>><?= $i ?></option>
                         <?php endfor; ?>
