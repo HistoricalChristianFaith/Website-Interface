@@ -7,7 +7,7 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Redirect /book/chapter to /?book=bookname&chapter=chapter, with optional verse parameter
-RewriteRule ^([a-zA-Z0-9]+)/([0-9]+)(?:/([0-9]+))?$ /bible-view.php?book=$1&chapter=$2&verse=$3 [L,QSA]
+RewriteRule ^([a-zA-Z0-9]+)/([0-9]+)(?:/([a-zA-Z0-9]+))?$ /bible-view.php?book=$1&chapter=$2&verse=$3 [L,QSA]
 
 # In /Applications/MAMP/conf/apache/httpd.conf
 # Uncomment the line that says `LoadModule rewrite_module modules/mod_rewrite.so`

@@ -168,6 +168,7 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
                 </div>
                 <div>
                     <select id="verse-select" class="form-select" style="display: inline-block; width: auto;" onchange="changeVerse(this.value)">
+                        <option value="all">1-<?= $lookup_versestotals[$currentBook . "|" . $currentChapter] ?></option>
                         <?php for ($i = 1; $i <= $lookup_versestotals[$currentBook."|".$currentChapter]; $i++): ?>
                             <option value="<?= $i ?>" <?= $i === $currentVerse ? 'selected' : '' ?>><?= $i ?></option>
                         <?php endfor; ?>
