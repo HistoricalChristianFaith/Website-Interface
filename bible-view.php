@@ -8,11 +8,23 @@ require("bible-view-helpers.php");
 $user_input_book = isset($_GET['book']) ? $_GET['book'] : 'matthew';
 $formattedCurrentBook = formatBookName(book_normalize_userinput($user_input_book));
 $currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
+$currentVerse = isset($_GET['verse']) ? intval($_GET['verse']) : 1;
 
 if (!array_key_exists($formattedCurrentBook, $lookup_formatted_to_full_booknames)) {
     $formattedCurrentBook = 'matthew';
 }
 $currentBook = $lookup_formatted_to_full_booknames[$formattedCurrentBook];
+
+// Function to get single verse
+function getSingleVerse($book, $chapter, $verse) {
+    global $kjvdb;
+    $statement = $kjvdb->prepare("SELECT txt FROM bible_kjv WHERE book = :book AND txt_location = :location");
+    $statement->bindValue(':book', $book);
+    $statement->bindValue(':location', $chapter * 1000000 + $verse);
+    $result = $statement->execute();
+    $row = $result->fetchArray(SQLITE3_ASSOC);
+    return $row ? $row['txt'] : '';
+}
 
 // Function to get chapter text
 function getChapterText($book, $chapter) {
@@ -35,19 +47,25 @@ function getChapterText($book, $chapter) {
 }
 
 // Function to get commentaries
-function getCommentaries($book, $chapter) {
+function getCommentaries($book, $chapter, $verse) {
     global $commentarydb, $currentBook;
     $statement = $commentarydb->prepare("SELECT c.*, fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name = fm.name WHERE c.book = :book AND c.location_start >= :start AND c.location_start < :end ORDER BY c.location_start ASC, c.ts ASC");
     $statement->bindValue(':book', $book);
-    $statement->bindValue(':start', $chapter * 1000000);
-    $statement->bindValue(':end', ($chapter + 1) * 1000000);
+    if($verse && $verse != 'all') {
+        $statement->bindValue(':start', ($chapter * 1000000) + $verse);
+        $statement->bindValue(':end', ($chapter * 1000000) + $verse + 1);
+    }
+    else {
+        $statement->bindValue(':start', $chapter * 1000000);
+        $statement->bindValue(':end', ($chapter + 1) * 1000000);
+    }
+
     $result = $statement->execute();
 
     $output = "";
     while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
-        $verse = $row['location_start'] % 1000000;
         $year = $row['ts'];
-        $output .= "<div class='card mb-3 commentary-card' data-verse='$verse'>";
+        $output .= "<div class='card mb-3 commentary-card'>";
         $output .= "<div class='card-header'>";
 
         $chapter_start = intval($row['location_start']/1000000);

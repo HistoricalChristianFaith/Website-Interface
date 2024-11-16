@@ -7,8 +7,6 @@ require("bible-view-helpers.php");
 // Get parameters
 $user_input_book = isset($_GET['book']) ? $_GET['book'] : 'matthew';
 $book = formatBookName(book_normalize_userinput($user_input_book));
-error_log("modal book=");
-error_log($book);
 $chapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
 $verse = isset($_GET['verse']) ? intval($_GET['verse']) : 1;
 
