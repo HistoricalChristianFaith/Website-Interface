@@ -7,13 +7,28 @@ require("bible-view-helpers.php");
 // Get current book and chapter
 $user_input_book = isset($_GET['book']) ? $_GET['book'] : 'matthew';
 $formattedCurrentBook = formatBookName(book_normalize_userinput($user_input_book));
-$currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
-$currentVerse = isset($_GET['verse']) ? intval($_GET['verse']) : 1;
-
 if (!array_key_exists($formattedCurrentBook, $lookup_formatted_to_full_booknames)) {
     $formattedCurrentBook = 'matthew';
 }
 $currentBook = $lookup_formatted_to_full_booknames[$formattedCurrentBook];
+
+$currentChapter = isset($_GET['chapter']) ? intval($_GET['chapter']) : 1;
+if ($currentChapter < 1) {
+    $currentChapter = 1;
+}
+if ($currentChapter > $lookup_chaptertotals[$currentBook]) {
+    $currentChapter = $lookup_chaptertotals[$currentBook];
+}
+
+$currentVerse = isset($_GET['verse']) ? intval($_GET['verse']) : 1;
+if ($currentVerse && $currentVerse != 'all') {
+    if ($currentVerse < 1) {
+        $currentVerse = 1;
+    }
+    if ($currentVerse > $lookup_versestotals[$currentBook . "|" . $currentChapter]) {
+        $currentVerse = $lookup_versestotals[$currentBook . "|" . $currentChapter];
+    }
+}
 
 // Function to get chapter text
 function getBibleText($book, $chapter, $verse) {
@@ -84,17 +99,27 @@ function getCommentaries($book, $chapter, $verse) {
         $output .= "</div>";
     }
 
+    if(!$output) {
+        $output = "No Commentaries in database for this selection.";
+    }
+
     return $output;
 }
 
-if ($currentChapter < 1) {
-    $currentChapter = 1;
-} elseif ($currentChapter > $lookup_chaptertotals[$currentBook]) {
-    $currentChapter = $lookup_chaptertotals[$currentBook];
-}
+/* Next/Prev chapters */
+
 
 $prevChapter = $currentChapter > 1 ? $currentChapter - 1 : null;
 $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentChapter + 1 : null;
+
+/* Next/Prev verses */
+
+$prevVerse = null;
+$nextVerse = null;
+if ($currentVerse && $currentVerse != 'all') {
+    $prevVerse = $currentVerse > 1 ? $currentVerse - 1 : null;
+    $nextVerse = $currentVerse < $lookup_versestotals[$currentBook . "|" . $currentChapter] ? $currentVerse + 1 : null;
+}
 
 ?>
 <!DOCTYPE html>
@@ -182,11 +207,17 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
                 <?= getBibleText($formattedCurrentBook, $currentChapter, $currentVerse) ?>
             </div>
             <div class="row">
-                <div class="col">
-                    <a href="/<?= urlencode($formattedCurrentBook) ?>/<?= $prevChapter ?>" class="btn nav-button w-100 <?= is_null($prevChapter) ? 'disabled' : '' ?>">Previous Chapter</a>
+                <div class="col" style="<?= $currentVerse && $currentVerse != 'all' ? 'visibility: hidden;' : '' ?>">
+                    <a href="/<?= urlencode($formattedCurrentBook) ?>/<?= $prevChapter ?>/all" class="btn nav-button w-100 <?= is_null($prevChapter) ? 'disabled' : '' ?>">Previous Chapter</a>
                 </div>
-                <div class="col">
-                    <a href="/<?= urlencode($formattedCurrentBook) ?>/<?= $nextChapter ?>" class="btn nav-button w-100 <?= is_null($nextChapter) ? 'disabled' : '' ?>">Next Chapter</a>
+                <div class="col" style="<?= !$currentVerse || $currentVerse == 'all' ? 'visibility: hidden;' : '' ?>">
+                    <a href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/<?= $prevVerse ?>" class="btn nav-button w-100 <?= is_null($prevVerse) ? 'disabled' : '' ?>">Previous Verse</a>
+                </div>
+                <div class="col" style="<?= !$currentVerse || $currentVerse == 'all' ? 'visibility: hidden;' : '' ?>">
+                    <a href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/<?= $nextVerse ?>" class="btn nav-button w-100 <?= is_null($nextVerse) ? 'disabled' : '' ?>">Next Verse</a>
+                </div>
+                <div class="col" style="<?= $currentVerse && $currentVerse != 'all' ? 'visibility: hidden;' : '' ?>">
+                    <a href="/<?= urlencode($formattedCurrentBook) ?>/<?= $nextChapter ?>/all" class="btn nav-button w-100 <?= is_null($nextChapter) ? 'disabled' : '' ?>">Next Chapter</a>
                 </div>
             </div>
         </main>
