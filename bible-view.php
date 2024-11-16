@@ -15,25 +15,20 @@ if (!array_key_exists($formattedCurrentBook, $lookup_formatted_to_full_booknames
 }
 $currentBook = $lookup_formatted_to_full_booknames[$formattedCurrentBook];
 
-// Function to get single verse
-function getSingleVerse($book, $chapter, $verse) {
-    global $kjvdb;
-    $statement = $kjvdb->prepare("SELECT txt FROM bible_kjv WHERE book = :book AND txt_location = :location");
-    $statement->bindValue(':book', $book);
-    $statement->bindValue(':location', $chapter * 1000000 + $verse);
-    $result = $statement->execute();
-    $row = $result->fetchArray(SQLITE3_ASSOC);
-    return $row ? $row['txt'] : '';
-}
-
 // Function to get chapter text
-function getChapterText($book, $chapter) {
+function getBibleText($book, $chapter, $verse) {
     global $kjvdb;
-    error_log("getChapterText/".$book."/".$chapter);
+    error_log("getBibleText/".$book."/".$chapter."/".$verse);
     $statement = $kjvdb->prepare("SELECT * FROM bible_kjv WHERE book = :book AND txt_location >= :start AND txt_location < :end ORDER BY txt_location ASC");
     $statement->bindValue(':book', $book);
-    $statement->bindValue(':start', $chapter * 1000000);
-    $statement->bindValue(':end', ($chapter + 1) * 1000000);
+    if($verse && $verse != 'all') {
+        $statement->bindValue(':start', ($chapter * 1000000) + $verse);
+        $statement->bindValue(':end', ($chapter * 1000000) + $verse + 1);
+    }
+    else {
+        $statement->bindValue(':start', $chapter * 1000000);
+        $statement->bindValue(':end', ($chapter + 1) * 1000000);
+    }
     $result = $statement->execute();
 
     $output = "<div class='chapter-text'>";
@@ -180,7 +175,7 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
 
         <main class="my-4">
             <div id="chapter-content" class="mb-4">
-                <?= getChapterText($formattedCurrentBook, $currentChapter) ?>
+                <?= getBibleText($formattedCurrentBook, $currentChapter, $currentVerse) ?>
             </div>
             <div class="row">
                 <div class="col">
@@ -193,7 +188,7 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
         </main>
 
         <section id="commentaries" class="mt-4">
-            <?= getCommentaries($formattedCurrentBook, $currentChapter) ?>
+            <?= getCommentaries($formattedCurrentBook, $currentChapter, $currentVerse) ?>
         </section>
 
 
