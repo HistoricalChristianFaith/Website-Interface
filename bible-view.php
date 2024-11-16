@@ -133,6 +133,21 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
             $(this).remove();
         });
     });
+
+    function changeBook(book) {
+        window.location.href = `/${encodeURIComponent(book)}/1/1`;
+    }
+
+    function changeChapter(chapter) {
+        const currentBook = document.getElementById('book-select').value;
+        window.location.href = `/${encodeURIComponent(currentBook)}/${chapter}/1`;
+    }
+    
+    function changeVerse(verse) {
+        const currentBook = document.getElementById('book-select').value;
+        const currentchapter = document.getElementById('chapter-select').value;
+        window.location.href = `/${encodeURIComponent(currentBook)}/${encodeURIComponent(currentchapter)}/${verse}`;
+    }
     </script>
 </head>
 <body>
@@ -150,6 +165,13 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
                     <select id="chapter-select" class="form-select" onchange="changeChapter(this.value)">
                         <?php for ($i = 1; $i <= $lookup_chaptertotals[$currentBook]; $i++): ?>
                             <option value="<?= $i ?>" <?= $i === $currentChapter ? 'selected' : '' ?>>Chapter <?= $i ?></option>
+                        <?php endfor; ?>
+                    </select>
+                </div>
+                <div class="col text-end">
+                    <select id="verse-select" class="form-select" onchange="changeVerse(this.value)">
+                        <?php for ($i = 1; $i <= $lookup_versestotals[$currentBook."|".$currentChapter]; $i++): ?>
+                            <option value="<?= $i ?>" <?= $i === $currentVerse ? 'selected' : '' ?>>Verse <?= $i ?></option>
                         <?php endfor; ?>
                     </select>
                 </div>
@@ -193,15 +215,6 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
     </div>
 
     <script>
-    function changeBook(book) {
-        window.location.href = `/${encodeURIComponent(book)}/1`;
-    }
-
-    function changeChapter(chapter) {
-        const currentBook = document.getElementById('book-select').value;
-        window.location.href = `/${encodeURIComponent(currentBook)}/${chapter}`;
-    }
-
     // Add this new function to handle verse clicks
     function showVerseModal(book, chapter, verse) {
         const modal = new bootstrap.Modal(document.getElementById('verseModal'));
