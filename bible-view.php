@@ -159,14 +159,18 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
                 <div class="col text-end">
                     <select id="chapter-select" class="form-select" onchange="changeChapter(this.value)">
                         <?php for ($i = 1; $i <= $lookup_chaptertotals[$currentBook]; $i++): ?>
-                            <option value="<?= $i ?>" <?= $i === $currentChapter ? 'selected' : '' ?>>Chapter <?= $i ?></option>
+                            <option value="<?= $i ?>" <?= $i === $currentChapter ? 'selected' : '' ?>><?= $i ?></option>
                         <?php endfor; ?>
                     </select>
+                </div>
+                <!-- Add a colon between chapter and verse -->
+                <div class="col-auto text-center">
+                    <span>:</span>
                 </div>
                 <div class="col text-end">
                     <select id="verse-select" class="form-select" onchange="changeVerse(this.value)">
                         <?php for ($i = 1; $i <= $lookup_versestotals[$currentBook."|".$currentChapter]; $i++): ?>
-                            <option value="<?= $i ?>" <?= $i === $currentVerse ? 'selected' : '' ?>>Verse <?= $i ?></option>
+                            <option value="<?= $i ?>" <?= $i === $currentVerse ? 'selected' : '' ?>><?= $i ?></option>
                         <?php endfor; ?>
                     </select>
                 </div>
