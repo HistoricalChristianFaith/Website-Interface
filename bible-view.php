@@ -194,40 +194,15 @@ $nextChapter = $currentChapter < $lookup_chaptertotals[$currentBook] ? $currentC
             <?= getCommentaries($formattedCurrentBook, $currentChapter, $currentVerse) ?>
         </section>
 
-
-        <!-- Add this modal structure at the end of the body -->
-        <div class="modal fade" id="verseModal" tabindex="-1" aria-labelledby="verseModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-fullscreen-sm-down">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="verseModalLabel">Verse Commentaries</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <iframe id="verseIframe" src="" width="100%" height="100%" frameborder="0"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 
     <script>
-    // Add this new function to handle verse clicks
-    function showVerseModal(book, chapter, verse) {
-        const modal = new bootstrap.Modal(document.getElementById('verseModal'));
-        const iframe = document.getElementById('verseIframe');
-        iframe.src = `/bible-view-modal.php?book=${encodeURIComponent(book)}&chapter=${chapter}&verse=${verse}`;
-        modal.show();
-    }
-
-    // Add click event listeners to verses
     document.querySelectorAll('.verse').forEach(verseElement => {
         verseElement.addEventListener('click', function() {
             const book = this.dataset.book;
             const chapter = this.dataset.chapter;
             const verse = this.dataset.verse;
-            showVerseModal(book, chapter, verse);
+            window.location.href = `/${encodeURIComponent(book)}/${encodeURIComponent(chapter)}/${encodeURIComponent(verse)}`;
         });
     });
     </script>
