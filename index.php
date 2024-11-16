@@ -107,7 +107,7 @@
             <p class="lead mb-5">Discover how the early Christians, separated from Christ by mere generations, interpreted the same Bible we read today.</p>
             <div class="row justify-content-center">
                 <div class="col-md-5 mb-3">
-                    <a href="/bible-view.php" class="btn btn-custom-secondary btn-lg w-100 py-3">
+                    <a href="/matthew/1/all" class="btn btn-custom-secondary btn-lg w-100 py-3">
                         <i class="fas fa-book-open me-2"></i>View Bible With Historical Commentaries
                     </a>
                 </div>
