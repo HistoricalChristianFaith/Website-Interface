@@ -93,7 +93,7 @@
                 if(nodeToSelect) {
                     tree.select_node(nodeToSelect.id);
                 } else {
-                    console.log('No node found with data-fname:', fnameParam);
+                    console.log('No node found with data-fname:', file);
                 }
             }
             $('#cfmenu').on("changed.jstree", function (e, data) {
