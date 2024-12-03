@@ -127,7 +127,8 @@ if ($currentVerse && $currentVerse != 'all') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HCF: Bible + Commentaries</title>
+    <title>Bible Verses and Early Church Commentary | Historical Christian Faith</title>
+    <meta name="description" content="Explore Bible verses alongside historical commentaries from early church fathers. Deepen your understanding of scripture with insights from Christian history.">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap JS Bundle with Popper -->
