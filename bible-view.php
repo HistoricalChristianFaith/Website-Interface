@@ -156,12 +156,12 @@ if ($currentVerse && $currentVerse != 'all') {
     });
 
     function changeBook(book) {
-        window.location.href = `/${encodeURIComponent(book)}/1/1`;
+        window.location.href = `/${encodeURIComponent(book)}/1/all`;
     }
 
     function changeChapter(chapter) {
         const currentBook = document.getElementById('book-select').value;
-        window.location.href = `/${encodeURIComponent(currentBook)}/${chapter}/1`;
+        window.location.href = `/${encodeURIComponent(currentBook)}/${chapter}/all`;
     }
     
     function changeVerse(verse) {
