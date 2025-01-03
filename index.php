@@ -123,7 +123,7 @@
     <div class="container">
         <div class="card my-5">
             <div class="card-header">
-                Why should you care how the early Christian Church interpreted the scriptures? They aren't authoritative, after all!
+                Why should you care how the early Christian Church interpreted the scriptures?
             </div>
             <div class="card-body">
 
