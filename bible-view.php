@@ -59,16 +59,27 @@ function getBibleText($book, $chapter, $verse) {
 // Function to get commentaries
 function getCommentaries($book, $chapter, $verse) {
     global $commentarydb, $currentBook;
-    $statement = $commentarydb->prepare("SELECT c.*, fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name = fm.name WHERE c.book = :book AND c.location_start >= :start AND c.location_start < :end ORDER BY c.location_start ASC, c.ts ASC");
+    $query = "SELECT c.*, fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name = fm.name WHERE c.book = :book AND c.location_end >= :start AND c.location_start < :end ORDER BY c.location_start ASC, c.ts ASC";
+    error_log("*****");
+    error_log($query);
+    $statement = $commentarydb->prepare($query);
+    error_log("book: " . $book);
     $statement->bindValue(':book', $book);
+
     if($verse && $verse != 'all') {
-        $statement->bindValue(':start', ($chapter * 1000000) + $verse);
-        $statement->bindValue(':end', ($chapter * 1000000) + $verse + 1);
+        $start_filter = ($chapter * 1000000) + $verse;
+        $end_filter = ($chapter * 1000000) + $verse + 1;
     }
     else {
-        $statement->bindValue(':start', $chapter * 1000000);
-        $statement->bindValue(':end', ($chapter + 1) * 1000000);
+        $start_filter = $chapter * 1000000;
+        $end_filter = ($chapter + 1) * 1000000;
     }
+
+    error_log("start_filter: " . $start_filter);
+    error_log("end_filter: " . $end_filter);
+
+    $statement->bindValue(':start', $start_filter);
+    $statement->bindValue(':end', $end_filter);
 
     $result = $statement->execute();
 
