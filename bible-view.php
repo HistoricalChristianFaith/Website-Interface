@@ -265,18 +265,16 @@ if ($currentVerse && $currentVerse != 'all') {
     </div>
 
     <script>
-
     $(document).ready(function(){
-        var maxLength = 300;
-        $(".show-read-more").each(function(){
-            var myStr = $.trim($(this).html());
-            var split_by_words = myStr.split(' ');
-            if(split_by_words.length > 150){
-                var newStr = split_by_words.slice(0, 80).join(' ');
-                var removedStr = split_by_words.slice(80).join(' ');
-                $(this).empty().html(newStr);
-                $(this).append(' <a href="javascript:void(0);" onclick="$(this).siblings(\'.more-text\').contents().unwrap();$(this).remove();" class="read-more">[Read More]</a>');
-                $(this).append('<span class="more-text">' + removedStr + '</span>');
+        $(".card-body").each(function(){
+            const $cardBody = $(this);
+            if ($cardBody.prop('scrollHeight') > 200) {
+                $cardBody.append('<a class="read-more">[Read More]</a>');
+                
+                $cardBody.find('.read-more').on('click', function(e) {
+                    e.preventDefault();
+                    $cardBody.addClass('expanded');
+                });
             }
         });
     });

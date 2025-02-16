@@ -13,9 +13,6 @@
     background-color: #007bff;
     color: white;
 }
-.show-read-more .more-text{
-    display: none;
-}
 .modal-dialog {
     max-width: 90%;
     width: 90%;
@@ -161,5 +158,53 @@
 
 .dropdown-menu::-webkit-scrollbar-thumb:hover {
     background: #a8a8a8;
+}
+
+/* Commentary card body styling */
+.card-body {
+    position: relative;
+    max-height: 200px;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+}
+
+.card-body:not(.expanded)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 60%, rgba(255,255,255,1) 95%);
+    pointer-events: none;
+}
+
+.card-body.expanded {
+    max-height: none;
+}
+
+.card-body.expanded::after {
+    display: none;
+}
+
+.read-more {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 8px 20px;
+    color: #007bff;
+    text-decoration: none;
+    cursor: pointer;
+    z-index: 1;
+    background: white;
+}
+
+.read-more:hover {
+    color: #0056b3;
+}
+
+/* Hide read more when expanded */
+.card-body.expanded .read-more {
+    display: none;
 }
 
