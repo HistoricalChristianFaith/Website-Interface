@@ -165,63 +165,73 @@ if ($currentVerse && $currentVerse != 'all') {
 <body>
     <div class="container-fluid">
         <header class="bg-light py-3">
-            <div class="d-flex align-items-center justify-content-center flex-nowrap position-relative">
-                <div class="position-absolute" style="right: 10px;">
-                    <div class="dropdown">
-                        <button class="btn dropdown-toggle language-selector" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-language"></i> Language
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                            <li><a class="dropdown-item" onclick="changeLanguage('en')">English</a></li>
-                            <li><a class="dropdown-item" onclick="changeLanguage('es')">Español</a></li>
-                            <li><a class="dropdown-item" onclick="changeLanguage('pt')">Português</a></li>
-                            <li><a class="dropdown-item" onclick="changeLanguage('fr')">Français</a></li>
-                            <li><a class="dropdown-item" onclick="changeLanguage('it')">Italiano</a></li>
-                            <li><a class="dropdown-item" onclick="changeLanguage('de')">Deutsch</a></li>
-                            <li><a class="dropdown-item" onclick="changeLanguage('ru')">Русский</a></li>
-                            <li><a class="dropdown-item" onclick="changeLanguage('pl')">Polski</a></li>
-                            <li><a class="dropdown-item" onclick="changeLanguage('el')">Ελληνικά</a></li>
-                            <li><a class="dropdown-item" onclick="changeLanguage('tl')">Filipino</a></li>
-                        </ul>
+            <!-- Language selector row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-end mb-3">
+                        <div class="dropdown">
+                            <button class="btn dropdown-toggle language-selector" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-language"></i> Language
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                                <li><a class="dropdown-item" onclick="changeLanguage('en')">English</a></li>
+                                <li><a class="dropdown-item" onclick="changeLanguage('es')">Español</a></li>
+                                <li><a class="dropdown-item" onclick="changeLanguage('pt')">Português</a></li>
+                                <li><a class="dropdown-item" onclick="changeLanguage('fr')">Français</a></li>
+                                <li><a class="dropdown-item" onclick="changeLanguage('it')">Italiano</a></li>
+                                <li><a class="dropdown-item" onclick="changeLanguage('de')">Deutsch</a></li>
+                                <li><a class="dropdown-item" onclick="changeLanguage('ru')">Русский</a></li>
+                                <li><a class="dropdown-item" onclick="changeLanguage('pl')">Polski</a></li>
+                                <li><a class="dropdown-item" onclick="changeLanguage('el')">Ελληνικά</a></li>
+                                <li><a class="dropdown-item" onclick="changeLanguage('tl')">Filipino</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-                <div class="dropdown me-2">
-                    <button class="btn btn-navigation dropdown-toggle" type="button" id="bookDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="dropdown-toggle-text"><?= $lookup_formatted_to_full_booknames[$formattedCurrentBook] ?></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="bookDropdown" style="max-height: 400px; overflow-y: auto;">
-                        <?php foreach ($lookup_formatted_to_full_booknames as $formattedName => $displayName): ?>
-                            <li><a class="dropdown-item <?= $formattedName === $formattedCurrentBook ? 'active' : '' ?>" 
-                                href="/<?= urlencode($formattedName) ?>/1/all"><?= $displayName ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
-                </div>
-                <div class="dropdown me-2">
-                    <button class="btn btn-navigation dropdown-toggle" type="button" id="chapterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="dropdown-toggle-text"><?= $currentChapter ?></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="chapterDropdown" style="max-height: 400px; overflow-y: auto;">
-                        <?php for ($i = 1; $i <= $lookup_chaptertotals[$currentBook]; $i++): ?>
-                            <li><a class="dropdown-item <?= $i === $currentChapter ? 'active' : '' ?>" 
-                                href="/<?= urlencode($formattedCurrentBook) ?>/<?= $i ?>/all"><?= $i ?></a></li>
-                        <?php endfor; ?>
-                    </ul>
-                </div>
-                <div class="me-2 text-center">
-                    <span class="nav-separator">:</span>
-                </div>
-                <div class="dropdown">
-                    <button class="btn btn-navigation dropdown-toggle" type="button" id="verseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <span class="dropdown-toggle-text"><?= $currentVerse === 'all' ? "1-" . $lookup_versestotals[$currentBook."|".$currentChapter] : "" . $currentVerse ?></span>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="verseDropdown" style="max-height: 400px; overflow-y: auto;">
-                        <li><a class="dropdown-item <?= !$currentVerse || $currentVerse === 'all' ? 'active' : '' ?>" 
-                            href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/all">1-<?= $lookup_versestotals[$currentBook."|".$currentChapter] ?></a></li>
-                        <?php for ($i = 1; $i <= $lookup_versestotals[$currentBook."|".$currentChapter]; $i++): ?>
-                            <li><a class="dropdown-item <?= $i === $currentVerse ? 'active' : '' ?>" 
-                                href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/<?= $i ?>"><?= $i ?></a></li>
-                        <?php endfor; ?>
-                    </ul>
+            </div>
+            <!-- Navigation controls row -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center flex-wrap">
+                        <div class="dropdown me-2 mb-2">
+                            <button class="btn btn-navigation dropdown-toggle" type="button" id="bookDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="dropdown-toggle-text"><?= $lookup_formatted_to_full_booknames[$formattedCurrentBook] ?></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="bookDropdown" style="max-height: 400px; overflow-y: auto;">
+                                <?php foreach ($lookup_formatted_to_full_booknames as $formattedName => $displayName): ?>
+                                    <li><a class="dropdown-item <?= $formattedName === $formattedCurrentBook ? 'active' : '' ?>" 
+                                        href="/<?= urlencode($formattedName) ?>/1/all"><?= $displayName ?></a></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        </div>
+                        <div class="dropdown me-2 mb-2">
+                            <button class="btn btn-navigation dropdown-toggle" type="button" id="chapterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="dropdown-toggle-text"><?= $currentChapter ?></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="chapterDropdown" style="max-height: 400px; overflow-y: auto;">
+                                <?php for ($i = 1; $i <= $lookup_chaptertotals[$currentBook]; $i++): ?>
+                                    <li><a class="dropdown-item <?= $i === $currentChapter ? 'active' : '' ?>" 
+                                        href="/<?= urlencode($formattedCurrentBook) ?>/<?= $i ?>/all"><?= $i ?></a></li>
+                                <?php endfor; ?>
+                            </ul>
+                        </div>
+                        <div class="me-2 mb-2 text-center">
+                            <span class="nav-separator">:</span>
+                        </div>
+                        <div class="dropdown mb-2">
+                            <button class="btn btn-navigation dropdown-toggle" type="button" id="verseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span class="dropdown-toggle-text"><?= $currentVerse === 'all' ? "1-" . $lookup_versestotals[$currentBook."|".$currentChapter] : "" . $currentVerse ?></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="verseDropdown" style="max-height: 400px; overflow-y: auto;">
+                                <li><a class="dropdown-item <?= !$currentVerse || $currentVerse === 'all' ? 'active' : '' ?>" 
+                                    href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/all">1-<?= $lookup_versestotals[$currentBook."|".$currentChapter] ?></a></li>
+                                <?php for ($i = 1; $i <= $lookup_versestotals[$currentBook."|".$currentChapter]; $i++): ?>
+                                    <li><a class="dropdown-item <?= $i === $currentVerse ? 'active' : '' ?>" 
+                                        href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/<?= $i ?>"><?= $i ?></a></li>
+                                <?php endfor; ?>
+                            </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </header>
