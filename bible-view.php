@@ -21,13 +21,16 @@ if ($currentChapter > $lookup_chaptertotals[$currentBook]) {
 }
 
 $currentVerse = isset($_GET['verse']) ? intval($_GET['verse']) : 1;
-if ($currentVerse && $currentVerse != 'all') {
+if ($currentVerse) {
     if ($currentVerse < 1) {
         $currentVerse = 1;
     }
     if ($currentVerse > $lookup_versestotals[$currentBook . "|" . $currentChapter]) {
         $currentVerse = $lookup_versestotals[$currentBook . "|" . $currentChapter];
     }
+}
+else {
+    $currentVerse = 'all';
 }
 
 // Function to get chapter text
@@ -146,73 +149,50 @@ if ($currentVerse && $currentVerse != 'all') {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <link href="/bible-view.css" rel="stylesheet">
-    <script>
-    $(document).ready(function(){
-        var maxLength = 300;
-        $(".show-read-more").each(function(){
-            var myStr = $.trim($(this).html());
-            var split_by_words = myStr.split(' ');
-            if(split_by_words.length > 150){
-                var newStr = split_by_words.slice(0, 80).join(' ');
-                var removedStr = split_by_words.slice(80).join(' ');
-                $(this).empty().html(newStr);
-                $(this).append(' <a href="javascript:void(0);" class="read-more">[Read More]</a>');
-                $(this).append('<span class="more-text">' + removedStr + '</span>');
-            }
-        });
-        $(".read-more").click(function(){
-            $(this).siblings(".more-text").contents().unwrap();
-            $(this).remove();
-        });
-    });
-
-    function changeBook(book) {
-        window.location.href = `/${encodeURIComponent(book)}/1/all`;
-    }
-
-    function changeChapter(chapter) {
-        const currentBook = document.getElementById('book-select').value;
-        window.location.href = `/${encodeURIComponent(currentBook)}/${chapter}/all`;
-    }
-    
-    function changeVerse(verse) {
-        const currentBook = document.getElementById('book-select').value;
-        const currentchapter = document.getElementById('chapter-select').value;
-        window.location.href = `/${encodeURIComponent(currentBook)}/${encodeURIComponent(currentchapter)}/${verse}`;
-    }
-    </script>
 </head>
 <body>
     <div class="container-fluid">
         <header class="bg-light py-3">
             <div class="d-flex align-items-center justify-content-center flex-nowrap">
-                <div class="me-2">
-                    <select id="book-select" class="form-select" style="display: inline-block; width: auto;" onchange="changeBook(this.value)">
+                <div class="dropdown me-2">
+                    <button class="btn btn-navigation dropdown-toggle" type="button" id="bookDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="dropdown-toggle-text"><?= $lookup_formatted_to_full_booknames[$formattedCurrentBook] ?></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="bookDropdown" style="max-height: 400px; overflow-y: auto;">
                         <?php foreach ($lookup_formatted_to_full_booknames as $formattedName => $displayName): ?>
-                            <option value="<?= $formattedName ?>" <?= $formattedName === $formattedCurrentBook ? 'selected' : '' ?>><?= $displayName ?></option>
+                            <li><a class="dropdown-item <?= $formattedName === $formattedCurrentBook ? 'active' : '' ?>" 
+                                href="/<?= urlencode($formattedName) ?>/1/all"><?= $displayName ?></a></li>
                         <?php endforeach; ?>
-                    </select>
+                    </ul>
                 </div>
-                <div class="me-2">
-                    <select id="chapter-select" class="form-select" style="display: inline-block; width: auto;" onchange="changeChapter(this.value)">
+                <div class="dropdown me-2">
+                    <button class="btn btn-navigation dropdown-toggle" type="button" id="chapterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="dropdown-toggle-text"><?= $currentChapter ?></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="chapterDropdown" style="max-height: 400px; overflow-y: auto;">
                         <?php for ($i = 1; $i <= $lookup_chaptertotals[$currentBook]; $i++): ?>
-                            <option value="<?= $i ?>" <?= $i === $currentChapter ? 'selected' : '' ?>><?= $i ?></option>
+                            <li><a class="dropdown-item <?= $i === $currentChapter ? 'active' : '' ?>" 
+                                href="/<?= urlencode($formattedCurrentBook) ?>/<?= $i ?>/all"><?= $i ?></a></li>
                         <?php endfor; ?>
-                    </select>
+                    </ul>
                 </div>
                 <div class="me-2 text-center">
-                    <span>:</span>
+                    <span class="nav-separator">:</span>
                 </div>
-                <div>
-                    <select id="verse-select" class="form-select" style="display: inline-block; width: auto;" onchange="changeVerse(this.value)">
-                        <option value="all">1-<?= $lookup_versestotals[$currentBook . "|" . $currentChapter] ?></option>
+                <div class="dropdown">
+                    <button class="btn btn-navigation dropdown-toggle" type="button" id="verseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="dropdown-toggle-text"><?= $currentVerse === 'all' ? "1-" . $lookup_versestotals[$currentBook."|".$currentChapter] : "" . $currentVerse ?></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="verseDropdown" style="max-height: 400px; overflow-y: auto;">
+                        <li><a class="dropdown-item <?= !$currentVerse || $currentVerse === 'all' ? 'active' : '' ?>" 
+                            href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/all">1-<?= $lookup_versestotals[$currentBook."|".$currentChapter] ?></a></li>
                         <?php for ($i = 1; $i <= $lookup_versestotals[$currentBook."|".$currentChapter]; $i++): ?>
-                            <option value="<?= $i ?>" <?= $i === $currentVerse ? 'selected' : '' ?>><?= $i ?></option>
+                            <li><a class="dropdown-item <?= $i === $currentVerse ? 'active' : '' ?>" 
+                                href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/<?= $i ?>"><?= $i ?></a></li>
                         <?php endfor; ?>
-                    </select>
+                    </ul>
                 </div>
             </div>
-
         </header>
 
         <main class="my-4">
@@ -285,6 +265,27 @@ if ($currentVerse && $currentVerse != 'all') {
     </div>
 
     <script>
+
+    $(document).ready(function(){
+        var maxLength = 300;
+        $(".show-read-more").each(function(){
+            var myStr = $.trim($(this).html());
+            var split_by_words = myStr.split(' ');
+            if(split_by_words.length > 150){
+                var newStr = split_by_words.slice(0, 80).join(' ');
+                var removedStr = split_by_words.slice(80).join(' ');
+                $(this).empty().html(newStr);
+                $(this).append(' <a href="javascript:void(0);" class="read-more">[Read More]</a>');
+                $(this).append('<span class="more-text">' + removedStr + '</span>');
+            }
+        });
+        $(".read-more").click(function(){
+            $(this).siblings(".more-text").contents().unwrap();
+            $(this).remove();
+        });
+    });
+    
+    // Remove old change functions since we're using direct links now
     document.querySelectorAll('.verse').forEach(verseElement => {
         verseElement.addEventListener('click', function() {
             const book = this.dataset.book;
