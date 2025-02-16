@@ -269,7 +269,8 @@ if ($currentVerse && $currentVerse != 'all') {
         $(".card-body").each(function(){
             const $cardBody = $(this);
             if ($cardBody.prop('scrollHeight') > 200) {
-                $cardBody.append('<a class="read-more">[Read More]</a>');
+                $cardBody.addClass('has-read-more')
+                        .append('<a class="read-more">[Read More]</a>');
                 
                 $cardBody.find('.read-more').on('click', function(e) {
                     e.preventDefault();

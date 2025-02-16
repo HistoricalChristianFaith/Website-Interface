@@ -168,7 +168,7 @@
     transition: max-height 0.3s ease-out;
 }
 
-.card-body:not(.expanded)::after {
+.card-body.has-read-more:not(.expanded)::after {
     content: '';
     position: absolute;
     bottom: 0;
