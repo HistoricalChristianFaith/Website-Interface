@@ -275,13 +275,9 @@ if ($currentVerse && $currentVerse != 'all') {
                 var newStr = split_by_words.slice(0, 80).join(' ');
                 var removedStr = split_by_words.slice(80).join(' ');
                 $(this).empty().html(newStr);
-                $(this).append(' <a href="javascript:void(0);" class="read-more">[Read More]</a>');
+                $(this).append(' <a href="javascript:void(0);" onclick="$(this).siblings(\'.more-text\').contents().unwrap();$(this).remove();" class="read-more">[Read More]</a>');
                 $(this).append('<span class="more-text">' + removedStr + '</span>');
             }
-        });
-        $(".read-more").click(function(){
-            $(this).siblings(".more-text").contents().unwrap();
-            $(this).remove();
         });
     });
     
