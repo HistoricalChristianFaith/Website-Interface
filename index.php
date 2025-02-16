@@ -92,12 +92,37 @@
         .footer a {
             color: #bbdefb;
         }
+        .dropdown-item {
+            cursor: pointer;
+        }
+        .language-selector {
+            color: white !important;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="/">HistoricalChristian.Faith</a>
+            <div class="ms-auto">
+                <div class="dropdown">
+                    <button class="btn dropdown-toggle language-selector" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-language"></i> Language
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <li><a class="dropdown-item" onclick="changeLanguage('en')">English</a></li>
+                        <li><a class="dropdown-item" onclick="changeLanguage('es')">Español</a></li>
+                        <li><a class="dropdown-item" onclick="changeLanguage('pt')">Português</a></li>
+                        <li><a class="dropdown-item" onclick="changeLanguage('fr')">Français</a></li>
+                        <li><a class="dropdown-item" onclick="changeLanguage('it')">Italiano</a></li>
+                        <li><a class="dropdown-item" onclick="changeLanguage('de')">Deutsch</a></li>
+                        <li><a class="dropdown-item" onclick="changeLanguage('ru')">Русский</a></li>
+                        <li><a class="dropdown-item" onclick="changeLanguage('pl')">Polski</a></li>
+                        <li><a class="dropdown-item" onclick="changeLanguage('el')">Ελληνικά</a></li>
+                        <li><a class="dropdown-item" onclick="changeLanguage('tl')">Filipino</a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </nav>
 
@@ -172,5 +197,21 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Hide language dropdown if page is loaded via Google Translate
+        if (window.location.hostname.includes("translate.goog")) {
+            document.querySelector('.dropdown').style.display = 'none';
+        }
+
+        function changeLanguage(lang) {
+            if (lang === 'en') {
+                window.location.href = 'https://historicalchristian.faith/';
+            } else {
+                const baseUrl = 'https://historicalchristian-faith.translate.goog/';
+                const params = `?_x_tr_sl=en&_x_tr_tl=${lang}&_x_tr_pto=wapp`;
+                window.location.href = baseUrl + params;
+            }
+        }
+    </script>
 </body>
 </html>
