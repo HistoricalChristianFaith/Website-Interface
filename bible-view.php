@@ -145,15 +145,46 @@ if ($currentVerse && $currentVerse != 'all') {
     <meta name="description" content="Explore Bible verses alongside historical commentaries from early church fathers. Deepen your understanding of scripture with insights from Christian history.">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <link href="/bible-view.css" rel="stylesheet">
+    <style>
+        .language-selector {
+            color: #1a237e !important;
+            background: none;
+            border: none;
+        }
+        .language-selector:hover {
+            color: #0d47a1 !important;
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
         <header class="bg-light py-3">
-            <div class="d-flex align-items-center justify-content-center flex-nowrap">
+            <div class="d-flex align-items-center justify-content-center flex-nowrap position-relative">
+                <div class="position-absolute" style="right: 10px;">
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle language-selector" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-language"></i> Language
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                            <li><a class="dropdown-item" onclick="changeLanguage('en')">English</a></li>
+                            <li><a class="dropdown-item" onclick="changeLanguage('es')">Español</a></li>
+                            <li><a class="dropdown-item" onclick="changeLanguage('pt')">Português</a></li>
+                            <li><a class="dropdown-item" onclick="changeLanguage('fr')">Français</a></li>
+                            <li><a class="dropdown-item" onclick="changeLanguage('it')">Italiano</a></li>
+                            <li><a class="dropdown-item" onclick="changeLanguage('de')">Deutsch</a></li>
+                            <li><a class="dropdown-item" onclick="changeLanguage('ru')">Русский</a></li>
+                            <li><a class="dropdown-item" onclick="changeLanguage('pl')">Polski</a></li>
+                            <li><a class="dropdown-item" onclick="changeLanguage('el')">Ελληνικά</a></li>
+                            <li><a class="dropdown-item" onclick="changeLanguage('tl')">Filipino</a></li>
+                        </ul>
+                    </div>
+                </div>
                 <div class="dropdown me-2">
                     <button class="btn btn-navigation dropdown-toggle" type="button" id="bookDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="dropdown-toggle-text"><?= $lookup_formatted_to_full_booknames[$formattedCurrentBook] ?></span>
@@ -294,6 +325,22 @@ if ($currentVerse && $currentVerse != 'all') {
             window.location.href = `/${encodeURIComponent(book)}/${encodeURIComponent(chapter)}/${encodeURIComponent(verse)}`;
         });
     });
+
+    // Hide language dropdown if page is loaded via Google Translate
+    if (window.location.hostname.includes("translate.goog")) {
+        document.querySelector('.dropdown').style.display = 'none';
+    }
+
+    function changeLanguage(lang) {
+        const currentPath = window.location.pathname;
+        if (lang === 'en') {
+            window.location.href = 'https://historicalchristian.faith' + currentPath;
+        } else {
+            const baseUrl = 'https://historicalchristian-faith.translate.goog';
+            const params = `?_x_tr_sl=en&_x_tr_tl=${lang}&_x_tr_pto=wapp`;
+            window.location.href = baseUrl + currentPath + params;
+        }
+    }
     </script>
 </body>
 <footer class="footer py-3 mt-4">
