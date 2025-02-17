@@ -6,7 +6,7 @@ Any changes made in master branch on this repo will reflect <a href='https://his
 
 # Build/Deploy Process
 
-1) [Compile](https://github.com/HistoricalChristianFaith/Commentaries-Database/blob/master/compile_data.py) a SQL file from the [Commentaries-Database](https://github.com/HistoricalChristianFaith/Commentaries-Database). 
+1) [Compile](https://github.com/HistoricalChristianFaith/Commentaries-Database/blob/master/compile_data.py) a SQL file from the [Commentaries-Database](https://github.com/HistoricalChristianFaith/Commentaries-Database). [Or just download the [latest SQL file release](https://github.com/HistoricalChristianFaith/Commentaries-Database/releases/tag/latest)]
 2) Move the resulting `data.sqlite` file to this `Website-Interface` directory.
 4) Now serve the files via a PHP webserver, and it should just work.
 
