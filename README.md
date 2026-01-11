@@ -85,8 +85,8 @@ The `.htaccess` file rewrites clean URLs to PHP parameters:
 
 ## Build/Deploy Process
 
-1) [Compile](https://github.com/HistoricalChristianFaith/Commentaries-Database/blob/master/compile_data.py) a SQL file from the [Commentaries-Database](https://github.com/HistoricalChristianFaith/Commentaries-Database).
-2) Move the resulting `data.sqlite` file to the root directory.
+1) [Compile](https://github.com/HistoricalChristianFaith/Commentaries-Database/blob/master/compile_data.py) a SQL file from the [Commentaries-Database](https://github.com/HistoricalChristianFaith/Commentaries-Database) [Or just download the [latest SQL file release](https://github.com/HistoricalChristianFaith/Commentaries-Database/releases/tag/latest)]. Rename this file to data.sqlite
+2) Move the `data.sqlite` file to this `Website-Interface` directory.
 3) Run `kjv/kjv_sqlite.py` to populate the `kjv.sqlite` with the King James Bible so that the relevant Bible verses for a user's query will show (KJV chosen because in the public domain)
 4) Now serve the files via a PHP webserver, and it should just work.
 
