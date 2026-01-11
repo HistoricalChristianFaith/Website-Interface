@@ -28,10 +28,11 @@
         /* Toggle button for mobile sidebar */
         .sidebar-toggle-btn {
             position: fixed;
-            top: 70px;
+            bottom: 10px;
             left: 10px;
             z-index: 1000;
             display: none;
+            background-color: #fff;
         }
         @media (max-width: 767.98px) {
             .sidebar-toggle-btn {
