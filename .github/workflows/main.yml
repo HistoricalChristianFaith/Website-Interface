@@ -1,15 +1,39 @@
-name: Deploy via ftp
-on: push
+on:
+  push:
+    branches:
+      - master
+name: 🚀 Deploy website on push
 jobs:
-  deploy:
-    name: Deploy
+  web-deploy:
+    name: 🎉 Deploy
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Upload ftp
-      uses: sebastianpopp/ftp-action@releases/v2
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v4
+
+    - name: 📂 Sync files
+      uses: SamKirkland/FTP-Deploy-Action@v4.3.6
       with:
-        host: ${{ secrets.ftp_host }}
-        user: ${{ secrets.ftp_user }}
+        server: ${{ secrets.ftp_host }}
+        username: ${{ secrets.ftp_user }}
         password: ${{ secrets.ftp_pass }}
-        options: "--parallel=10"
+        protocol: ftps
+        server-dir: /
+        exclude: |
+          **/.git*
+          **/.git*/**
+          **/.vscode/**
+          **/.idea/**
+          **/.claude/**
+          **/__pycache__/**
+          **/.DS_Store
+          **/.env*
+          **/*.swp
+          **/*.swo
+          **/*~
+          **/*.tmp
+          **/*.bak
+          **/*.log
+          **/docs/**
+          README.md
+          CLAUDE.md
