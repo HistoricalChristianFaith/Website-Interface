@@ -149,7 +149,7 @@ if ($currentVerse && $currentVerse != 'all') {
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <link href="/bible-view.css" rel="stylesheet">
+    <link href="/bible-view.css?v=2" rel="stylesheet">
 </head>
 <body>
     <!-- Sticky Navigation Section (navbar + dropdowns) -->
