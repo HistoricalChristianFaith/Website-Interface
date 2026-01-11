@@ -1,16 +1,91 @@
+/* Sticky Navigation Section (navbar + dropdowns) */
+.sticky-nav-section {
+    position: sticky;
+    top: 0;
+    z-index: 1020; /* Above Bootstrap's default navbar z-index */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Dark navigation header */
+.bible-nav-header {
+    background-color: #283593; /* Slightly lighter than navbar for subtle separation */
+    padding: 12px 0;
+}
+
+.bible-nav-header .nav-separator {
+    color: rgba(255,255,255,0.7);
+}
+
+/* Dark theme dropdown buttons */
+.btn-navigation-dark {
+    background-color: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 16px;
+    font-weight: 500;
+    box-shadow: none;
+    transition: all 0.2s ease;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    position: relative;
+    padding-right: 32px;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 16px;
+}
+
+.btn-navigation-dark:hover,
+.btn-navigation-dark:focus {
+    background-color: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.5);
+    color: white;
+}
+
+.btn-navigation-dark::after {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-top-color: white;
+}
+
+.btn-navigation-dark .dropdown-toggle-text {
+    flex-grow: 1;
+    text-align: left;
+}
+
+/* Bible text container */
+.bible-text-container {
+    padding: 20px;
+    background: #fafafa;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+/* Prev/Next buttons container */
+.nav-buttons-container {
+    padding: 0;
+}
+
 .verse {
     cursor: pointer;
 }
 .verse:hover {
-    background-color: #f0f0f0;
+    background-color: #fff3cd;
 }
 .nav-button {
-    background-color: transparent;
-    border: 1px solid #007bff;
-    color: #007bff;
+    background-color: #1a237e;
+    border: 1px solid #1a237e;
+    color: white;
+    font-size: 0.9rem;
+    padding: 6px 16px;
 }
 .nav-button:hover {
-    background-color: #007bff;
+    background-color: #283593;
+    border-color: #283593;
     color: white;
 }
 .modal-dialog {

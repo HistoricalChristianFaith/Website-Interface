@@ -152,28 +152,29 @@ if ($currentVerse && $currentVerse != 'all') {
     <link href="/bible-view.css" rel="stylesheet">
 </head>
 <body>
-    <?php $current_page = 'bible'; include 'nav.php'; ?>
-    <div class="container-fluid">
-        <header class="bg-light py-3">
+    <!-- Sticky Navigation Section (navbar + dropdowns) -->
+    <div class="sticky-nav-section">
+        <?php $current_page = 'bible'; include 'nav.php'; ?>
+        <header class="bible-nav-header">
             <div class="d-flex align-items-center justify-content-center flex-nowrap">
                 <div class="dropdown me-2">
-                    <button class="btn btn-navigation dropdown-toggle" type="button" id="bookDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-navigation-dark dropdown-toggle" type="button" id="bookDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="dropdown-toggle-text"><?= $lookup_formatted_to_full_booknames[$formattedCurrentBook] ?></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="bookDropdown" style="max-height: 400px; overflow-y: auto;">
                         <?php foreach ($lookup_formatted_to_full_booknames as $formattedName => $displayName): ?>
-                            <li><a class="dropdown-item <?= $formattedName === $formattedCurrentBook ? 'active' : '' ?>" 
+                            <li><a class="dropdown-item <?= $formattedName === $formattedCurrentBook ? 'active' : '' ?>"
                                 href="/<?= urlencode($formattedName) ?>/1/all"><?= $displayName ?></a></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
                 <div class="dropdown me-2">
-                    <button class="btn btn-navigation dropdown-toggle" type="button" id="chapterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-navigation-dark dropdown-toggle" type="button" id="chapterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="dropdown-toggle-text"><?= $currentChapter ?></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="chapterDropdown" style="max-height: 400px; overflow-y: auto;">
                         <?php for ($i = 1; $i <= $lookup_chaptertotals[$currentBook]; $i++): ?>
-                            <li><a class="dropdown-item <?= $i === $currentChapter ? 'active' : '' ?>" 
+                            <li><a class="dropdown-item <?= $i === $currentChapter ? 'active' : '' ?>"
                                 href="/<?= urlencode($formattedCurrentBook) ?>/<?= $i ?>/all"><?= $i ?></a></li>
                         <?php endfor; ?>
                     </ul>
@@ -182,26 +183,31 @@ if ($currentVerse && $currentVerse != 'all') {
                     <span class="nav-separator">:</span>
                 </div>
                 <div class="dropdown">
-                    <button class="btn btn-navigation dropdown-toggle" type="button" id="verseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-navigation-dark dropdown-toggle" type="button" id="verseDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <span class="dropdown-toggle-text"><?= $currentVerse === 'all' ? "1-" . $lookup_versestotals[$currentBook."|".$currentChapter] : "" . $currentVerse ?></span>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="verseDropdown" style="max-height: 400px; overflow-y: auto;">
-                        <li><a class="dropdown-item <?= !$currentVerse || $currentVerse === 'all' ? 'active' : '' ?>" 
+                        <li><a class="dropdown-item <?= !$currentVerse || $currentVerse === 'all' ? 'active' : '' ?>"
                             href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/all">1-<?= $lookup_versestotals[$currentBook."|".$currentChapter] ?></a></li>
                         <?php for ($i = 1; $i <= $lookup_versestotals[$currentBook."|".$currentChapter]; $i++): ?>
-                            <li><a class="dropdown-item <?= $i === $currentVerse ? 'active' : '' ?>" 
+                            <li><a class="dropdown-item <?= $i === $currentVerse ? 'active' : '' ?>"
                                 href="/<?= urlencode($formattedCurrentBook) ?>/<?= $currentChapter ?>/<?= $i ?>"><?= $i ?></a></li>
                         <?php endfor; ?>
                     </ul>
                 </div>
             </div>
         </header>
+    </div>
+    <!-- End Sticky Navigation Section -->
 
-        <main class="my-4">
-            <div id="chapter-content" class="mb-4">
+    <div class="container-fluid">
+        <main class="py-4">
+            <div class="bible-text-container" id="chapter-content">
                 <?= getBibleText($formattedCurrentBook, $currentChapter, $currentVerse) ?>
             </div>
-            <div class="row">
+
+            <div class="nav-buttons-container mt-3">
+                <div class="row g-2">
                 <?php
 
                     if (!$currentVerse || $currentVerse == 'all') {
@@ -257,10 +263,11 @@ if ($currentVerse && $currentVerse != 'all') {
                 <div class="col">
                     <a href="<?= $next_url ?>" class="btn nav-button w-100">Next</a>
                 </div>
+                </div>
             </div>
         </main>
 
-        <section id="commentaries" class="mt-4">
+        <section id="commentaries" class="mt-4 px-3">
             <?= getCommentaries($formattedCurrentBook, $currentChapter, $currentVerse) ?>
         </section>
 
