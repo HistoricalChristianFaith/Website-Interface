@@ -1,5 +1,8 @@
 RewriteEngine On
 
+# Rewrite /about to about.php
+RewriteRule ^about$ /about.php [L]
+
 # tells Apache not to rewrite if the request is for an existing file (e.g., your CSS file).
 RewriteCond %{REQUEST_FILENAME} !-f
 

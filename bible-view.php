@@ -145,12 +145,14 @@ if ($currentVerse && $currentVerse != 'all') {
     <meta name="description" content="Explore Bible verses alongside historical commentaries from early church fathers. Deepen your understanding of scripture with insights from Christian history.">
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap" rel="stylesheet">
     <!-- Bootstrap JS Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
     <link href="/bible-view.css" rel="stylesheet">
 </head>
 <body>
+    <?php $current_page = 'bible'; include 'nav.php'; ?>
     <div class="container-fluid">
         <header class="bg-light py-3">
             <div class="d-flex align-items-center justify-content-center flex-nowrap">

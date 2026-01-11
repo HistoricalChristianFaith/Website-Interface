@@ -2,59 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HistoricalChristian.Faith</title>
+    <title>Historical Christian Writings | HistoricalChristian.Faith</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="favicon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
 
     <style>
-
-        #content { height: 100vh; }
+        #content { height: calc(100vh - 56px); }
 
         details > div, details > details { padding-left: 20px; }
         details, summary { cursor: pointer; }
 
-        #sidebarMenu { height: 100vh; overflow-y: auto; }
-        .sidebar-sticky { position: -webkit-sticky; position: sticky; top: 56px; /* Height of navbar */ }
+        #sidebarMenu { height: calc(100vh - 56px); overflow-y: auto; }
+        .sidebar-sticky { position: -webkit-sticky; position: sticky; top: 0; }
 
-        /* Additional style for toggle button */
-        .sidebar-toggle {
-            display: none;
+        /* Toggle button for mobile sidebar */
+        .sidebar-toggle-btn {
             position: fixed;
-            top: 56px; /* Below the top navbar */
-            left: 0;
-            z-index: 1000; /* Above sidebar and content */
+            top: 70px;
+            left: 10px;
+            z-index: 1000;
+            display: none;
         }
-        @media (max-width: 992px) {
-            .sidebar-toggle {
-                display: block; /* Show toggle button on small screens */
+        @media (max-width: 767.98px) {
+            .sidebar-toggle-btn {
+                display: block;
+            }
+            #sidebarMenu {
+                position: fixed;
+                top: 56px;
+                left: 0;
+                width: 80%;
+                max-width: 300px;
+                z-index: 999;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            #sidebarMenu.show {
+                transform: translateX(0);
             }
         }
         .jstree-anchor {
-            /*enable wrapping*/
             white-space : normal !important;
-            /*ensure lower nodes move down*/
             height : auto !important;
-            /*offset icon width*/
             padding-right : 24px;
         }
     </style>
     <script>
         function get_url_hash_fragment(url) {
-            // When jumping to source from the commentaries site, we have a commentary fragment appended to the url after the hashtag.
-            // Let's pass this commentary fragment to the iframe, so the source website can scroll to / highlight that commentary fragment.
             var hashtag_fragment = "#";
             var parts = window.location.href.split('#');
-            // Check if there is a hashtag with text after it
             if (parts.length > 1 && parts[1].length > 0) {
                 hashtag_fragment += parts[1];
             }
@@ -102,20 +108,19 @@
 
             $('#cfmenu').on('activate_node.jstree', function (e, data) {
                 if(data.node.children.length > 0) {
-                    // Toggle (open/close) the node
                     $("#cfmenu").jstree(true).toggle_node(data.node);
 
                     if (data.node && data.node['li_attr'] && data.node['li_attr']['data-metadataurl']) {
-                        loadMetaFile(data.node['li_attr']['data-metadataurl']); 
+                        loadMetaFile(data.node['li_attr']['data-metadataurl']);
                     }
 
                     return;
                 }
 
                 if (data.node && data.node['li_attr'] && data.node['li_attr']['data-fname']) {
-                    loadFile(data.node['li_attr']['data-fname']); 
+                    loadFile(data.node['li_attr']['data-fname']);
                 }
-                
+
             });
 
         });
@@ -124,35 +129,17 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top">
-    <div class="container-fluid"> 
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/by_father.php" target="_blank">
-                <span class="d-lg-none">HCF - By Father</span> <!-- Visible on xs to md screens -->
-                <span class="d-none d-lg-inline">HistoricalChristian.Faith - By Father</span> <!-- Visible on lg and larger screens -->
-            </a>
-        </div>
-        
+<?php $current_page = 'writings'; include 'nav.php'; ?>
 
-        <div class="ml-auto">
-            <button class="navbar-toggler" type="button" aria-label="Toggle navigation" onclick="$('#sidebarMenu').toggleClass('show');">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <a href="/" class="navbar-text d-none d-lg-inline-block">View By Verse</a>
-        </div>
-    </div>
-</nav>
-
+<!-- Mobile sidebar toggle button -->
+<button class="btn btn-outline-secondary sidebar-toggle-btn" type="button" onclick="$('#sidebarMenu').toggleClass('show');">
+    <i class="fas fa-bars"></i> Menu
+</button>
 
 <div class="container-fluid">
     <div class="row">
-        <nav id="sidebarMenu" class="col-md-4 col-lg-3 d-md-block bg-light sidebar collapse">
-            <div class="sidebar-sticky">
-                <!-- Visible only on xs, sm, and md screens -->
-                <h4 class="d-block d-lg-none">
-                    <a href='/'>By Verse</a> | 
-                    <a href='/by_father.php' style="font-weight:bold;">By Father</a>
-                </h4>
+        <nav id="sidebarMenu" class="col-md-4 col-lg-3 d-md-block bg-light sidebar">
+            <div class="sidebar-sticky pt-3">
                 <div id="cfmenu">
 <?php
 $htmlContent = file_get_contents("https://historicalchristianfaith.github.io/Writings-Database/menu.html?v=1");
@@ -163,13 +150,10 @@ if ($htmlContent !== false) {
 }
 ?>
                 </div>
-
-
-
             </div>
         </nav>
-        <main role="main" class="col-md-8 ml-sm-auto col-lg-9 px-4" style="height: 100vh;padding: 0px !important;">
-            <iframe id="content" name="contentFrame" style="width: 100%; height: 100%;" srcdoc="<p>Click on a writing from the menu to open it here!</p><p>Note: This database is open source, and everything is in the public domain! <a target='_blank' href='https://github.com/HistoricalChristianFaith/Writings-Database/'>Contribute/fix typos here!</a></p>"></iframe>
+        <main role="main" class="col-md-8 ms-sm-auto col-lg-9 px-0" style="height: calc(100vh - 56px);">
+            <iframe id="content" name="contentFrame" style="width: 100%; height: 100%; border: none;" srcdoc="<p style='padding: 20px;'>Click on a writing from the menu to open it here!</p><p style='padding: 0 20px;'>Note: This database is open source, and everything is in the public domain! <a target='_blank' href='https://github.com/HistoricalChristianFaith/Writings-Database/'>Contribute/fix typos here!</a></p>"></iframe>
         </main>
     </div>
 </div>
