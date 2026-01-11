@@ -5,7 +5,11 @@ $current_page = $current_page ?? '';
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #1a237e; box-shadow: 0 2px 4px rgba(0,0,0,.1);">
     <div class="container">
-        <a class="navbar-brand" href="/john/3/16" style="font-family: 'Lora', serif; font-weight: 700; font-size: 1.5rem;">HistoricalChristian.Faith</a>
+        <a class="navbar-brand d-flex align-items-center" href="/john/3/16" style="font-family: 'Lora', serif; font-weight: 700; font-size: 1.5rem;">
+            <img src="/favicon.png" alt="" height="32" class="me-2" style="border-radius: 4px;">
+            <span class="d-none d-sm-inline">HistoricalChristian.Faith</span>
+            <span class="d-sm-none">HCF</span>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
