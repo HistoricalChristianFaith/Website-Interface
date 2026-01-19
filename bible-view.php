@@ -271,6 +271,17 @@ if ($currentVerse && $currentVerse != 'all') {
             <?= getCommentaries($formattedCurrentBook, $currentChapter, $currentVerse) ?>
         </section>
 
+        <div class="nav-buttons-container mt-3 px-3">
+            <div class="row g-2">
+                <div class="col">
+                    <a href="<?= $prev_url ?>" class="btn nav-button w-100">Previous</a>
+                </div>
+                <div class="col">
+                    <a href="<?= $next_url ?>" class="btn nav-button w-100">Next</a>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     <script>
