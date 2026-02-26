@@ -1942,4 +1942,11 @@ $lookup_versestotals = [
 ];
 
 
+function format_year($year) {
+    if ($year < 0) {
+        return abs($year) . " BC";
+    }
+    return "AD " . $year;
+}
+
 ?>

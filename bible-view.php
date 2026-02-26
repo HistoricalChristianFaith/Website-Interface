@@ -99,7 +99,7 @@ function getCommentaries($book, $chapter, $verse) {
         $verse_end = $row['location_end']-($chapter_end*1000000);
         $verse_string = normalize_verse($chapter_start, $verse_start, $chapter_end, $verse_end);
 
-        $output .= "<h5 class='card-title'><strong>[AD {$year}]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . $currentBook . " " . $verse_string . "</h5>";
+        $output .= "<h5 class='card-title'><strong>[" . format_year($year) . "]</strong> <a href='" . htmlspecialchars($row['wiki_url']) . "' target='_blank'>" . htmlspecialchars($row['father_name']) . "</a> on " . $currentBook . " " . $verse_string . "</h5>";
         $output .= "</div>";
         $output .= "<div class='card-body'><div class='show-read-more'>" . nl2br(htmlspecialchars($row['txt'])) . "</div></div>";
         if (!empty($row['source_title'])) {
