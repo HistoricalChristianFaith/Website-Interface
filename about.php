@@ -499,6 +499,9 @@ $spicy = array (
                 <p class="text-end" id="spicyAttribution"></p>
             </div>
         </div>
+
+        <p class="quote text-center mb-1">Praise, therefore, be to him who grants us to begin and makes us to finish. Amen.</p>
+        <p class="text-center"><strong>- Thomas Aquinas' Commentary on Isaiah</strong></p>
     </div>
 
     <script>
