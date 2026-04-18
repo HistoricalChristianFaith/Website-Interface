@@ -42,11 +42,8 @@ a { color: inherit; }
     padding: 0 24px; position: sticky; top: 0; z-index: 40;
 }
 .hcf-brand { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
-.hcf-brand .mark {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, oklch(0.35 0.03 260), var(--bg-0));
-    border: 1px solid var(--gold-line);
-    display: grid; place-items: center; color: var(--gold); font-size: 14px;
+.hcf-brand .hcf-logo {
+    width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
 }
 .hcf-brand .dot { color: var(--gold); margin: 0 1px; }
 .hcf-nav { display: flex; gap: 28px; font-family: var(--sans); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; align-items: center; }

@@ -15,7 +15,7 @@ $has_sidebar = $has_sidebar ?? false;
     </button>
     <?php endif; ?>
     <div class="hcf-brand">
-        <span class="mark">&#x2720;</span>
+        <img class="hcf-logo" src="/favicon.png" alt="">
         <span>HistoricalChristian<span class="dot">.</span>Faith</span>
     </div>
     <nav class="hcf-nav">

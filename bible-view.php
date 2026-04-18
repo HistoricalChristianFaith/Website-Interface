@@ -185,6 +185,8 @@ $pageTitle = $currentBook . ' ' . $currentChapter . ($currentVerse !== 'all' ? '
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
 <title>Bible Verses and Early Church Commentary | Historical Christian Faith</title>
 <meta name="description" content="Explore Bible verses alongside historical commentaries from early church fathers. Deepen your understanding of scripture with insights from Christian history.">
 <link href="/bible-view.css?v=3" rel="stylesheet">
