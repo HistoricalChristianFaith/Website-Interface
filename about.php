@@ -397,44 +397,73 @@ $spicy = array (
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="/bible-view.css?v=3" rel="stylesheet">
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
-            background-color: #f8f9fa;
-            color: #333;
+            background: var(--bg-0);
+            color: var(--fg-0);
         }
         h1, h2, h3 {
             font-family: 'Lora', serif;
+            color: var(--fg-0);
         }
         .hero {
-            background: linear-gradient(rgba(26, 35, 126, 0.85), rgba(26, 35, 126, 0.85));
-            color: white;
+            background: linear-gradient(var(--bg-2), var(--bg-1));
+            color: var(--fg-0);
             padding: 4rem 0;
             margin-bottom: 3rem;
+            border-bottom: 1px solid var(--line-soft);
         }
+        .hero .lead { color: var(--fg-1); }
         .card {
-            border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: var(--bg-1);
+            border: 1px solid var(--line-soft);
+            box-shadow: none;
+            color: var(--fg-0);
         }
         .card-header {
-            background-color: #1a237e;
-            color: white;
+            background: var(--bg-2);
+            color: var(--fg-0);
             font-weight: 600;
-        }
-        .quote {
-            font-style: italic;
-            color: #555;
+            border-bottom: 1px solid var(--line-soft);
             font-family: 'Lora', serif;
         }
+        .card-body { color: var(--fg-1); }
+        .card-body a { color: var(--gold); text-decoration-color: var(--gold-line); }
+        .card-body a:hover { color: var(--gold); text-decoration-color: var(--gold); }
+        .card-body hr { border-color: var(--line-soft); opacity: 0.6; }
+        .quote {
+            font-style: italic;
+            color: var(--fg-1);
+            font-family: 'Lora', serif;
+        }
+        #refreshQuote {
+            font-family: var(--sans);
+            font-size: 11px;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--fg-1);
+            background: transparent;
+            border: 1px solid var(--line);
+            border-radius: 3px;
+            padding: 4px 10px;
+        }
+        #refreshQuote:hover {
+            color: var(--gold);
+            border-color: var(--gold-line);
+        }
         .footer {
-            background-color: #1a237e;
-            color: white;
+            background: var(--bg-1);
+            color: var(--fg-2);
             padding: 2rem 0;
             margin-top: 3rem;
+            border-top: 1px solid var(--line-soft);
         }
         .footer a {
-            color: #bbdefb;
+            color: var(--gold);
         }
+        .footer a:hover { color: var(--gold); text-decoration-color: var(--gold); }
     </style>
 </head>
 <body>

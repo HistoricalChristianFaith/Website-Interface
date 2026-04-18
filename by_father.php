@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&display=swap" rel="stylesheet">
+    <link href="/bible-view.css?v=3" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
@@ -17,45 +18,47 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
 
     <style>
-        #content { height: calc(100vh - 56px); }
+        body { background: var(--bg-0); color: var(--fg-0); }
+        #content { height: calc(100vh - 56px); background-color: #fff; color-scheme: light; }
 
         details > div, details > details { padding-left: 20px; }
         details, summary { cursor: pointer; }
 
-        #sidebarMenu { height: calc(100vh - 56px); overflow-y: auto; }
+        #sidebarMenu {
+            height: calc(100vh - 56px);
+            overflow-y: auto;
+            background: var(--bg-1);
+            border-right: 1px solid var(--line-soft);
+        }
         .sidebar-sticky { position: -webkit-sticky; position: sticky; top: 0; }
 
-        /* Toggle button for mobile sidebar */
-        .sidebar-toggle-btn {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            z-index: 1000;
-            display: none;
-            background-color: #fff;
+        /* jsTree overrides for dark theme */
+        .jstree-default a,
+        .jstree-default .jstree-anchor { color: var(--fg-1); }
+        .jstree-default .jstree-hovered { background: var(--bg-2); color: var(--fg-0); box-shadow: none; border-radius: 3px; }
+        .jstree-default .jstree-clicked { background: var(--gold-soft); color: var(--gold); box-shadow: none; border-radius: 3px; }
+        .jstree-default .jstree-wholerow-hovered { background: var(--bg-2); }
+        .jstree-default .jstree-wholerow-clicked { background: var(--gold-soft); }
+        .jstree-anchor {
+            white-space: normal !important;
+            height: auto !important;
+            padding-right: 24px;
         }
+
         @media (max-width: 767.98px) {
-            .sidebar-toggle-btn {
-                display: block;
-            }
             #sidebarMenu {
                 position: fixed;
                 top: 56px;
                 left: 0;
                 width: 80%;
                 max-width: 300px;
-                z-index: 999;
+                z-index: 50;
                 transform: translateX(-100%);
                 transition: transform 0.3s ease;
             }
             #sidebarMenu.show {
                 transform: translateX(0);
             }
-        }
-        .jstree-anchor {
-            white-space : normal !important;
-            height : auto !important;
-            padding-right : 24px;
         }
     </style>
     <script>
@@ -124,22 +127,30 @@
 
             });
 
+            // Wire the shared .hcf-hamburger (from nav.php) to toggle the writings sidebar
+            $('.hcf-hamburger').on('click', function() {
+                var open = !$('#sidebarMenu').hasClass('show');
+                $('#sidebarMenu').toggleClass('show', open);
+                $('.v1-backdrop').toggleClass('open', open);
+                $(this).attr('aria-expanded', String(open));
+            });
+            $('.v1-backdrop').on('click', function() {
+                $('#sidebarMenu').removeClass('show');
+                $(this).removeClass('open');
+                $('.hcf-hamburger').attr('aria-expanded', 'false');
+            });
+
         });
 
     </script>
 </head>
 <body>
 
-<?php $current_page = 'writings'; include 'nav.php'; ?>
-
-<!-- Mobile sidebar toggle button -->
-<button class="btn btn-outline-secondary sidebar-toggle-btn" type="button" onclick="$('#sidebarMenu').toggleClass('show');">
-    <i class="fas fa-bars"></i> Menu
-</button>
+<?php $current_page = 'writings'; $has_sidebar = true; include 'nav.php'; ?>
 
 <div class="container-fluid">
     <div class="row">
-        <nav id="sidebarMenu" class="col-md-4 col-lg-3 d-md-block bg-light sidebar">
+        <nav id="sidebarMenu" class="col-md-4 col-lg-3 d-md-block sidebar">
             <div class="sidebar-sticky pt-3">
                 <div id="cfmenu">
 <?php

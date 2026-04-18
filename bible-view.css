@@ -1,290 +1,76 @@
-/* Sticky Navigation Section (navbar + dropdowns) */
-.sticky-nav-section {
-    position: sticky;
-    top: 0;
-    z-index: 1020; /* Above Bootstrap's default navbar z-index */
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+/* Shared design tokens + dark-theme base + .hcf-header used by bible-view.php, by_father.php, about.php */
+
+:root {
+    --bg-0: oklch(0.16 0.018 260);
+    --bg-1: oklch(0.205 0.02 260);
+    --bg-2: oklch(0.245 0.022 260);
+    --bg-3: oklch(0.29 0.024 260);
+    --line:  oklch(0.33 0.022 260);
+    --line-soft: oklch(0.27 0.02 260);
+
+    --fg-0: oklch(0.94 0.012 85);
+    --fg-1: oklch(0.78 0.012 85);
+    --fg-2: oklch(0.58 0.012 85);
+    --fg-3: oklch(0.44 0.012 85);
+
+    --gold: oklch(0.80 0.13 75);
+    --gold-soft: oklch(0.80 0.13 75 / 0.14);
+    --gold-line: oklch(0.80 0.13 75 / 0.35);
+
+    --serif: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+    --sans:  system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    --mono:  ui-monospace, Menlo, Consolas, 'Courier New', monospace;
 }
 
-/* Dark navigation header */
-.bible-nav-header {
-    background-color: #283593; /* Slightly lighter than navbar for subtle separation */
-    padding: 12px 0;
-}
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg-0); color: var(--fg-0); font-family: var(--sans); }
+body { font-size: 14px; line-height: 1.55; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; padding: 0; }
+button:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+a { color: inherit; }
 
-.bible-nav-header .nav-separator {
-    color: rgba(255,255,255,0.7);
-}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb { background: var(--line-soft); border-radius: 10px; border: 2px solid var(--bg-0); }
+*::-webkit-scrollbar-thumb:hover { background: var(--line); }
 
-/* Dark theme dropdown buttons */
-.btn-navigation-dark {
-    background-color: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.3);
-    color: white;
-    padding: 8px 16px;
-    font-weight: 500;
-    box-shadow: none;
-    transition: all 0.2s ease;
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-    position: relative;
-    padding-right: 32px;
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 16px;
+/* Header */
+.hcf-header {
+    height: 56px; background: var(--bg-1);
+    border-bottom: 1px solid var(--line-soft);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 24px; position: sticky; top: 0; z-index: 40;
 }
+.hcf-brand { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
+.hcf-brand .mark {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, oklch(0.35 0.03 260), var(--bg-0));
+    border: 1px solid var(--gold-line);
+    display: grid; place-items: center; color: var(--gold); font-size: 14px;
+}
+.hcf-brand .dot { color: var(--gold); margin: 0 1px; }
+.hcf-nav { display: flex; gap: 28px; font-family: var(--sans); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; align-items: center; }
+.hcf-nav a { color: var(--fg-2); text-decoration: none; padding: 4px 0; }
+.hcf-nav a.active { color: var(--fg-0); border-bottom: 2px solid var(--gold); }
+.hcf-nav a:hover { color: var(--fg-0); }
 
-.btn-navigation-dark:hover,
-.btn-navigation-dark:focus {
-    background-color: rgba(255,255,255,0.2);
-    border-color: rgba(255,255,255,0.5);
-    color: white;
-}
+.hcf-hamburger { display: none; }
+.v1-backdrop { display: none; }
 
-.btn-navigation-dark::after {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-    border-top-color: white;
-}
-
-.btn-navigation-dark .dropdown-toggle-text {
-    flex-grow: 1;
-    text-align: left;
-}
-
-/* Bible text container */
-.bible-text-container {
-    padding: 20px;
-    background: #fafafa;
-    border-radius: 8px;
-    border: 1px solid #e0e0e0;
-}
-
-/* Prev/Next buttons container */
-.nav-buttons-container {
-    padding: 0;
-}
-
-.verse {
-    cursor: pointer;
-}
-.verse:hover {
-    background-color: #fff3cd;
-}
-.nav-button {
-    background-color: #1a237e;
-    border: 1px solid #1a237e;
-    color: white;
-    font-size: 0.9rem;
-    padding: 6px 16px;
-}
-.nav-button:hover {
-    background-color: #283593;
-    border-color: #283593;
-    color: white;
-}
-.modal-dialog {
-    max-width: 90%;
-    width: 90%;
-    margin: 30px auto;
-}
-
-.modal-dialog.modal-fullscreen-sm-down {
-    height: 90%;
-}
-.modal-dialog.modal-fullscreen-sm-down .modal-content {
-    height: 90%;
-}
-.modal-dialog.modal-fullscreen-sm-down .modal-body {
-    overflow-y: auto;
-}
-
-@media (max-width: 767px) {
-    .modal-dialog.modal-fullscreen-sm-down {
-        max-width: 100%;
-        margin: 0;
-        height: 100%;
-        width: 100%;
+@media (max-width: 768px) {
+    .hcf-header { padding: 0 16px; }
+    .hcf-brand { display: none; }
+    .hcf-hamburger {
+        display: inline-flex; flex-direction: column; justify-content: center;
+        gap: 4px; width: 40px; height: 40px; margin-right: 8px;
     }
-    .modal-dialog.modal-fullscreen-sm-down .modal-content {
-        height: 100%;
-        border: 0;
-        border-radius: 0;
+    .hcf-hamburger span { width: 22px; height: 2px; background: var(--fg-0); border-radius: 1px; }
+    .hcf-nav { gap: 18px; }
+
+    .v1-backdrop {
+        display: block; position: fixed; inset: 56px 0 0 0;
+        background: rgba(0,0,0,0.5); z-index: 45;
+        opacity: 0; pointer-events: none; transition: opacity 0.22s ease;
     }
-    .modal-dialog.modal-fullscreen-sm-down .modal-body {
-        overflow-y: auto;
-    }
+    .v1-backdrop.open { opacity: 1; pointer-events: auto; }
 }
-
-/* Header and Navigation Styling */
-.dropdown-menu {
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    border: 1px solid rgba(0,0,0,0.08);
-    padding: 8px 0;
-}
-
-.dropdown-item {
-    padding: 8px 20px;
-    color: #333;
-    transition: all 0.2s ease;
-}
-
-.dropdown-item:hover {
-    background-color: #f8f9fa;
-    color: #000;
-}
-
-.dropdown-item.active {
-    background-color: #e9ecef;
-    color: #000;
-    font-weight: 500;
-}
-
-/* Custom button styling */
-.btn-navigation {
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    color: #333;
-    padding: 8px 16px;
-    font-weight: 500;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    transition: all 0.2s ease;
-    max-width: 200px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: left;
-    position: relative;
-    padding-right: 32px; /* Make room for the caret */
-    display: flex;
-    justify-content: flex-start;
-    padding-left: 16px;
-}
-
-.btn-navigation .dropdown-toggle-text {
-    flex-grow: 1;
-    text-align: left;
-}
-
-.btn-navigation:hover {
-    background-color: #f8f9fa;
-    border-color: #ced4da;
-}
-
-.btn-navigation:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0,123,255,0.15);
-}
-
-.btn-navigation::after {
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-/* Override Bootstrap's default dropdown toggle padding */
-.dropdown-toggle.btn-navigation {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* Position the caret */
-.dropdown-toggle.btn-navigation::after {
-    margin-left: auto;
-    margin-right: 0;
-    position: absolute;
-    right: 12px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-/* Navigation dots separator */
-.nav-separator {
-    color: #6c757d;
-    font-weight: bold;
-    margin: 0 8px;
-    display: flex;
-    align-items: center;
-    height: 100%;
-    padding-top: 4px;
-}
-
-/* Scrollbar styling for dropdown menus */
-.dropdown-menu::-webkit-scrollbar {
-    width: 8px;
-}
-
-.dropdown-menu::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 8px;
-}
-
-.dropdown-menu::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 8px;
-}
-
-.dropdown-menu::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}
-
-/* Commentary card body styling */
-.card-body {
-    position: relative;
-    max-height: 200px;
-    overflow: hidden;
-    transition: max-height 0.3s ease-out;
-}
-
-.card-body.has-read-more:not(.expanded)::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 30px; /* Even shorter for more subtlety */
-    background: linear-gradient(to bottom, 
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0.8) 40%,
-        rgba(255,255,255,0.95) 70%,
-        rgba(255,255,255,1) 100%
-    );
-    pointer-events: none;
-}
-
-.card-body.expanded {
-    max-height: none;
-}
-
-.card-body.expanded::after {
-    display: none;
-}
-
-.read-more {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding: 8px 20px;
-    color: #007bff;
-    text-decoration: none;
-    cursor: pointer;
-    z-index: 1;
-    background: white;
-}
-
-.read-more:hover {
-    color: #0056b3;
-}
-
-/* Hide read more when expanded */
-.card-body.expanded .read-more {
-    display: none;
-}
-
