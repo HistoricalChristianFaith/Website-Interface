@@ -55,7 +55,7 @@ a { color: inherit; }
 .v1-backdrop { display: none; }
 
 @media (max-width: 768px) {
-    .hcf-header { padding: 0 16px; }
+    .hcf-header { padding: env(safe-area-inset-top, 0px) 16px 0; }
     .hcf-brand { display: none; }
     .hcf-hamburger {
         display: inline-flex; flex-direction: column; justify-content: center;
