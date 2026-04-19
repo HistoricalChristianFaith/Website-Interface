@@ -1,0 +1,107 @@
+<%- navHtml %>
+
+<div class="v1-shell">
+  <aside class="v1-sidebar">
+    <div class="v1-tabs">
+      <button class="v1-tab<%= currentTestament === 'old' ? ' active' : '' %>" data-testament="old">Old Testament</button>
+      <button class="v1-tab<%= currentTestament === 'new' ? ' active' : '' %>" data-testament="new">New Testament</button>
+    </div>
+    <% const testamentLists = { old: old_testament, new: new_testament }; %>
+    <% for (const [testamentKey, books] of Object.entries(testamentLists)) {
+      const hiddenAttr = currentTestament === testamentKey ? '' : ' hidden';
+    %>
+    <div class="v1-books" data-testament="<%= testamentKey %>"<%= hiddenAttr %>>
+      <% for (const [book, chapters] of Object.entries(books)) {
+        const bookFmt = formatBookName(book);
+        const isActiveBook = bookFmt === formattedCurrentBook;
+      %>
+        <a class="v1-book<%= isActiveBook ? ' active' : '' %>" href="/<%= encodeURIComponent(bookFmt) %>/1/all"><%= book %></a>
+        <% if (isActiveBook) { %>
+          <div class="v1-chapter-wrap">
+            <% for (let i = 1; i <= chapters; i++) { %>
+              <a class="v1-chip<%= i === currentChapter ? ' active' : '' %>" href="/<%= encodeURIComponent(bookFmt) %>/<%= i %>/all"><%= i %></a>
+            <% } %>
+          </div>
+        <% } %>
+      <% } %>
+    </div>
+    <% } %>
+  </aside>
+
+  <main class="v1-content">
+    <h1 class="v1-h1"><%= pageTitle %></h1>
+    <div style="margin-top:28px">
+      <div class="verse-flow">
+      <% verses.forEach(function(row) {
+        const verseNum = row.txt_location % 1000000;
+        const activeClass = (currentVerse !== 'all' && parseInt(currentVerse) === verseNum) ? ' active' : '';
+      %>
+        <span class="vnum"><%= verseNum %></span><span class="v<%= activeClass %>" data-book="<%= formattedCurrentBook %>" data-chapter="<%= currentChapter %>" data-verse="<%= verseNum %>"><%= row.txt %></span>
+      <% }); %>
+      </div>
+    </div>
+
+    <div class="v1-pager">
+      <% if (prev_disabled) { %>
+        <span class="v1-pager-btn disabled"><%= '\u2190' %> Previous <span class="v1-pager-type"><%= nav_type %></span></span>
+      <% } else { %>
+        <a class="v1-pager-btn" href="<%= prev_url %>"><%= '\u2190' %> Previous <span class="v1-pager-type"><%= nav_type %></span></a>
+      <% } %>
+      <% if (!is_all_view) { %>
+        <a class="v1-pager-btn" href="<%= chapter_url %>">Whole Chapter</a>
+      <% } %>
+      <% if (next_disabled) { %>
+        <span class="v1-pager-btn disabled">Next <span class="v1-pager-type"><%= nav_type %></span> <%= '\u2192' %></span>
+      <% } else { %>
+        <a class="v1-pager-btn" href="<%= next_url %>">Next <span class="v1-pager-type"><%= nav_type %></span> <%= '\u2192' %></a>
+      <% } %>
+    </div>
+
+    <div class="v1-section">
+      <div class="v1-section-title">
+        <span>Commentaries</span>
+        <span class="rule"></span>
+      </div>
+      <% if (commentaries.length === 0) { %>
+        <div class="commentary"><div class="body" style="color:var(--fg-2)">No commentaries in database for this selection.</div></div>
+      <% } else { commentaries.forEach(function(row) { %>
+        <article class="commentary">
+          <div class="cmt-head">
+            <% if (row.wiki_url) { %>
+              <span class="father"><a href="<%= row.wiki_url %>" target="_blank"><%= row.father_name %></a></span>
+            <% } else { %>
+              <span class="father"><%= row.father_name %></span>
+            <% } %>
+            <span class="ref">on <b><%= currentBook %> <%= row.verse_string %></b></span>
+            <span style="flex:1"></span>
+            <span class="year"><%= row.formatted_year %></span>
+          </div>
+          <div class="body"><%- row.txt.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/\n/g, '<br>') %></div>
+          <% if (row.source_title) { %>
+            <% if (row.source_url) { %>
+              <div class="src">Source: <a href="<%= row.source_url + '#' + encodeURIComponent(row.txt.substring(0, 500)) %>" class="src-link" target="_blank" title="<%= row.source_title %>"><%= row.source_title %></a></div>
+            <% } else { %>
+              <div class="src">Source: <span class="src-link"><%= row.source_title %></span></div>
+            <% } %>
+          <% } %>
+        </article>
+      <% }); } %>
+    </div>
+
+    <div class="v1-pager">
+      <% if (prev_disabled) { %>
+        <span class="v1-pager-btn disabled"><%= '\u2190' %> Previous <span class="v1-pager-type"><%= nav_type %></span></span>
+      <% } else { %>
+        <a class="v1-pager-btn" href="<%= prev_url %>"><%= '\u2190' %> Previous <span class="v1-pager-type"><%= nav_type %></span></a>
+      <% } %>
+      <% if (!is_all_view) { %>
+        <a class="v1-pager-btn" href="<%= chapter_url %>">Whole Chapter</a>
+      <% } %>
+      <% if (next_disabled) { %>
+        <span class="v1-pager-btn disabled">Next <span class="v1-pager-type"><%= nav_type %></span> <%= '\u2192' %></span>
+      <% } else { %>
+        <a class="v1-pager-btn" href="<%= next_url %>">Next <span class="v1-pager-type"><%= nav_type %></span> <%= '\u2192' %></a>
+      <% } %>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,19 @@
+<header class="hcf-header">
+    <% if (has_sidebar) { %>
+    <button class="hcf-hamburger" aria-label="Open navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+    </button>
+    <% } %>
+    <div class="hcf-brand">
+        <img class="hcf-logo" src="./favicon.png" alt="">
+        <span>HistoricalChristian<span class="dot">.</span>Faith</span>
+    </div>
+    <nav class="hcf-nav">
+        <a href="/john/3/16" class="<%= current_page === 'bible' ? 'active' : '' %>">Bible</a>
+        <a href="/by_father" class="<%= current_page === 'writings' ? 'active' : '' %>">Writings</a>
+        <a href="/about" class="<%= current_page === 'about' ? 'active' : '' %>">About</a>
+    </nav>
+</header>
+<% if (has_sidebar) { %>
+<div class="v1-backdrop"></div>
+<% } %>

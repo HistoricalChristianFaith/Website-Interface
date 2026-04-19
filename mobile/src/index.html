@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" sizes="180x180" href="./favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="./favicon.png">
+<title>HistoricalChristian.Faith</title>
+<meta name="description" content="Explore Bible verses alongside historical commentaries from early church fathers.">
+
+<!-- Shared base stylesheet -->
+<link href="./css/bible-view.css" rel="stylesheet">
+
+<!-- Bootstrap (for about + by_father pages) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400;1,700&family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+
+<!-- jsTree (for by_father page) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
+
+<style>
+  /* ========================================
+     Bible View - Verse paragraph
+     ======================================== */
+  .verse-flow {
+    font-family: var(--serif); font-size: 15px; line-height: 1.75; color: var(--fg-0);
+    text-wrap: pretty;
+  }
+  .verse-flow .vnum {
+    font-family: var(--mono); font-size: 11px; color: var(--gold);
+    vertical-align: super; margin-right: 3px; margin-left: 2px;
+    font-weight: 500;
+  }
+  .verse-flow .v { display: inline; padding: 1px 2px; border-radius: 3px; transition: background 0.15s; cursor: pointer; }
+  .verse-flow .v:hover { background: var(--bg-2); }
+  .verse-flow .v.active { background: var(--gold-soft); }
+  .verse-flow .v.active:hover { background: var(--gold-soft); }
+
+  /* ========================================
+     Bible View - Commentary
+     ======================================== */
+  .commentary { border-top: 1px solid var(--line-soft); padding: 14px 0 12px; }
+  .commentary:first-of-type { border-top: 0; }
+  .commentary .cmt-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+  .commentary .year {
+    font-family: var(--mono); font-size: 11px; color: var(--gold);
+    border: 1px solid var(--gold-line); padding: 2px 7px; border-radius: 3px; letter-spacing: 0.04em;
+  }
+  .commentary .father { font-family: var(--serif); font-size: 16px; font-weight: 600; color: var(--fg-0); }
+  .commentary .father a { color: inherit; text-decoration: none; }
+  .commentary .father a:hover { color: var(--gold); }
+  .commentary .ref { font-family: var(--sans); font-size: 12px; color: var(--fg-2); }
+  .commentary .ref b { color: var(--fg-1); font-weight: 500; }
+  .commentary .body { font-family: var(--serif); font-size: 14px; line-height: 1.65; color: var(--fg-0); text-wrap: pretty; position: relative; }
+  .commentary .body.has-read-more { max-height: 200px; overflow: hidden; }
+  .commentary .body.has-read-more::after {
+    content: ''; position: absolute; inset: auto 0 0 0; height: 80px;
+    background: linear-gradient(transparent, var(--bg-0)); pointer-events: none;
+  }
+  .commentary .body.expanded { max-height: none; overflow: visible; }
+  .commentary .body.expanded::after { display: none; }
+  .commentary .read-more {
+    display: inline-block; margin-top: 10px; color: var(--gold); font-family: var(--sans);
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+    text-decoration: underline; text-decoration-color: var(--gold-line); text-underline-offset: 3px;
+  }
+  .commentary .read-more:hover { text-decoration-color: var(--gold); }
+  .commentary .src { margin-top: 10px; font-family: var(--sans); font-size: 11.5px; color: var(--fg-2); letter-spacing: 0.02em; }
+  .commentary .src .src-link {
+    color: var(--gold); text-decoration: underline;
+    text-decoration-color: var(--gold-line); text-underline-offset: 3px; text-decoration-thickness: 1px;
+    font-style: italic; transition: text-decoration-color 0.15s, color 0.15s;
+  }
+  .commentary .src .src-link:hover { text-decoration-color: var(--gold); color: oklch(0.88 0.13 75); }
+  .commentary .src .src-link::after { content: '\2197'; font-style: normal; font-size: 10px; margin-left: 4px; opacity: 0.7; }
+
+  /* ========================================
+     Bible View - Layout
+     ======================================== */
+  .v1-shell { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 56px); }
+  .v1-sidebar {
+    border-right: 1px solid var(--line-soft); background: var(--bg-0);
+    padding: 20px 0; position: sticky; top: 56px; align-self: start;
+    height: calc(100vh - 56px); overflow-y: auto;
+  }
+  .v1-tabs {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+    margin: 0 20px 18px; border-bottom: 1px solid var(--line-soft);
+  }
+  .v1-tab {
+    padding: 10px 0; font-family: var(--sans); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--fg-2);
+    border-bottom: 2px solid transparent; margin-bottom: -1px; text-align: center; white-space: nowrap;
+  }
+  .v1-tab.active { color: var(--fg-0); border-bottom-color: var(--gold); }
+  .v1-tab:hover { color: var(--fg-0); }
+  .v1-books { padding: 0 8px; }
+  .v1-book {
+    display: block; font-family: var(--serif); font-size: 14.5px; color: var(--fg-1);
+    padding: 7px 12px; border-radius: 4px; cursor: pointer; text-decoration: none;
+  }
+  .v1-book:hover { background: var(--bg-1); color: var(--fg-0); }
+  .v1-book.active { background: var(--bg-2); color: var(--fg-0); }
+  .v1-chapter-wrap {
+    padding: 6px 14px 14px 14px;
+    display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
+  }
+  .v1-chip {
+    font-family: var(--mono); font-size: 11px; height: 26px;
+    display: grid; place-items: center;
+    border: 1px solid var(--line-soft); background: transparent; color: var(--fg-1);
+    border-radius: 3px; text-decoration: none;
+  }
+  .v1-chip:hover { border-color: var(--line); color: var(--fg-0); }
+  .v1-chip.active { border-color: var(--gold); background: var(--gold-soft); color: var(--gold); }
+
+  .v1-content { padding: 36px 56px 80px; min-width: 0; }
+  .v1-h1 { font-family: var(--serif); font-size: 38px; font-weight: 600; letter-spacing: -0.01em; margin: 0 0 4px; color: var(--fg-0); }
+  .v1-pager {
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 28px 0 32px;
+    border-top: 1px solid var(--line-soft); border-bottom: 1px solid var(--line-soft);
+    padding: 12px 0;
+  }
+  .v1-pager-btn {
+    font-family: var(--sans); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--fg-1); text-decoration: none; padding: 4px 8px; border-radius: 3px;
+  }
+  .v1-pager-btn:hover { color: var(--gold); }
+  .v1-pager-btn.disabled { color: var(--fg-3); cursor: default; pointer-events: none; }
+  .v1-pager-btn.disabled:hover { color: var(--fg-3); }
+  .v1-section { margin-top: 40px; }
+  .v1-section-title {
+    font-family: var(--sans); font-size: 10.5px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-2);
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .rule { flex: 1; height: 1px; background: var(--line-soft); }
+
+  @media (max-width: 768px) {
+    .v1-shell { grid-template-columns: 1fr; }
+    .v1-sidebar {
+      position: fixed; top: 56px; left: 0; width: 280px; height: calc(100vh - 56px);
+      transform: translateX(-100%); transition: transform 0.22s ease;
+      z-index: 50; background: var(--bg-0); border-right: 1px solid var(--line-soft);
+    }
+    .v1-sidebar.open { transform: translateX(0); }
+    .v1-content { padding: 24px 16px 60px; }
+    .v1-pager-type { display: none; }
+  }
+
+  /* ========================================
+     About page styles
+     ======================================== */
+  .about-page body,
+  body.about-page {
+    font-family: 'Open Sans', sans-serif;
+    background: var(--bg-0);
+    color: var(--fg-0);
+  }
+  h1, h2, h3 {
+    font-family: 'Lora', serif;
+    color: var(--fg-0);
+  }
+  .hero {
+    background: linear-gradient(var(--bg-2), var(--bg-1));
+    color: var(--fg-0);
+    padding: 4rem 0;
+    margin-bottom: 3rem;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .hero .lead { color: var(--fg-1); }
+  .card {
+    background: var(--bg-1);
+    border: 1px solid var(--line-soft);
+    box-shadow: none;
+    color: var(--fg-0);
+  }
+  .card-header {
+    background: var(--bg-2);
+    color: var(--fg-0);
+    font-weight: 600;
+    border-bottom: 1px solid var(--line-soft);
+    font-family: 'Lora', serif;
+  }
+  .card-body { color: var(--fg-1); }
+  .card-body a { color: var(--gold); text-decoration-color: var(--gold-line); }
+  .card-body a:hover { color: var(--gold); text-decoration-color: var(--gold); }
+  .card-body hr { border-color: var(--line-soft); opacity: 0.6; }
+  .quote {
+    font-style: italic;
+    color: var(--fg-1);
+    font-family: 'Lora', serif;
+  }
+  #refreshQuote {
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-1);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 4px 10px;
+  }
+  #refreshQuote:hover {
+    color: var(--gold);
+    border-color: var(--gold-line);
+  }
+  .footer {
+    background: var(--bg-1);
+    color: var(--fg-2);
+    padding: 2rem 0;
+    margin-top: 3rem;
+    border-top: 1px solid var(--line-soft);
+  }
+  .footer a {
+    color: var(--gold);
+  }
+  .footer a:hover { color: var(--gold); text-decoration-color: var(--gold); }
+
+  /* ========================================
+     By Father (Writings) page styles
+     ======================================== */
+  #content { height: calc(100vh - 56px); background-color: #fff; color-scheme: light; }
+
+  details > div, details > details { padding-left: 20px; }
+  details, summary { cursor: pointer; }
+
+  #sidebarMenu {
+    height: calc(100vh - 56px);
+    overflow-y: auto;
+    background: var(--bg-1);
+    border-right: 1px solid var(--line-soft);
+  }
+  .sidebar-sticky { position: -webkit-sticky; position: sticky; top: 0; }
+
+  /* jsTree overrides for dark theme */
+  .jstree-default a,
+  .jstree-default .jstree-anchor { color: var(--fg-1); }
+  .jstree-default .jstree-hovered { background: var(--bg-2); color: var(--fg-0); box-shadow: none; border-radius: 3px; }
+  .jstree-default .jstree-clicked { background: var(--gold-soft); color: var(--gold); box-shadow: none; border-radius: 3px; }
+  .jstree-default .jstree-wholerow-hovered { background: var(--bg-2); }
+  .jstree-default .jstree-wholerow-clicked { background: var(--gold-soft); }
+  .jstree-anchor {
+    white-space: normal !important;
+    height: auto !important;
+    padding-right: 24px;
+  }
+
+  @media (max-width: 767.98px) {
+    #sidebarMenu {
+      position: fixed;
+      top: 56px;
+      left: 0;
+      width: 80%;
+      max-width: 300px;
+      z-index: 50;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    #sidebarMenu.show {
+      transform: translateX(0);
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<!-- EJS client-side template engine -->
+<script src="https://cdn.jsdelivr.net/npm/ejs@3.1.10/ejs.min.js"></script>
+
+<!-- App bundle -->
+<script type="module" src="./app.js"></script>
+</body>
+</html>
