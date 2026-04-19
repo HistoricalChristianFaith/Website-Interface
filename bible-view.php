@@ -188,6 +188,11 @@ $pageTitle = $currentBook . ' ' . $currentChapter . ($currentVerse !== 'all' ? '
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="HCF Bible">
+<meta name="theme-color" content="#080d15">
+<link rel="manifest" href="/manifest.json">
 <title>Bible Verses and Early Church Commentary | Historical Christian Faith</title>
 <meta name="description" content="Explore Bible verses alongside historical commentaries from early church fathers. Deepen your understanding of scripture with insights from Christian history.">
 <link href="/bible-view.css?v=3" rel="stylesheet">

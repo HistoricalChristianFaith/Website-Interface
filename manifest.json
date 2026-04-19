@@ -1,0 +1,15 @@
+{
+  "name": "HistoricalChristian.Faith",
+  "short_name": "HCF Bible",
+  "start_url": "/john/3/16",
+  "display": "standalone",
+  "background_color": "#080d15",
+  "theme_color": "#080d15",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}

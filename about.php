@@ -394,6 +394,11 @@ $spicy = array (
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HCF Bible">
+    <meta name="theme-color" content="#080d15">
+    <link rel="manifest" href="/manifest.json">
     <title>About - Historical Christian Commentaries and Writings</title>
     <meta name="description" content="Historical Christian Commentary for the Bible / Writings in the Public Domain">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">

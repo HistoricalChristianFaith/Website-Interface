@@ -16,6 +16,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="HCF Bible">
+    <meta name="theme-color" content="#080d15">
+    <link rel="manifest" href="/manifest.json">
 
     <style>
         body { background: var(--bg-0); color: var(--fg-0); }
