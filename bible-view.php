@@ -311,6 +311,7 @@ $pageTitle = $currentBook . ' ' . $currentChapter . ($currentVerse !== 'all' ? '
       z-index: 50; background: var(--bg-0); border-right: 1px solid var(--line-soft);
     }
     .v1-sidebar.open { transform: translateX(0); }
+    .v1-content { padding: 24px 16px 60px; }
   }
 </style>
 </head>
