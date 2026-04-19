@@ -148,6 +148,7 @@ if (!$currentVerse || $currentVerse == 'all') {
 }
 
 $is_all_view = ($currentVerse === 'all');
+$nav_type = $is_all_view ? 'Chapter' : 'Verse';
 $prev_label = $is_all_view ? '← Previous Chapter' : '← Previous Verse';
 $next_label = $is_all_view ? 'Next Chapter →'     : 'Next Verse →';
 $chapter_url = "/$bookPath/$currentChapter/all";
@@ -162,17 +163,17 @@ ob_start();
 ?>
 <div class="v1-pager">
   <?php if ($prev_disabled): ?>
-    <span class="v1-pager-btn disabled"><?= htmlspecialchars($prev_label) ?></span>
+    <span class="v1-pager-btn disabled">← Previous <span class="v1-pager-type"><?= $nav_type ?></span></span>
   <?php else: ?>
-    <a class="v1-pager-btn" href="<?= htmlspecialchars($prev_url) ?>"><?= htmlspecialchars($prev_label) ?></a>
+    <a class="v1-pager-btn" href="<?= htmlspecialchars($prev_url) ?>">← Previous <span class="v1-pager-type"><?= $nav_type ?></span></a>
   <?php endif; ?>
   <?php if (!$is_all_view): ?>
     <a class="v1-pager-btn" href="<?= htmlspecialchars($chapter_url) ?>">Whole Chapter</a>
   <?php endif; ?>
   <?php if ($next_disabled): ?>
-    <span class="v1-pager-btn disabled"><?= htmlspecialchars($next_label) ?></span>
+    <span class="v1-pager-btn disabled">Next <span class="v1-pager-type"><?= $nav_type ?></span> →</span>
   <?php else: ?>
-    <a class="v1-pager-btn" href="<?= htmlspecialchars($next_url) ?>"><?= htmlspecialchars($next_label) ?></a>
+    <a class="v1-pager-btn" href="<?= htmlspecialchars($next_url) ?>">Next <span class="v1-pager-type"><?= $nav_type ?></span> →</a>
   <?php endif; ?>
 </div>
 <?php
@@ -312,6 +313,7 @@ $pageTitle = $currentBook . ' ' . $currentChapter . ($currentVerse !== 'all' ? '
     }
     .v1-sidebar.open { transform: translateX(0); }
     .v1-content { padding: 24px 16px 60px; }
+    .v1-pager-type { display: none; }
   }
 </style>
 </head>
