@@ -275,7 +275,10 @@ $pageTitle = $currentBook . ' ' . $currentChapter . ($currentVerse !== 'all' ? '
   .v1-book.active { background: var(--bg-2); color: var(--fg-0); }
   .v1-chapter-wrap {
     padding: 6px 14px 14px 14px;
-    display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px;
+    display: none; grid-template-columns: repeat(8, 1fr); gap: 4px;
+  }
+  .v1-chapter-wrap.open {
+    display: grid;
   }
   .v1-chip {
     font-family: var(--mono); font-size: 11px; height: 26px;
@@ -343,13 +346,11 @@ $pageTitle = $currentBook . ' ' . $currentChapter . ($currentVerse !== 'all' ? '
         $isActiveBook = $bookFmt === $formattedCurrentBook;
       ?>
         <a class="v1-book<?= $isActiveBook ? ' active' : '' ?>" href="/<?= urlencode($bookFmt) ?>/1/all"><?= htmlspecialchars($book) ?></a>
-        <?php if ($isActiveBook): ?>
-          <div class="v1-chapter-wrap">
+          <div class="v1-chapter-wrap<?= $isActiveBook ? ' open' : '' ?>">
             <?php for ($i = 1; $i <= $chapters; $i++): ?>
-              <a class="v1-chip<?= $i === $currentChapter ? ' active' : '' ?>" href="/<?= urlencode($bookFmt) ?>/<?= $i ?>/all"><?= $i ?></a>
+              <a class="v1-chip<?= $isActiveBook && $i === $currentChapter ? ' active' : '' ?>" href="/<?= urlencode($bookFmt) ?>/<?= $i ?>/all"><?= $i ?></a>
             <?php endfor; ?>
           </div>
-        <?php endif; ?>
       <?php endforeach; ?>
     </div>
     <?php endforeach; ?>
@@ -421,6 +422,20 @@ function setDrawer(open) {
 }
 hamburger.addEventListener('click', () => setDrawer(!sidebar.classList.contains('open')));
 backdrop.addEventListener('click', () => setDrawer(false));
+
+document.querySelectorAll('.v1-book').forEach(book => {
+  book.addEventListener('click', e => {
+    e.preventDefault();
+    const wrap = book.nextElementSibling;
+    const isOpen = wrap.classList.contains('open');
+    document.querySelectorAll('.v1-chapter-wrap.open').forEach(w => w.classList.remove('open'));
+    document.querySelectorAll('.v1-book.active').forEach(b => b.classList.remove('active'));
+    if (!isOpen) {
+      wrap.classList.add('open');
+      book.classList.add('active');
+    }
+  });
+});
 </script>
 </body>
 </html>
