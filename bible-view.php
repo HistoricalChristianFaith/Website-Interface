@@ -98,7 +98,7 @@ function getCommentaries($book, $chapter, $verse) {
                 $source_url = $row['source_url'] . '#' . urlencode(substr($row['txt'], 0, 500));
                 $output .= '<div class="src">Source: <a href="' . htmlspecialchars($source_url) . '" class="src-link" target="_blank" title="' . htmlentities($row['source_title'], ENT_QUOTES) . '">' . htmlentities($row['source_title']) . '</a></div>';
             } else {
-                $output .= '<div class="src">Source: <span class="src-link">' . htmlentities($row['source_title']) . '</span></div>';
+                $output .= '<div class="src">Source: <span class="src-title">' . htmlentities($row['source_title']) . '</span></div>';
             }
         }
         $output .= '</article>';
@@ -247,6 +247,7 @@ $pageTitle = $currentBook . ' ' . $currentChapter . ($currentVerse !== 'all' ? '
   }
   .commentary .src .src-link:hover { text-decoration-color: var(--gold); color: oklch(0.88 0.13 75); }
   .commentary .src .src-link::after { content: '↗'; font-style: normal; font-size: 10px; margin-left: 4px; opacity: 0.7; }
+  .commentary .src .src-title { font-style: italic; color: var(--fg-2); }
 
   /* Layout */
   .v1-shell { display: grid; grid-template-columns: 280px 1fr; min-height: calc(100vh - 56px); }
@@ -377,6 +378,8 @@ $pageTitle = $currentBook . ' ' . $currentChapter . ($currentVerse !== 'all' ? '
 </div>
 
 <script>
+localStorage.setItem('lastVerse', location.pathname);
+
 document.querySelectorAll('.v1-tab').forEach(tab => {
   tab.addEventListener('click', () => {
     const target = tab.dataset.testament;
@@ -411,6 +414,18 @@ document.querySelectorAll('.commentary .body').forEach(body => {
     body.insertAdjacentElement('afterend', link);
   }
 });
+
+if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
+  document.addEventListener('click', e => {
+    const link = e.target.closest('a.src-link');
+    if (!link) return;
+    const url = new URL(link.href, location.origin);
+    if (url.origin === location.origin) {
+      e.preventDefault();
+      window.open(link.href, '_blank');
+    }
+  });
+}
 
 const hamburger = document.querySelector('.hcf-hamburger');
 const sidebar = document.querySelector('.v1-sidebar');

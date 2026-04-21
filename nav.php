@@ -19,11 +19,12 @@ $has_sidebar = $has_sidebar ?? false;
         <span>HistoricalChristian<span class="dot">.</span>Faith</span>
     </div>
     <nav class="hcf-nav">
-        <a href="/john/3/16" class="<?= $current_page === 'bible' ? 'active' : '' ?>">Bible</a>
+        <a id="nav-bible" href="/john/3/16" class="<?= $current_page === 'bible' ? 'active' : '' ?>">Bible</a>
         <a href="/by_father.php" class="<?= $current_page === 'writings' ? 'active' : '' ?>">Writings</a>
         <a href="/about" class="<?= $current_page === 'about' ? 'active' : '' ?>">About</a>
     </nav>
 </header>
+<script>(function(){ var v = localStorage.getItem('lastVerse'); if (v) document.getElementById('nav-bible').href = v; })();</script>
 <?php if ($has_sidebar): ?>
 <div class="v1-backdrop"></div>
 <?php endif; ?>
