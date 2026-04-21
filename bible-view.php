@@ -415,18 +415,6 @@ document.querySelectorAll('.commentary .body').forEach(body => {
   }
 });
 
-if (window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches) {
-  document.addEventListener('click', e => {
-    const link = e.target.closest('a.src-link');
-    if (!link) return;
-    const url = new URL(link.href, location.origin);
-    if (url.origin === location.origin) {
-      e.preventDefault();
-      window.open(link.href, '_blank');
-    }
-  });
-}
-
 const hamburger = document.querySelector('.hcf-hamburger');
 const sidebar = document.querySelector('.v1-sidebar');
 const backdrop = document.querySelector('.v1-backdrop');
