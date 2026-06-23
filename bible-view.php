@@ -4,7 +4,7 @@ $commentarydb = new SQLite3('data.sqlite', SQLITE3_OPEN_READONLY);
 require("bible-view-helpers.php");
 
 $user_input_book = isset($_GET['book']) ? $_GET['book'] : 'matthew';
-$formattedCurrentBook = formatBookName(book_normalize_userinput($user_input_book));
+$formattedCurrentBook = formatBookName($user_input_book);
 if (!array_key_exists($formattedCurrentBook, $lookup_formatted_to_full_booknames)) {
     $formattedCurrentBook = 'matthew';
 }
@@ -33,15 +33,24 @@ if ($currentVerse) {
 $currentTestament = array_key_exists($currentBook, $old_testament) ? 'old' : 'new';
 
 function getBibleText($book, $chapter, $verse) {
-    global $kjvdb;
+    global $kjvdb, $kjv_book_overrides;
+
+    // Some deuterocanonical chapters are stored under their own book name in
+    // kjv.sqlite; translate to the storage location for the KJV text query only.
+    $queryBook = $book;
+    $queryChapter = $chapter;
+    if (isset($kjv_book_overrides[$book . '|' . $chapter])) {
+        list($queryBook, $queryChapter) = $kjv_book_overrides[$book . '|' . $chapter];
+    }
+
     $statement = $kjvdb->prepare("SELECT * FROM bible_kjv WHERE book = :book AND txt_location >= :start AND txt_location < :end ORDER BY txt_location ASC");
-    $statement->bindValue(':book', $book);
+    $statement->bindValue(':book', $queryBook);
     if ($verse && $verse != 'all') {
-        $statement->bindValue(':start', ($chapter * 1000000) + $verse);
-        $statement->bindValue(':end', ($chapter * 1000000) + $verse + 1);
+        $statement->bindValue(':start', ($queryChapter * 1000000) + $verse);
+        $statement->bindValue(':end', ($queryChapter * 1000000) + $verse + 1);
     } else {
-        $statement->bindValue(':start', $chapter * 1000000);
-        $statement->bindValue(':end', ($chapter + 1) * 1000000);
+        $statement->bindValue(':start', $queryChapter * 1000000);
+        $statement->bindValue(':end', ($queryChapter + 1) * 1000000);
     }
     $result = $statement->execute();
 
