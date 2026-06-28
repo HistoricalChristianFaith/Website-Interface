@@ -21,7 +21,7 @@ $has_sidebar = $has_sidebar ?? false;
     <nav class="hcf-nav">
         <a id="nav-bible" href="/john/3/16" class="<?= $current_page === 'bible' ? 'active' : '' ?>">Bible</a>
         <a href="/by_father.php" class="<?= $current_page === 'writings' ? 'active' : '' ?>">Writings</a>
-        <a href="/doctrine" class="<?= $current_page === 'doctrine' ? 'active' : '' ?>">Doctrine</a>
+        <a href="/doctrine/" class="<?= $current_page === 'doctrine' ? 'active' : '' ?>">Doctrine</a>
         <a href="/about" class="<?= $current_page === 'about' ? 'active' : '' ?>">About</a>
     </nav>
 </header>

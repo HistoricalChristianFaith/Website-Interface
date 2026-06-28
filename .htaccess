@@ -3,8 +3,16 @@ RewriteEngine On
 # Rewrite /about to about.php
 RewriteRule ^about$ /about.php [L]
 
-# Rewrite /doctrine to doctrine.php (the doctrine wiki viewer shell)
-RewriteRule ^doctrine$ /doctrine.php [L]
+# Doctrine wiki — serve the standalone static site (deployed beside this app at
+# ../doctrine-database/docs) at real per-page URLs, wrapped server-side with the shared
+# header by doctrine-render.php. No iframe; each page is its own crawlable URL.
+#  - /doctrine        -> redirect to /doctrine/ so the home page's relative links resolve
+#                        under /doctrine/ (a bare /doctrine would resolve them against /).
+#  - /doctrine/       -> the wiki index, header-wrapped.
+#  - /doctrine/<path> -> any wiki page or asset, routed through the renderer (real URL kept).
+RewriteRule ^doctrine$ /doctrine/ [R=301,L]
+RewriteRule ^doctrine/$ /doctrine-render.php?p=index.html [L,QSA]
+RewriteRule ^doctrine/(.+)$ /doctrine-render.php?p=$1 [L,QSA]
 
 # tells Apache not to rewrite if the request is for an existing file (e.g., your CSS file).
 RewriteCond %{REQUEST_FILENAME} !-f
