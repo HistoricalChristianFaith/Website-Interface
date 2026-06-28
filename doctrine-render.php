@@ -17,6 +17,7 @@
  *  - assets  -> stream verbatim with the right Content-Type, caching + conditional GET.
  */
 
+const SITE_ORIGIN       = 'https://historicalchristian.faith'; // canonical origin (always production, never the request host)
 const DOCTRINE_URL_BASE = '/doctrine/'; // public mount; must match the .htaccess rules
 const CSS_VERSION       = '3';          // bible-view.css?v=… (keep in step with the rest of the site)
 const HEADER_PX         = 60;           // sticky .hcf-header height to clear (56px + a little)
@@ -122,13 +123,36 @@ ob_start();
 include __DIR__ . '/nav.php';
 $nav = ob_get_clean();
 
-// 5b) The header's stylesheet goes right after <head>, BEFORE the wiki's own style.css,
-// so the wiki still wins on shared properties (page background, body font). We only want
-// bible-view.css for the header itself.
-$canonical = DOCTRINE_URL_BASE . ($rel === 'index.html' ? '' : $rel);
+// 5b) Head injections, placed right after <head> (BEFORE the wiki's own style.css, so the
+// wiki still wins on shared properties like page background/body font — we only want
+// bible-view.css for the header itself):
+//  - the header stylesheet,
+//  - an absolute canonical URL (always the production origin, so it's correct even when the
+//    page is reached via localhost or an alias), and
+//  - Open Graph / Twitter card tags so links unfurl with a proper title. We deliberately emit
+//    no description (Google generates the snippet from page text) and no image.
+$relPath   = ($rel === 'index.html' ? '' : $rel);
+$canonical = SITE_ORIGIN . DOCTRINE_URL_BASE . $relPath;
+
+// Page title from the wiki page's own <title>; decode entities then re-encode for the
+// attribute so we neither double-encode nor leave raw quotes in content="…".
+$pageTitle = '';
+if (preg_match('/<title[^>]*>(.*?)<\/title>/is', $html, $tm)) {
+    $pageTitle = trim(html_entity_decode($tm[1], ENT_QUOTES | ENT_HTML5, 'UTF-8'));
+}
+$ogTitle = htmlspecialchars($pageTitle, ENT_QUOTES);
+$ogUrl   = htmlspecialchars($canonical, ENT_QUOTES);
+$ogType  = ($rel === 'index.html') ? 'website' : 'article';
+
 $headTop = "\n"
     . '<link rel="stylesheet" href="/bible-view.css?v=' . CSS_VERSION . '">' . "\n"
-    . '<link rel="canonical" href="' . htmlspecialchars($canonical, ENT_QUOTES) . '">' . "\n";
+    . '<link rel="canonical" href="' . $ogUrl . '">' . "\n"
+    . '<meta property="og:type" content="' . $ogType . '">' . "\n"
+    . '<meta property="og:site_name" content="Doctrine Across Time">' . "\n"
+    . '<meta property="og:title" content="' . $ogTitle . '">' . "\n"
+    . '<meta property="og:url" content="' . $ogUrl . '">' . "\n"
+    . '<meta name="twitter:card" content="summary">' . "\n"
+    . '<meta name="twitter:title" content="' . $ogTitle . '">' . "\n";
 
 // 5c) The layout shim goes just before </head>, AFTER style.css, so it wins. The wiki
 // uses <body> itself as a centered reading column, so an injected header would inherit
