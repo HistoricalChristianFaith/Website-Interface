@@ -144,7 +144,24 @@ $ogTitle = htmlspecialchars($pageTitle, ENT_QUOTES);
 $ogUrl   = htmlspecialchars($canonical, ENT_QUOTES);
 $ogType  = ($rel === 'index.html') ? 'website' : 'article';
 
+// The wiki files carry their own bare viewport (no viewport-fit=cover) and none of the
+// iOS PWA metas the rest of the site uses. Without viewport-fit=cover, env(safe-area-inset-top)
+// resolves to 0 in the installed (standalone) app, so .hcf-header's safe-area top-pad collapses
+// and the status-bar strip goes transparent — page text scrolls visibly behind the clock/battery.
+// Patch the existing viewport in place (don't add a second, conflicting one) and inject the same
+// apple-mobile-web-app / theme-color metas as bible-view.php et al.
+$html = preg_replace(
+    '/(<meta\s+name=["\']viewport["\']\s+content=["\'])([^"\']*?)(["\'][^>]*>)/i',
+    '$1$2, viewport-fit=cover$3',
+    $html, 1
+);
+
 $headTop = "\n"
+    . '<meta name="apple-mobile-web-app-capable" content="yes">' . "\n"
+    . '<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">' . "\n"
+    . '<meta name="apple-mobile-web-app-title" content="HCF Bible">' . "\n"
+    . '<meta name="theme-color" content="#080d15">' . "\n"
+    . '<link rel="manifest" href="/manifest.json">' . "\n"
     . '<link rel="stylesheet" href="/bible-view.css?v=' . CSS_VERSION . '">' . "\n"
     . '<link rel="canonical" href="' . $ogUrl . '">' . "\n"
     . '<meta property="og:type" content="' . $ogType . '">' . "\n"
@@ -162,9 +179,9 @@ $headTop = "\n"
 $shim = "<style>\n"
     . "/* doctrine-render.php — pin the injected site header over the wiki's reading column */\n"
     . ".hcf-header { position: fixed; top: 0; left: 0; right: 0; width: 100%; z-index: 100; }\n"
-    . "body { margin-top: 0 !important; padding-top: calc(" . HEADER_PX . "px + 1.25rem); }\n"
-    . "html { scroll-padding-top: calc(" . HEADER_PX . "px + 0.5rem); }\n"
-    . "@media (min-width: 78.5em) { .toc { top: calc(2.5rem + " . HEADER_PX . "px) !important; } }\n"
+    . "body { margin-top: 0 !important; padding-top: calc(env(safe-area-inset-top, 0px) + " . HEADER_PX . "px + 1.25rem); }\n"
+    . "html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + " . HEADER_PX . "px + 0.5rem); }\n"
+    . "@media (min-width: 78.5em) { .toc { top: calc(env(safe-area-inset-top, 0px) + 2.5rem + " . HEADER_PX . "px) !important; } }\n"
     . "</style>\n";
 
 $html = insert_after($html, '/<head[^>]*>/i', $headTop);
