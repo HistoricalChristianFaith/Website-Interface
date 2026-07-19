@@ -3,6 +3,10 @@ RewriteEngine On
 # Rewrite /about to about.php
 RewriteRule ^about$ /about.php [L]
 
+# PWA cold-launch entry point (manifest start_url). Restores the user's last
+# location; not the public homepage (that stays index.php for crawlers).
+RewriteRule ^resume$ /resume.php [L]
+
 # Doctrine wiki — serve the standalone static site (deployed beside this app at
 # ../doctrine-database/docs) at real per-page URLs, wrapped server-side with the shared
 # header by doctrine-render.php. No iframe; each page is its own crawlable URL.

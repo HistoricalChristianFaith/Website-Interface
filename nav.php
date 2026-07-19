@@ -25,7 +25,65 @@ $has_sidebar = $has_sidebar ?? false;
         <a href="/about" class="<?= $current_page === 'about' ? 'active' : '' ?>">About</a>
     </nav>
 </header>
-<script>(function(){ var v = localStorage.getItem('lastVerse'); if (v) document.getElementById('nav-bible').href = v; })();</script>
+<script>
+(function () {
+  var LOC_KEY = 'hcf:lastLocation';
+  var RESUME_KEY = 'hcf:resuming';
+
+  // Read the previously-saved location BEFORE we overwrite it with the current
+  // position below — the resume redirect relies on this exact stored value.
+  var saved = null;
+  try { saved = JSON.parse(localStorage.getItem(LOC_KEY) || 'null'); } catch (e) {}
+
+  // Whether this load is a cold-launch resume (flag set by /resume). Consume it
+  // now, before save() runs, so a stray reload can't accidentally trigger it.
+  var resuming = false;
+  try {
+    resuming = !!sessionStorage.getItem(RESUME_KEY);
+    if (resuming) sessionStorage.removeItem(RESUME_KEY);
+  } catch (e) {}
+
+  // Point the Bible nav link at the last-read verse (existing behavior).
+  try {
+    var v = localStorage.getItem('lastVerse');
+    if (v) {
+      var bibleLink = document.getElementById('nav-bible');
+      if (bibleLink) bibleLink.href = v;
+    }
+  } catch (e) {}
+
+  // Persist current URL + scroll position so /resume can restore it on a cold launch.
+  function save() {
+    try {
+      localStorage.setItem(LOC_KEY, JSON.stringify({
+        url: location.pathname + location.search + location.hash,
+        scroll: window.scrollY || document.documentElement.scrollTop || 0
+      }));
+    } catch (e) {}
+  }
+  save(); // capture the URL immediately, even if the user never scrolls
+  var scrollTimer;
+  window.addEventListener('scroll', function () {
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(save, 250);
+  }, { passive: true });
+  // iOS freezes then kills backgrounded home-screen apps; pagehide and
+  // visibilitychange are the last reliable moments to persist before that.
+  window.addEventListener('pagehide', save);
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState === 'hidden') save();
+  });
+
+  // Restore scroll after a resume redirect landed us on the saved page.
+  if (resuming && saved && typeof saved.scroll === 'number' && saved.scroll > 0) {
+    var restore = function () { window.scrollTo(0, saved.scroll); };
+    // Content is server-rendered, so height is settled by DOMContentLoaded;
+    // re-apply after load in case images/fonts reflow the page.
+    document.addEventListener('DOMContentLoaded', restore);
+    window.addEventListener('load', restore);
+  }
+})();
+</script>
 <?php if ($has_sidebar): ?>
 <div class="v1-backdrop"></div>
 <?php endif; ?>
