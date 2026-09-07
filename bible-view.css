@@ -1,4 +1,4 @@
-/* Shared design tokens + dark-theme base + .hcf-header used by bible-view.php, by_father.php, about.php */
+/* Shared design tokens + dark-theme base + .hcf-header used by bible-view.php, by_father.php */
 
 :root {
     --bg-0: oklch(0.16 0.018 260);
@@ -41,7 +41,7 @@ a { color: inherit; }
     display: flex; align-items: center; justify-content: space-between;
     padding: env(safe-area-inset-top, 0px) 24px 0; position: sticky; top: 0; z-index: 40;
 }
-.hcf-brand { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-weight: 600; font-size: 17px; letter-spacing: 0.01em; }
+.hcf-brand { display: flex; align-items: center; gap: 10px; font-family: var(--serif); font-weight: 600; font-size: 17px; letter-spacing: 0.01em; color: var(--fg-0); text-decoration: none; }
 .hcf-brand .hcf-logo {
     width: 28px; height: 28px; border-radius: 50%; object-fit: cover;
 }
@@ -56,7 +56,12 @@ a { color: inherit; }
 
 @media (max-width: 768px) {
     .hcf-header { padding: env(safe-area-inset-top, 0px) 16px 0; }
-    .hcf-brand { display: none; }
+    /* Home link on mobile: show just the logo (the wordmark is dropped to save
+       room), hugging the left edge. Sits beside the hamburger on reader pages
+       and stands alone on the homepage. Vertical padding widens the tap target
+       past the 28px glyph without enlarging it. */
+    .hcf-brand { display: flex; margin-right: auto; gap: 0; padding: 8px 10px 8px 0; }
+    .hcf-brand span { display: none; }
     .hcf-hamburger {
         display: inline-flex; flex-direction: column; justify-content: center;
         gap: 4px; width: 40px; height: 40px; margin-right: 8px;

@@ -19,7 +19,7 @@
 
 const SITE_ORIGIN       = 'https://historicalchristian.faith'; // canonical origin (always production, never the request host)
 const DOCTRINE_URL_BASE = '/doctrine/'; // public mount; must match the .htaccess rules
-const CSS_VERSION       = '3';          // bible-view.css?v=… (keep in step with the rest of the site)
+const CSS_VERSION       = '4';          // bible-view.css?v=… (keep in step with the rest of the site)
 const HEADER_PX         = 60;           // sticky .hcf-header height to clear (56px + a little)
 
 /** Insert $insert immediately after the first match of $pattern; prepend if no match. */

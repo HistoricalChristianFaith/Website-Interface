@@ -1,7 +1,12 @@
 RewriteEngine On
 
-# Rewrite /about to about.php
-RewriteRule ^about$ /about.php [L]
+# The about content now lives on the homepage ("/"), so send the old /about
+# URL there with a permanent redirect (preserves any inbound links / bookmarks).
+RewriteRule ^about$ / [R=301,L]
+
+# Random verse — the site's original homepage behavior, kept as its own route
+# and linked from the home page. Redirects to a random Bible verse.
+RewriteRule ^random$ /random-verse.php [L]
 
 # PWA cold-launch entry point (manifest start_url). Restores the user's last
 # location; not the public homepage (that stays index.php for crawlers).

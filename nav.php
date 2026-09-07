@@ -14,15 +14,14 @@ $has_sidebar = $has_sidebar ?? false;
         <span></span><span></span><span></span>
     </button>
     <?php endif; ?>
-    <div class="hcf-brand">
+    <a class="hcf-brand" href="/" aria-label="Home">
         <img class="hcf-logo" src="/favicon.png" alt="">
         <span>HistoricalChristian<span class="dot">.</span>Faith</span>
-    </div>
+    </a>
     <nav class="hcf-nav">
         <a id="nav-bible" href="/john/3/16" class="<?= $current_page === 'bible' ? 'active' : '' ?>">Bible</a>
         <a href="/by_father.php" class="<?= $current_page === 'writings' ? 'active' : '' ?>">Writings</a>
         <a href="/doctrine/" class="<?= $current_page === 'doctrine' ? 'active' : '' ?>">Doctrine</a>
-        <a href="/about" class="<?= $current_page === 'about' ? 'active' : '' ?>">About</a>
     </nav>
 </header>
 <script>

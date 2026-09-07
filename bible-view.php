@@ -204,7 +204,7 @@ $pageTitle = $currentBook . ' ' . $currentChapter . ($currentVerse !== 'all' ? '
 <link rel="manifest" href="/manifest.json">
 <title>Bible Verses and Early Church Commentary | Historical Christian Faith</title>
 <meta name="description" content="Explore Bible verses alongside historical commentaries from early church fathers. Deepen your understanding of scripture with insights from Christian history.">
-<link href="/bible-view.css?v=3" rel="stylesheet">
+<link href="/bible-view.css?v=4" rel="stylesheet">
 <style>
   /* Verse paragraph */
   .verse-flow {
