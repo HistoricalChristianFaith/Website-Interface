@@ -128,9 +128,17 @@
         .credits a { color: var(--gold); }
 
         @media (max-width: 600px) {
-            .tl-row { grid-template-columns: 50px 1px 1fr; column-gap: 16px; }
-            .tl-year { top: 66px; font-size: 20px; }
-            .tl-dot { left: -3.5px; }
+            .timeline { padding: 0 16px; }
+            /* Stop spending a whole left rail on the year. The row becomes a single
+               column; the spine collapses to one gold hairline down the left edge,
+               and the year rides above each entry as a small gold heading — so the
+               quotes get nearly the full width of the screen. */
+            .tl-row { display: block; position: relative; padding-left: 20px; }
+            .tl-spine { position: absolute; left: 0; top: 0; bottom: 0; }
+            .tl-dot { top: 8px; left: -3.5px; }
+            .tl-yearcol { position: static; }
+            .tl-year { position: static; text-align: left; font-size: 22px;
+                line-height: 1; margin: 0 0 14px; }
             .tl-text { text-align: left; }
             .lead { text-align: left; }
         }
@@ -189,7 +197,6 @@
             .medallion { width: 38px; height: 38px; }
             .medallion-sigil { font-size: 14px; }
             .tl-head { gap: 10px; }
-            .tl-year { top: 104px; }
         }
         @media (prefers-reduced-motion: reduce) {
             .coin, .host { transition: opacity 0.2s ease; }
