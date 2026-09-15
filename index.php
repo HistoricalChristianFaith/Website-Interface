@@ -1475,6 +1475,22 @@
         <div class="tl-era-line"></div>
       </div>
 
+      <div class="tl-row" data-portrait="/portraits/erasmus.jpg">
+        <div class="tl-yearcol">
+          <div class="tl-year">1536</div>
+        </div>
+        <div class="tl-spine">
+          <div class="tl-dot"></div>
+        </div>
+        <div class="tl-body">
+          <h2 class="tl-name"><a href="https://en.wikipedia.org/wiki/Erasmus" target="_blank" rel="noopener">Erasmus of Rotterdam</a></h2>
+          <div class="tl-quote">
+            <p class="tl-text">Above all, one must hasten to the sources themselves, that is, to the Greeks and ancients.</p>
+            <div class="tl-cite">On the Method of Study (De ratione studii)</div>
+          </div>
+        </div>
+      </div>
+
       <div class="tl-row" data-portrait="/portraits/martin-luther.jpg">
         <div class="tl-yearcol">
           <div class="tl-year">1546</div>
@@ -1491,6 +1507,22 @@
         </div>
       </div>
 
+      <div class="tl-row" data-portrait="/portraits/john-calvin.jpg">
+        <div class="tl-yearcol">
+          <div class="tl-year">1564</div>
+        </div>
+        <div class="tl-spine">
+          <div class="tl-dot"></div>
+        </div>
+        <div class="tl-body">
+          <h2 class="tl-name"><a href="https://en.wikipedia.org/wiki/John_Calvin" target="_blank" rel="noopener">John Calvin</a></h2>
+          <div class="tl-quote">
+            <p class="tl-text">[In the interpretation of Scripture,] no one of sound judgment would deny that our Chrysostom excels all the ancient writers currently extant... The chief merit of our Chrysostom is this: he took great pains everywhere not to deviate in the slightest from the genuine plain meaning of Scripture.</p>
+            <div class="tl-cite">Preface to the Homilies of Chrysostom</div>
+          </div>
+        </div>
+      </div>
+
       <div class="tl-row" data-portrait="/portraits/john-wesley.jpg">
         <div class="tl-yearcol">
           <div class="tl-year">1791</div>
@@ -1503,6 +1535,38 @@
           <div class="tl-quote">
             <p class="tl-text">Can any who spend several years in those seats of learning, be excused, if they do not add to that of the languages and sciences, the knowledge of the Fathers &mdash; the most authentic commentators on Scripture, as being both nearest the fountain, and eminently endued with that Spirit by whom all Scripture was given. It will be easily perceived, I speak chiefly of those who wrote before the Council of Nice. But who would not likewise desire to have some acquaintance with those that followed them &mdash; with St. Chrysostom, Basil, Jerome, Austin; and, above all, the man of a broken heart, Ephraim Syrus...</p>
             <div class="tl-cite">An Address to the Clergy</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-row" data-portrait="/portraits/spurgeon.jpg">
+        <div class="tl-yearcol">
+          <div class="tl-year">1892</div>
+        </div>
+        <div class="tl-spine">
+          <div class="tl-dot"></div>
+        </div>
+        <div class="tl-body">
+          <h2 class="tl-name"><a href="https://en.wikipedia.org/wiki/Charles_Spurgeon" target="_blank" rel="noopener">Charles Spurgeon</a></h2>
+          <div class="tl-quote">
+            <p class="tl-text">It seems odd, that certain men who talk so much of what the Holy Spirit reveals to themselves, should think so little of what he has revealed to others.</p>
+            <div class="tl-cite">Commenting and Commentaries</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tl-row" data-portrait="/portraits/philip-schaff.jpg">
+        <div class="tl-yearcol">
+          <div class="tl-year">1893</div>
+        </div>
+        <div class="tl-spine">
+          <div class="tl-dot"></div>
+        </div>
+        <div class="tl-body">
+          <h2 class="tl-name"><a href="https://en.wikipedia.org/wiki/Philip_Schaff" target="_blank" rel="noopener">Philip Schaff</a></h2>
+          <div class="tl-quote">
+            <p class="tl-text">Whatever may be the estimate we put upon the opinions of the Fathers, their historical value is beyond all dispute. They are to this day and will continue to be the chief authorities for the doctrines and usages of the Greek and Roman Churches, and the sources for the knowledge of ancient Christianity.</p>
+            <div class="tl-cite">Preface to the Nicene and Post-Nicene Fathers</div>
           </div>
         </div>
       </div>
