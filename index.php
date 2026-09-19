@@ -174,13 +174,16 @@
             top: calc(56px + env(safe-area-inset-top, 0px)); height: 46px; z-index: 30;
             display: flex; align-items: center; justify-content: center; pointer-events: none;
             opacity: 0; transition: opacity 0.45s ease;
-            background: linear-gradient(180deg, var(--bg-0) 78%, transparent);
-            /* iOS composites position:fixed on its own layer and doesn't repaint
-               it during momentum scroll, so text underneath bled through the
-               translucent lower band and flickered. A solid coverage over the
-               whole coin row plus a compositing hint keeps the layer painted. */
-            transform: translateZ(0);
-            -webkit-backface-visibility: hidden; backface-visibility: hidden; }
+            /* Must be FULLY opaque. iOS promotes any position:fixed element with a
+               transparent background stop to its own layer and then skips repainting
+               it during momentum scroll — scrolling text bleeds through the whole
+               layer, coins included. A solid background is composited reliably.
+               The soft fade lives on ::after, which overflows *below* the coin row
+               where a momentary bleed reads as an intentional gradient. */
+            background: var(--bg-0); }
+        .host::after { content: ''; position: absolute; left: 0; right: 0; top: 100%;
+            height: 16px; background: linear-gradient(180deg, var(--bg-0), transparent);
+            pointer-events: none; }
         .host.active { opacity: 1; }
         .host-rail { display: flex; align-items: center; max-width: 900px; padding: 0 16px; }
         .coin { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
