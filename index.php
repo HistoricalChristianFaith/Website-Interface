@@ -174,7 +174,13 @@
             top: calc(56px + env(safe-area-inset-top, 0px)); height: 46px; z-index: 30;
             display: flex; align-items: center; justify-content: center; pointer-events: none;
             opacity: 0; transition: opacity 0.45s ease;
-            background: linear-gradient(180deg, var(--bg-0) 42%, transparent); }
+            background: linear-gradient(180deg, var(--bg-0) 78%, transparent);
+            /* iOS composites position:fixed on its own layer and doesn't repaint
+               it during momentum scroll, so text underneath bled through the
+               translucent lower band and flickered. A solid coverage over the
+               whole coin row plus a compositing hint keeps the layer painted. */
+            transform: translateZ(0);
+            -webkit-backface-visibility: hidden; backface-visibility: hidden; }
         .host.active { opacity: 1; }
         .host-rail { display: flex; align-items: center; max-width: 900px; padding: 0 16px; }
         .coin { flex: 0 0 auto; width: 26px; height: 26px; border-radius: 50%;
