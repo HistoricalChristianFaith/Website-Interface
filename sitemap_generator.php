@@ -91,6 +91,66 @@ if ($doctrine_root !== null) {
     }
 }
 
+// ---------------------------------------------------------------------------
+// 3) Writings URLs (/by_father.php?file=...)
+// The standardized Writings-Database corpus is deployed beside this app and
+// served at real per-page URLs by by_father.php. Walk every writing (HTML, plus the
+// PDF-only works, which by_father.php renders as a page embedding the PDF) and
+// emit its canonical ?file= URL so each writing is discoverable. (Same root
+// resolution as by_father.php; the URL uses the identical double-encoding as the
+// <link rel="canonical"> the renderer emits, so sitemap and canonical match.)
+// ---------------------------------------------------------------------------
+$writings_root = null;
+foreach ([
+    __DIR__ . '/../writings-database',
+    __DIR__ . '/../Writings-Database',
+] as $cand) {
+    if (is_dir($cand) && is_file($cand . '/menu.html')) { $writings_root = realpath($cand); break; }
+}
+
+// Top-level, non-author scaffolding dirs to skip.
+$writings_skip_top = ['_ref', 'images', 'standardization', 'tmp'];
+
+$writings_count = 0;
+if ($writings_root !== null) {
+    $pages = []; // relative path => mtime
+    $it = new RecursiveIteratorIterator(
+        new RecursiveDirectoryIterator($writings_root, FilesystemIterator::SKIP_DOTS)
+    );
+    foreach ($it as $file) {
+        if (!$file->isFile()) continue;
+        $ext = strtolower($file->getExtension());
+        if ($ext !== 'html' && $ext !== 'htm' && $ext !== 'pdf') continue;
+
+        $rel = substr($file->getPathname(), strlen($writings_root) + 1);
+        $rel = str_replace(DIRECTORY_SEPARATOR, '/', $rel);
+        $segments = explode('/', $rel);
+
+        // Skip repo/build scaffolding and the menu itself.
+        if (in_array($segments[0], $writings_skip_top, true)) continue;
+        if (in_array('.git', $segments, true)) continue;
+        $base = strtolower(end($segments));
+        if ($base === 'menu.html') continue;
+        // index/linkindex pages are usually legacy nav pages (e.g. Gregory's
+        // Moralia index.html) -> skip, unless standardized into a real writing
+        // fragment (e.g. Cosmas's subject Index.html).
+        if ($base === 'index.html' || $base === 'index.htm' || strpos($base, 'linkindex') !== false) {
+            $head = (string) @file_get_contents($file->getPathname(), false, null, 0, 64);
+            if (strncasecmp(ltrim($head), '<article', 8) !== 0) continue;
+        }
+
+        $pages[$rel] = $file->getMTime();
+    }
+    ksort($pages);
+    foreach ($pages as $rel => $mtime) {
+        // Double-encode to match by_father.php's writings_canonical().
+        $dataFname = implode('/', array_map('rawurlencode', explode('/', $rel)));
+        $loc = "$base_url/by_father.php?file=" . rawurlencode($dataFname);
+        addUrl($sitemap, $loc, date('Y-m-d', $mtime), 'monthly', '0.6');
+        $writings_count++;
+    }
+}
+
 // Close XML sitemap structure
 $sitemap .= '</urlset>';
 
@@ -100,6 +160,7 @@ file_put_contents(__DIR__ . '/sitemap.xml', $sitemap);
 echo "Sitemap generated successfully!" . PHP_EOL;
 echo "  Bible URLs:    $bible_count" . PHP_EOL;
 echo "  Doctrine URLs: $doctrine_count" . ($doctrine_root === null ? " (wiki not found beside app)" : "") . PHP_EOL;
+echo "  Writings URLs: $writings_count" . ($writings_root === null ? " (corpus not found beside app)" : "") . PHP_EOL;
 if ($missing) {
     echo "  WARNING: in book_names.json but no chapter count: " . implode(', ', $missing) . PHP_EOL;
 }

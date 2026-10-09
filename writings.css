@@ -1,0 +1,202 @@
+/*
+ * writings.css — layout + typography for the server-rendered Writings pages
+ * (by_father.php). The site header comes from bible-view.css (.hcf-header); this
+ * file owns the two-panel shell and the SCOPED `.writing` article typography.
+ *
+ * CSS quarantine strategy: the standardized fragments carry no <style>/<script>,
+ * so instead of an iframe we simply confine all fragment styling under `.writing`.
+ * A small reset on `.writing` keeps site chrome styles from bleeding into the
+ * reading column and vice-versa.
+ */
+
+/* ----------------------------------------------------------------------------
+ * Two-panel shell. The header is sticky (56px + safe-area) from bible-view.css;
+ * the whole document scrolls (no inner-scroll panes) so the reading column flows
+ * naturally and highlight.js's window.scrollTo math stays correct. The sidebar
+ * is sticky within that scroll.
+ * ------------------------------------------------------------------------- */
+.writings-shell {
+    display: grid;
+    grid-template-columns: minmax(240px, 320px) 1fr;
+    align-items: start;
+}
+
+.writings-sidebar {
+    position: sticky;
+    top: 56px; /* header height */
+    max-height: calc(100vh - 56px);
+    overflow-y: auto;
+    background: var(--bg-1);
+    border-right: 1px solid var(--line-soft);
+    padding: 12px 4px 24px;
+}
+.writings-sidebar .sidebar-sticky { min-height: 100%; }
+
+.writings-main {
+    min-width: 0; /* let long words/tables shrink instead of overflowing the grid */
+    padding: 0 clamp(16px, 4vw, 48px) 96px;
+}
+
+/* Breadcrumb above the article (author › work › part). */
+.writings-breadcrumb {
+    max-width: 46rem;
+    margin: 20px auto 0;
+    font-size: 13px;
+    color: var(--fg-1);
+    letter-spacing: 0.01em;
+}
+.writings-breadcrumb a { color: var(--gold); text-decoration: none; }
+.writings-breadcrumb a:hover { text-decoration: underline; }
+.writings-breadcrumb .sep { opacity: 0.5; margin: 0 6px; }
+
+/* ----------------------------------------------------------------------------
+ * jsTree overrides for the dark theme (ported from by_father.php's old <style>).
+ * ------------------------------------------------------------------------- */
+.jstree-default a,
+.jstree-default .jstree-anchor { color: var(--fg-1); }
+.jstree-default .jstree-hovered { background: var(--bg-2); color: var(--fg-0); box-shadow: none; border-radius: 3px; }
+.jstree-default .jstree-clicked { background: var(--gold-soft); color: var(--gold); box-shadow: none; border-radius: 3px; }
+.jstree-default .jstree-wholerow-hovered { background: var(--bg-2); }
+.jstree-default .jstree-wholerow-clicked { background: var(--gold-soft); }
+.jstree-anchor {
+    white-space: normal !important;
+    height: auto !important;
+    padding-right: 24px;
+}
+
+/* Reference link (Wikipedia etc.) surfaced on author rows that carry a
+   data-metadataurl. Opens in a new tab; does not toggle the tree node. */
+#cfmenu .wiki-link {
+    margin-left: 7px;
+    color: var(--fg-1);
+    opacity: 0.5;
+    font-size: 0.82em;
+    text-decoration: none;
+    vertical-align: baseline;
+}
+#cfmenu .wiki-link:hover { opacity: 1; color: var(--gold); }
+
+/* ----------------------------------------------------------------------------
+ * Scoped `.writing` typography. Fragments use <h1>/<h2>, <br><br> paragraphs,
+ * <sup><a> footnote refs, and a trailing <section> of <span id="fnN"> notes.
+ * ------------------------------------------------------------------------- */
+.writing {
+    max-width: 46rem;
+    margin: 8px auto 0;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 1.075rem;
+    line-height: 1.75;
+    color: var(--fg-0);
+    /* reset so chrome/reset rules don't leak in and vice-versa */
+    text-align: left;
+    word-wrap: break-word;
+}
+
+.writing h1 {
+    font-family: var(--serif, Lora, Georgia, serif);
+    font-size: 1.9rem;
+    line-height: 1.2;
+    color: var(--fg-0);
+    margin: 0.2em 0 0.1em;
+}
+.writing h2 {
+    font-family: var(--serif, Lora, Georgia, serif);
+    font-size: 1.25rem;
+    line-height: 1.3;
+    color: var(--fg-1);
+    margin: 1.6em 0 0.4em;
+}
+.writing h3 { font-size: 1.1rem; color: var(--fg-1); margin: 1.3em 0 0.3em; }
+
+.writing p { margin: 0 0 1em; }
+.writing a { color: var(--gold); text-decoration: none; }
+.writing a:hover { text-decoration: underline; }
+
+/* Footnote reference markers <sup><a>. */
+.writing sup { user-select: none; line-height: 0; }
+.writing sup > a { text-decoration: none; color: var(--gold); font-size: 0.72em; padding: 0 1px; }
+
+.writing img { max-width: 100%; height: auto; }
+.writing blockquote {
+    margin: 1em 0;
+    padding: 0.2em 0 0.2em 1em;
+    border-left: 3px solid var(--gold-line);
+    color: var(--fg-1);
+}
+.writing table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; }
+.writing td, .writing th { border: 1px solid var(--line-soft); padding: 4px 8px; }
+
+/* The trailing footnotes/notes section renders smaller and muted. */
+.writing section {
+    margin-top: 2.5em;
+    padding-top: 1em;
+    border-top: 1px solid var(--line-soft);
+    font-size: 0.92rem;
+    color: var(--fg-1);
+}
+.writing section a { color: var(--gold); }
+
+/* PDF-only works: the PDF embedded in the reading column, filling the viewport
+   height below the header, with an "open in a new tab" link above it. */
+.writing .pdf-open {
+    font-family: var(--sans, system-ui, sans-serif);
+    font-size: 14px;
+    margin: 0.3em 0 1em;
+}
+.writing .pdf-open i { margin-right: 4px; }
+.writing .pdf-frame {
+    display: block;
+    width: 100%;
+    height: calc(100vh - 56px - 32px);
+    height: calc(100dvh - 56px - 32px);
+    min-height: 420px;
+    border: 1px solid var(--line-soft);
+    border-radius: 6px;
+    background: #fff;
+}
+
+/* Landing / welcome state (no ?file= selected). */
+.writings-welcome {
+    max-width: 46rem;
+    margin: 32px auto 0;
+    color: var(--fg-1);
+    line-height: 1.7;
+}
+.writings-welcome a { color: var(--gold); }
+
+/* Header-cleared in-page anchor jumps (footnote back/forward links). */
+html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 56px + 0.5rem); }
+
+/* ----------------------------------------------------------------------------
+ * Mobile: sidebar becomes an off-canvas drawer toggled by .hcf-hamburger
+ * (nav.php) via the .show class, dimmed by the shared .v1-backdrop.
+ * ------------------------------------------------------------------------- */
+@media (max-width: 767.98px) {
+    .writings-shell { display: block; }
+    .writings-sidebar {
+        position: fixed;
+        top: calc(env(safe-area-inset-top, 0px) + 56px);
+        left: 0;
+        bottom: 0;
+        width: 82%;
+        max-width: 320px;
+        max-height: none;
+        z-index: 50;
+        transform: translateX(-100%);
+        transition: transform 0.28s ease;
+    }
+    .writings-sidebar.show { transform: translateX(0); }
+    .writings-main { padding: 0 18px 96px; }
+
+    /* Phone browsers render PDFs in iframes poorly (iOS: first page only) or not
+       at all (Android), so hide the frame and make the link the primary action;
+       it opens the browser's native full-screen PDF viewer. */
+    .writing .pdf-frame { display: none; }
+    .writing .pdf-open a {
+        display: inline-block;
+        padding: 10px 16px;
+        border: 1px solid var(--gold-line);
+        border-radius: 6px;
+        background: var(--gold-soft);
+    }
+}
