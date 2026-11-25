@@ -67,7 +67,9 @@ function getBibleText($book, $chapter, $verse) {
 
 function getCommentaries($book, $chapter, $verse) {
     global $commentarydb, $currentBook;
-    $query = "SELECT c.*, fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name = fm.name WHERE c.book = :book AND c.location_end >= :start AND c.location_start < :end ORDER BY c.ts ASC";
+    // Single verse: chronological. Whole chapter: by verse, then chronological within a verse.
+    $order = ($verse && $verse != 'all') ? 'c.ts ASC' : 'c.location_start ASC, c.ts ASC';
+    $query = "SELECT c.*, fm.wiki_url FROM commentary c LEFT JOIN father_meta fm ON c.father_name = fm.name WHERE c.book = :book AND c.location_end >= :start AND c.location_start < :end ORDER BY $order";
     $statement = $commentarydb->prepare($query);
     $statement->bindValue(':book', $book);
     if ($verse && $verse != 'all') {
